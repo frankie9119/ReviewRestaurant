@@ -1,5 +1,42 @@
 //API AIzaSyCYjoSbqIxNuU4CDBbTYGRWbgrpgQ-JhF8
 
+/*
+let map;
+let infowindow;
+let myPlace = {lat: 51.5074, lng: -0.1278 };
+
+  function initMap() {
+      	  map = new google.maps.Map(document.getElementById('map'), {
+          center: myPlace,
+          zoom: 15
+      });
+
+      infoWindow = new google.maps.InfoWindow({ map: map });
+
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+
+              let pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude     
+              };
+
+              infoWindow.setPosition(pos);
+              infoWindow.setContent('Location found.');
+              map.setCenter(pos);
+
+
+    })
+  }
+}
+
+*/
+
+
+
+
+
+
 function initMap(){
       // Map options
       var options = {
@@ -10,17 +47,7 @@ function initMap(){
       // New map
       var map = new google.maps.Map(document.getElementById('map'), options);
 
-      /*
-      // Listen for click on map
-      google.maps.event.addListener(map, 'click', function(event){
-        // Add marker
-        alert('add marker here!')
-        //IF YES add marker ELSE no TODO
-        addMarker({coords:event.latLng});
-      });
-	*/
 
-      // Array of restaurants
 
 
       // Loop through markers
@@ -51,6 +78,8 @@ function initMap(){
         }
       }
     }
+
+
 
 
 
