@@ -12,13 +12,46 @@ var map;
 function initMap() {
   // Create the map.
   var pyrmont = {
-    lat:51.5074,
-    lng: -0.1278
+    lat:51.5089022,
+    lng: -0.0990328
   }; // Get initial map location
   map = new google.maps.Map(document.getElementById('map'), {
     center: pyrmont, // Set location
     zoom: 17
   });
+
+
+
+
+      // Loop through markers
+      for(var i = 0;i < restaurants.length;i++){
+        // Add marker
+        addMarker(restaurants[i]);
+      }
+
+      // Add Marker Function
+      function addMarker(props){
+        var marker = new google.maps.Marker({
+          position:props.coords,
+          map:map,
+          //icon:props.iconImage
+        });
+        // Check content
+        if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+
+          marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+          });
+        }
+      }
+
+
+
+
+
 
   // Create the places service.
   var service = new google.maps.places.PlacesService(map);
@@ -45,6 +78,18 @@ function initMap() {
       };
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

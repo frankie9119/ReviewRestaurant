@@ -37,6 +37,77 @@ let restaurants = [{
 
 
 // Francesco, I have added comments below______________________________
+function initMap(){
+      // Map options
+      var options = {
+        zoom:12,
+        center:{lat:51.5074,lng:-0.1278}
+      }
+
+      // New map
+      var map = new google.maps.Map(document.getElementById('map'), options);
+
+
+
+
+      // Loop through markers
+      for(var i = 0;i < restaurants.length;i++){
+        // Add marker
+        addMarker(restaurants[i]);
+      }
+
+      // Add Marker Function
+      function addMarker(props){
+        var marker = new google.maps.Marker({
+          position:props.coords,
+          map:map,
+          //icon:props.iconImage
+        });
+        // Check content
+        if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+
+          marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+          });
+        }
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
