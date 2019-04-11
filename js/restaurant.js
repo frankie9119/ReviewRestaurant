@@ -63,12 +63,6 @@ function averageRestaurantReview(arrRatingsData) {
 
 
 for (let i = 0; i < restaurants.length; i++) {
-  
-  //alert(restaurants[i].name)
-  //alert(restaurant[i])
-  //alert(averageRestaurantReview(restaurant[i].ratings))
-  //alert(restaurants.ratings)
-
 
 }
 
