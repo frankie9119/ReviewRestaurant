@@ -9,20 +9,18 @@
   </head>
   <body>
 
-    <h1>My Google Map</h1>
     <div id="map"></div>
-    <div id="restaurant">
+<div id="right-panel">
+  <h2>Results</h2>
+  <ul id="places"></ul>
+  <button id="more">More results</button>
+</div>
 
-      <div class='restaurant_1'></div>
-      <div class='restaurant_2'></div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/restaurant.js"></script>
-    <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYjoSbqIxNuU4CDBbTYGRWbgrpgQ-JhF8&callback=initMap"></script>
+<!-- Replace the value of the key parameter with your own API key. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYjoSbqIxNuU4CDBbTYGRWbgrpgQ-JhF8&libraries=places&callback=initMap" async defer></script>
+
+    
 
   </body>
 </html>

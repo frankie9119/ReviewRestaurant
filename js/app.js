@@ -1,132 +1,84 @@
-//API AIzaSyCYjoSbqIxNuU4CDBbTYGRWbgrpgQ-JhF8
-
-/*
-let map;
-let infowindow;
-let myPlace = {lat: 51.5074, lng: -0.1278 };
-
-  function initMap() {
-      	  map = new google.maps.Map(document.getElementById('map'), {
-          center: myPlace,
-          zoom: 15
-      });
-
-      infoWindow = new google.maps.InfoWindow({ map: map });
-
-      if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-
-              let pos = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude     
-              };
-
-              infoWindow.setPosition(pos);
-              infoWindow.setContent('Location found.');
-              map.setCenter(pos);
-
-
-    })
-  }
-}
-
-*/
+// This example requires the Places library. Include the libraries=places
+// parameter when you first load the API. For example:
+// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 
 
+// Francesco, I have added comments below______________________________
 
 
+var map;
 
-function initMap(){
-      // Map options
-      var options = {
-        zoom:12,
-        center:{lat:51.5074,lng:-0.1278}
-      }
-
-      // New map
-      var map = new google.maps.Map(document.getElementById('map'), options);
-
-
-
-
-      // Loop through markers
-      for(var i = 0;i < restaurants.length;i++){
-        // Add marker
-        addMarker(restaurants[i]);
-      }
-
-      // Add Marker Function
-      function addMarker(props){
-        var marker = new google.maps.Marker({
-          position:props.coords,
-          map:map,
-          //icon:props.iconImage
-        });
-
-
-
-        // Check content
-        if(props.content){
-          var infoWindow = new google.maps.InfoWindow({
-            content:props.content
-          });
-
-          marker.addListener('click', function(){
-            infoWindow.open(map, marker);
-          });
-        }
-      }
-    }
-
-
-
-
-
-/*
-
-function initMap(){
-	let map = new google.maps.Map(document.getElementById('map'),{
-		center: new google.maps.LatLng(51.5074,-0.1278),
-		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		zoom:12
-	});
-
-for (var x in restaurant) {
-	let building = restaurant[x];
-	let location = new google.maps.LatLng(building.lat,building.lng);
-	let marker = new google.maps.Marker({
-		position: location,
-		title: building.name,
-		map: map
-	});
-	}
-}
-*/
-
-
-
-
-
-
-
-
-/*
- function initMap(){
- 	// Map Options
-  	let options = {
-    	zoom: 10,
-    	center:{lat:51.5074,lng:-0.1278}
-  }
-  // New Map
-  let map = new google.maps.Map(document.getElementById('map'), options);
-
-  // Add Marker
-  let marker = new google.maps.Marker({
-  	position: {lat:51.5085088,lng:-0.1016101},
-  	map:map
+function initMap() {
+  // Create the map.
+  var pyrmont = {
+    lat:51.5074,
+    lng: -0.1278
+  }; // Get initial map location
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: pyrmont, // Set location
+    zoom: 17
   });
+
+  // Create the places service.
+  var service = new google.maps.places.PlacesService(map);
+  var getNextPage = null;
+  var moreButton = document.getElementById('more');
+  moreButton.onclick = function() {
+    moreButton.disabled = true;
+    if (getNextPage) getNextPage();
+  };
+
+  // Perform a nearby search.
+  service.nearbySearch({
+      location: pyrmont,
+      radius: 500,
+      type: ['restaurant']
+    },
+    function(results, status, pagination) {
+      if (status !== 'OK') return;
+
+      createMarkers(results);
+      moreButton.disabled = !pagination.hasNextPage;
+      getNextPage = pagination.hasNextPage && function() {
+        pagination.nextPage();
+      };
+    });
 }
-*/
 
 
+
+
+//________________________________________BEGIN create markers for type on line 31 "restaurant"
+
+function createMarkers(places) {
+  var bounds = new google.maps.LatLngBounds();
+  var placesList = document.getElementById('places');
+
+  for (var i = 0, place; place = places[i]; i++) {
+    var image = {
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(25, 25)
+    };
+
+    var marker = new google.maps.Marker({
+      map: map,
+      icon: image,
+      title: place.name,
+      position: place.geometry.location
+    });
+
+    var li = document.createElement('li');
+    li.textContent = place.name;
+    placesList.appendChild(li);
+
+    bounds.extend(place.geometry.location);
+  }
+  map.fitBounds(bounds);
+}
+
+
+//________________________________________END create markers for type on line 26 "restaurant"
