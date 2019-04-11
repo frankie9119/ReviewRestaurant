@@ -4,9 +4,6 @@
 
 
 
-// Francesco, I have added comments below______________________________
-
-
 var map;
 
 function initMap() {
@@ -21,7 +18,7 @@ function initMap() {
   });
 
 
-
+//___________________________________ BEGUIN Loop through Restaurants array
 
       // Loop through markers
       for(var i = 0;i < restaurants.length;i++){
@@ -48,7 +45,7 @@ function initMap() {
         }
       }
 
-
+// __________________________________________-END
 
 
 
