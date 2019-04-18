@@ -68,6 +68,18 @@ function initMap() {
 
       createMarkers(results);
       console.log(results);
+
+let closeRestaurants = $("#closeRestaurants");
+
+for (let i = 0; i < results.length; i += 1) {
+  closeRestaurants.append("<li>" + results[i].name + results[i].rating +"</li>")
+}
+
+
+
+
+
+
      
     });
 }
