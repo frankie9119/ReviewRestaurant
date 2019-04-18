@@ -18,6 +18,12 @@
 	background-color: blue;
 }
 
+.result{
+	width: 400px;
+	height: 400px;
+	background-color: pink;
+}
+
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 

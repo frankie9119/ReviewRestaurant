@@ -67,6 +67,7 @@ function initMap() {
       if (status !== 'OK') return;
 
       createMarkers(results);
+      console.log(results);
      
     });
 }
