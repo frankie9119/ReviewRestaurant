@@ -65,11 +65,17 @@ function createMarkers(places) {
       title: place.name,
       position: place.geometry.location
     });
+    
 
             marker.addListener('click', function(){
+
+  //======================= WORKING HERE !
             alert('OK !');
+            alert(marker.title);
             alert(marker.position)
           });
+//============================== !!!
+
 
 
     bounds.extend(place.geometry.location);
