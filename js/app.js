@@ -3,7 +3,7 @@
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 
-var map;
+var map, infoWindow;
 //________________________________________BEGIN create markers for type on line 31 "restaurant"
 
 function createMarkers(places) {
@@ -35,31 +35,46 @@ function createMarkers(places) {
 
 function initMap() {
   // Create the map.
-  var pyrmont = {
+  var currentLocation = {
     lat:51.5089022,
     lng: -0.0990328
-  }; // Get initial map location
+  }; 
+// Get initial map location
   map = new google.maps.Map(document.getElementById('map'), {
-    center: pyrmont, // Set location
+    center: currentLocation, // Set location
     zoom: 17
   });
 
 
-//___________________________________ BEGUIN Loop through Restaurants array
+  //________________________BEGUIN try HTML5 geolocation
 
+  infoWindow = new google.maps.InfoWindow;
 
-// __________________________________________-END
+          if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
 
+currentLocation = pos;
 
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
 
-
-  // Create the places service.
+//________________________________________ Create the places service.
   var service = new google.maps.places.PlacesService(map);
   var getNextPage = null;
 
+
+
   // Perform a nearby search.
   service.nearbySearch({
-      location: pyrmont,
+      location: currentLocation,
+
+      //alert(currentLocation);
       radius: 500,
       type: ['restaurant']
     },
@@ -79,17 +94,48 @@ for (let i = 0; i < results.length; i += 1) {
 
 
 
+});
 
-     
-    });
+
+
+//____________________________________________ END
+
+
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      
+
+  //________________________ END try HTML5 geolocation
+
+
+//___________________________________ BEGUIN Loop through Restaurants array
+
+
+// __________________________________________-END
+
+
+
+
+  
+
 }
 
 
 
+//___________________ FUNCTION ERROR GEOLOCATION
 
-
-
-
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
 
 
 
