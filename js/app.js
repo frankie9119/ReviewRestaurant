@@ -21,6 +21,18 @@ function initMap() {
         zoom: 17
     });
 
+       var fenway = {lat: 42.345573, lng: -71.098326};
+
+     var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('street-view'), {
+              position: fenway,
+              pov: {
+                heading: 34,
+                pitch: 10
+              }
+            });
+        map.setStreetView(panorama);
+
 
     //________________________BEGUIN try HTML5 geolocation
 
