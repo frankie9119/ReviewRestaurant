@@ -10,130 +10,134 @@ var map, infoWindow, marker;
 
 function initMap() {
 
-  // Create the map.
-  var currentLocation = {
-    lat:51.5089022,
-    lng: -0.0990328
-  }; 
-// Get initial map location
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: currentLocation, // Set location
-    zoom: 17
-  });
+    // Create the map.
+    var currentLocation = {
+        lat: 51.5089022,
+        lng: -0.0990328
+    };
+    // Get initial map location
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: currentLocation, // Set location
+        zoom: 17
+    });
 
 
-  //________________________BEGUIN try HTML5 geolocation
+    //________________________BEGUIN try HTML5 geolocation
 
-  infoWindow = new google.maps.InfoWindow;
+    infoWindow = new google.maps.InfoWindow;
 
-          if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-              //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
             };
 
-currentLocation = pos;
+            currentLocation = pos;
 
             infoWindow.setPosition(pos);
             infoWindow.setContent('You are here.');
             //infoWindow.setIcon('https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'),
             infoWindow.open(map);
             map.setCenter(pos);
-//__________________________BEGUIN markers
+            //__________________________BEGUIN markers
 
-function createMarkers(places) {
-  var bounds = new google.maps.LatLngBounds();
- 
- // LOOP through markers
-  for (var i = 0, place; place = places[i]; i++) {
+            function createMarkers(places) {
+                var bounds = new google.maps.LatLngBounds();
+                 var place;
+                // LOOP through markers
+                for (var i = 0; i < places.length; i++) {
 
-    /* NOT NECESSARY
-    var image = {
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(25, 25)
-    };
-    */
+                  place = places[i]
 
-    marker = new google.maps.Marker({
-      map: map,
-      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      title: place.name,
-      position: place.geometry.location
-    });
-    
+                    /* NOT NECESSARY
+                    var image = {
+                      url: place.icon,
+                      size: new google.maps.Size(71, 71),
+                      origin: new google.maps.Point(0, 0),
+                      anchor: new google.maps.Point(17, 34),
+                      scaledSize: new google.maps.Size(25, 25)
+                    };
+                    */
 
-            marker.addListener('click', function(){
-
-  //======================= WORKING HERE !
-            alert('OK !');
-            alert(marker.title);
-            alert(marker.position)
-          });
-//============================== !!!
+                    marker = new google.maps.Marker({
+                        map: map,
+                        icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                        title: place.name,
+                        position: place.geometry.location
+                    });
 
 
+                    (function(marker){
+                      marker.addListener('click', function() {
 
-    bounds.extend(place.geometry.location);
-  }
- map.fitBounds(bounds);
-}
+                        //======================= WORKING HERE !
+                        alert('OK !');
+                        alert(marker.title);
+                        alert(marker.position)
+                    })}(marker))
 
-//__________________________END Markers
-//________________________________________ Create the places service.
-
-  var service = new google.maps.places.PlacesService(map);
-  var getNextPage = null;
+              
 
 
 
-  // Perform a nearby search.
-  service.nearbySearch({
-      location: currentLocation,
+                    bounds.extend(place.geometry.location);
+                }
+                map.fitBounds(bounds);
+            }
 
-      //alert(currentLocation);
-      radius: 500,
-      type: ['restaurant']
-    },
-    function(results, status, pagination) {
-      if (status !== 'OK') return;
+            //__________________________END Markers
+            //________________________________________ Create the places service.
 
-      createMarkers(results);
-      console.log(results);
-
-let closeRestaurants = $("#closeRestaurants");
-
-for (let i = 0; i < results.length; i += 1) {
-  closeRestaurants.append("<li>" + results[i].name + results[i].rating +"</li>")
-}
+            var service = new google.maps.places.PlacesService(map);
+            var getNextPage = null;
 
 
 
+            // Perform a nearby search.
+            service.nearbySearch({
+                    location: currentLocation,
+
+                    //alert(currentLocation);
+                    radius: 500,
+                    type: ['restaurant']
+                },
+                function(results, status, pagination) {
+                    if (status !== 'OK') return;
+
+                    createMarkers(results);
+                    console.log(results);
+
+                    let closeRestaurants = $("#closeRestaurants");
+
+                    for (let i = 0; i < results.length; i += 1) {
+                        closeRestaurants.append("<li>" + results[i].name + results[i].rating + "</li>")
+                    }
 
 
-});
 
 
 
-//____________________________________________ END Create the places service.
+                });
 
 
-          }, function() {
+
+            //____________________________________________ END Create the places service.
+
+
+        }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
 
-  //________________________ END try HTML5 geolocation
 
-  
+    //________________________ END try HTML5 geolocation
+
+
 
 }
 
@@ -141,15 +145,10 @@ for (let i = 0; i < results.length; i += 1) {
 
 //___________________ FUNCTION ERROR GEOLOCATION
 
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
-
-
-
-
-
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.open(map);
+}
