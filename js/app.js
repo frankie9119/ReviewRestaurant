@@ -21,17 +21,6 @@ function initMap() {
         zoom: 17
     });
 
-       var fenway = {lat: 42.345573, lng: -71.098326};
-
-     var panorama = new google.maps.StreetViewPanorama(
-            document.getElementById('street-view'), {
-              position: fenway,
-              pov: {
-                heading: 34,
-                pitch: 10
-              }
-            });
-        map.setStreetView(panorama);
 
 
     //________________________BEGUIN try HTML5 geolocation
@@ -80,17 +69,27 @@ function initMap() {
                         position: place.geometry.location
                     });
 
-
+                    // Click marker restaurant and display name of restaurant
                     (function(marker){
                       marker.addListener('click', function() {
 
-                        //======================= WORKING HERE !
                         alert('OK !');
                         alert(marker.title);
                         alert(marker.position)
-                    })}(marker))
 
-              
+//____________________________________________________________________BEGUIN StreetView
+                        var panorama = new google.maps.StreetViewPanorama(
+                            document.getElementById('street-view'), {
+                            position: marker.position,
+                             //pov: {
+                             //   heading: 34,
+                             //   pitch: 10
+                            //}
+                        });
+                        //map.setStreetView(panorama);
+//____________________________________________________________END StreetView
+
+                    })}(marker))
 
 
 
