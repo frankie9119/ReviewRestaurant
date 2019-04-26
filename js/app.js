@@ -64,8 +64,10 @@ function initMap() {
 
                     marker = new google.maps.Marker({
                         map: map,
-                        icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                        icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',                       
                         title: place.name,
+                        rate: place.rating,
+                        //review: place.reviews.rating,
                         position: place.geometry.location
                         //r: place.rating,
                     });
@@ -77,13 +79,14 @@ function initMap() {
                         //alert('OK !');
                         alert(marker.title);
                         //alert(results.rating);
-                        //alert(marker.position);
-                        document.getElementById('title').textContent = marker.title;
+                        alert(marker.rate);
+                        alert(marker.review);
+
+                        //document.getElementById('title').textContent = marker.title;
+                        $("#title").html(marker.title + marker.rate);
+                        $("#review").html(marker.review);
                         //document.getElementById('rate').textContent = marker.rate;
                         $("#myModal").modal();
-
-
-
 //____________________________________________________________________BEGUIN StreetView
                         var panorama = new google.maps.StreetViewPanorama(
                             document.getElementById('street-view'), {
