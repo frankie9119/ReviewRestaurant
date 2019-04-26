@@ -67,15 +67,22 @@ function initMap() {
                         icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
                         title: place.name,
                         position: place.geometry.location
+                        //r: place.rating,
                     });
 
                     // Click marker restaurant and display name of restaurant
                     (function(marker){
                       marker.addListener('click', function() {
 
-                        alert('OK !');
+                        //alert('OK !');
                         alert(marker.title);
-                        alert(marker.position)
+                        //alert(results.rating);
+                        //alert(marker.position);
+                        document.getElementById('title').textContent = marker.title;
+                        //document.getElementById('rate').textContent = marker.rate;
+                        $("#myModal").modal();
+
+
 
 //____________________________________________________________________BEGUIN StreetView
                         var panorama = new google.maps.StreetViewPanorama(
@@ -125,9 +132,6 @@ function initMap() {
                     for (let i = 0; i < results.length; i += 1) {
                         closeRestaurants.append("<li>" + results[i].name + results[i].rating + "</li>")
                     }
-
-
-
 
 
                 });
