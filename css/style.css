@@ -1,7 +1,14 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 #map{
 	height: 400px;
 	width: 70%;
 	float: left;
+  height: 400px;
 }
 
 
@@ -25,37 +32,13 @@
 	background-color: blue;
 }
 
-
-
-/* Always set the map height explicitly to define the size of the div
- * element that contains the map. */
-
-#map {
-  height: 425px;
-}
-
-/* Optional: Makes the sample page fill the window. */
-
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-#right-panel {
-  font-family: 'Roboto', 'sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
-}
-
 #right-panel select,
 #right-panel input {
   font-size: 15px;
 }
 
 #right-panel select {
-  width: 100%;
+  
 }
 
 #right-panel i {
@@ -63,13 +46,13 @@ body {
 }
 
 #right-panel {
+  width: 30%;
+  line-height: 30px;
+  padding-left: 10px;
   font-family: Arial, Helvetica, sans-serif;
   position: absolute;
   right: 5px;
-  top: 60%;
-  margin-top: -195px;
-  height: 330px;
-  width: 600px;
+  height: 400px;
   padding: 5px;
   z-index: 5;
   border: 1px solid #999;
@@ -81,12 +64,14 @@ h2 {
   margin: 0 0 5px 0;
 }
 
+#right-panel ul{
+  width: 100%;
+  height: 90%;
+}
 ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  height: 271px;
-  width: 600px;
   overflow-y: scroll;
 }
 
@@ -106,12 +91,6 @@ li:nth-child(odd) {
   width: 100%;
   margin: 5px 0 0 0;
 }
-
-
-
-
-
-
 
 .modal-header, h4, .close {
     background-color: #5cb85c;

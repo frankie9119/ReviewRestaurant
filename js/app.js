@@ -199,8 +199,8 @@ function initMap() {
                       ratingHtmlLi += '&#10029;';
                     }
                     //document.getElementById('rating-smallX').style.display = '';
-                    document.getElementById('rating-smallx').innerHTML = ratingHtmlLi;
-                    console.log(ratingHtmlLi)
+                    //document.getElementById('rating-smallx').innerHTML = ratingHtmlLi;
+                    //console.log(ratingHtmlLi)
                   }
                 } else {
                   //document.getElementById('rating-smallx').style.display = 'none';
