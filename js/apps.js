@@ -318,3 +318,57 @@ $(document).ready(function () {
 
 
         */
+
+
+
+    location = new google.maps.Marker({
+      map: map,
+      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+    });
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            };
+
+            currentLocation = pos;
+
+            location.setPosition(pos);
+            location.setContent('You are here.');
+            //infoWindow.setIcon('https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'),
+            location.open(map);
+            map.setCenter(pos);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

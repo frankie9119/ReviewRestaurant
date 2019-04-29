@@ -4,6 +4,7 @@
 
 
 var map, infoWindow, marker;
+
 //________________________________________BEGIN create markers for type on line 31 "restaurant"
 
 //________________________________________END create markers for type on line 26 "restaurant"
@@ -16,7 +17,7 @@ function initMap() {
         lng: -0.0990328
     };
     // Get initial map location
-    map = new google.maps.Map(document.getElementById('map'), {
+   let map = new google.maps.Map(document.getElementById('map'), {
         center: currentLocation, // Set location
         zoom: 17
     });
@@ -25,7 +26,7 @@ function initMap() {
 
     //________________________BEGUIN try HTML5 geolocation
 
-    infoWindow = new google.maps.InfoWindow;
+
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -35,13 +36,79 @@ function initMap() {
                 //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
             };
 
+   let markerMyPosition = new google.maps.Marker({
+      map: map,
+      position: pos,
+      icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillColor: 'blue',
+                    fillOpacity: 0.4,
+                    scale: 15,
+                    strokeColor: 'blue',
+                    strokeWeight: 1,
+                    zIndex: 1
+                },
+                draggable: true
+      //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+    });
+
+
             currentLocation = pos;
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('You are here.');
+            //markerMyPosition.setPosition(pos);
+            //markers.setContent('You are here.');
             //infoWindow.setIcon('https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'),
-            infoWindow.open(map);
-            map.setCenter(pos);
+            //markers.open(map);
+            //map.setCenter(pos);
+
+
+
+/*____------______-----______ TRYING 'YOU ARE HERE' MY LOCATION
+
+            var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+            '<div id="bodyContent">'+
+            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+            'sandstone rock formation in the southern part of the '+
+            'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+            'south west of the nearest large town, Alice Springs; 450&#160;km '+
+            '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+            'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+            'Aboriginal people of the area. It has many springs, waterholes, '+
+            'rock caves and ancient paintings. Uluru is listed as a World '+
+            'Heritage Site.</p>'+
+            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+            '(last visited June 22, 2009).</p>'+
+            '</div>'+
+            '</div>';
+            //var infowindow = new google.maps.InfoWindow({
+          //content: contentString
+       // });
+
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+        var markerX = new google.maps.Marker({
+          position: pos,
+          map: map,
+          title: 'Uluru (Ayers Rock)'
+        });
+
+            markerMyPosition.addListener('click', function() {
+          infowindow.open(map, markerMyPosition);
+        });
+
+        */
+        //-----______------_____-----____---- END "YOU ARE HERE" MY LOCATION
+
+
+
             //__________________________BEGUIN markers
 
             function createMarkers(places) {
@@ -62,7 +129,7 @@ function initMap() {
                     };
                     */
 
-                    marker = new google.maps.Marker({
+                    let marker = new google.maps.Marker({
                         map: map,
                         icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',                       
                         title: place.name,
@@ -80,11 +147,36 @@ function initMap() {
                         alert(marker.title);
                         //alert(results.rating);
                         alert(marker.rate);
+
+                        //it is not working
                         alert(marker.review);
 
+function buildStars() {
+   if (marker.rate) {
+       let ratingHtml = '';
+       for (let i = 0; i < 5; i++) {
+          if (marker.rate < (i + 0.5)) {
+              ratingHtml += '&#10025;';
+          } else {
+              ratingHtml += '&#10029;';
+          }
+          document.getElementById('rating-small').style.display = '';
+          document.getElementById('rating-small').innerHTML = ratingHtml;
+       }
+   } else {
+       document.getElementById('rating-small').style.display = 'none';
+   }
+}
+buildStars()
+
                         //document.getElementById('title').textContent = marker.title;
-                        $("#title").html(marker.title + marker.rate);
+                        $("#title").html(marker.title);
                         $("#review").html(marker.review);
+
+
+
+
+
                         //document.getElementById('rate').textContent = marker.rate;
                         $("#myModal").modal();
 //____________________________________________________________________BEGUIN StreetView
