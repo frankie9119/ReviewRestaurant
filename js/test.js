@@ -42,3 +42,89 @@
           infowindow.open(map, marker);
         });
       }
+
+
+
+
+
+
+ (function(marker) {
+            marker.addListener('click', function() {
+
+              //alert OK !;
+              alert(marker.title);
+              alert(marker.rate);
+
+              //it is not working
+              alert(marker.review);
+
+
+              // Display the rating with Stars
+              function buildStars() {
+                if (marker.rate) {
+                  let ratingHtml = '';
+                  for (let i = 0; i < 5; i++) {
+                    if (marker.rate < (i + 0.5)) {
+                      ratingHtml += '&#10025;';
+                    } else {
+                      ratingHtml += '&#10029;';
+                    }
+                    //document.getElementById('rating-small').style.display = '';
+                    document.getElementById('rating-small').innerHTML = ratingHtml;
+                  }
+                } else {
+                  document.getElementById('rating-small').style.display = 'none';
+                }
+              }
+              buildStars()
+
+
+function starRating(place) {
+    let rating = [];
+    if (place.rating) {
+        for (let i = 0; i < 5; i++) {
+            if (place.rating < (i + 0.5)) {
+                rating.push('&#10025;');
+            } else {
+                rating.push('&#10029;');
+            }
+        }
+        return rating.join(' ');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      

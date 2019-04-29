@@ -127,6 +127,12 @@ li:nth-child(odd) {
 #rating-small{
   background-color: orange;
 }
+#rating-smallx{
+  background-color: pink;
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
 
 
 
