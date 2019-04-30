@@ -108,11 +108,11 @@ function initMap() {
             marker.addListener('click', function() {
 
               //alert OK !;
-              alert(marker.title);
-              alert(marker.rate);
+              //alert(marker.title);
+              //alert(marker.rate);
 
               //it is not working
-              alert(marker.review);
+              //alert(marker.review);
 
 
               // Display the rating with Stars
