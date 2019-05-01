@@ -170,7 +170,7 @@ function initMap() {
           location: currentLocation,
 
           //alert(currentLocation);
-          radius: 500,
+          radius: 5000,
           type: ['restaurant']
         },
         function(results, status, pagination) {
