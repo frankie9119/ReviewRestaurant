@@ -5,27 +5,36 @@
 
 var map, infoWindow, marker;
 let ratingHtmlLi = '';
-/*-----------------------------------------------------------------------------------
-creates the stars for the rating
 
-function starRating(place) {
-    let rating = [];
-    if (place.rating) {
-        for (let i = 0; i < 5; i++) {
-            if (place.rating < (i + 0.5)) {
-                rating.push('&#10025;');
-            } else {
-                rating.push('&#10029;');
-            }
-        }
-        return rating.join(' ');
+//______________________________________________________________________BEGIN helper Functions (William code)
+
+
+
+function buildRatingStarDisplayValue(numbVal) { // @ creates a string of "stars" using google maps api
+  let ratingHTML = ""
+  if (numbVal) {
+
+
+
+    for (let i = 0; i < 5; i++) {
+      if (numbVal < (i + 0.5)) {
+        ratingHTML += '&#10025;';
+      } else {
+        ratingHTML += '&#10029;';
+      }
+
     }
+  }
+  
+  return ratingHTML
 }
--------------------------------------------------------------------------------------*/
 
-//________________________________________BEGIN create markers for type on line 31 "restaurant"
+console.log(buildRatingStarDisplayValue(3))
 
-//________________________________________END create markers for type on line 26 "restaurant"
+
+
+//_____________________________________________________________________END helper functions (William code)
+
 
 function initMap() {
 
@@ -183,38 +192,21 @@ function initMap() {
           let closeRestaurants = $("#closeRestaurants");
 
 
-
+         //_______________________________________________________BEGIN William changes
 
           for (let i = 0; i < results.length; i += 1) {
 
-             function buildStarsLi() {
-                if (results[i].rating) {
-                  
-                  
-                  
-                  for (let i = 0; i < 5; i++) {
-                    if (results[i].rating < (i + 0.5)) {
-                      ratingHtmlLi += '&#10025;';
-                    } else {
-                      ratingHtmlLi += '&#10029;';
-                    }
-                    //document.getElementById('rating-smallX').style.display = '';
-                    //document.getElementById('rating-smallx').innerHTML = ratingHtmlLi;
-                    //console.log(ratingHtmlLi)
-                  }
-                } else {
-                  //document.getElementById('rating-smallx').style.display = 'none';
-                }
-
-              } buildStarsLi()
+             let rating = buildRatingStarDisplayValue(results[i].rating)
 
 
 
-            closeRestaurants.append("<li>" + results[i].name + results[i].rating + ratingHtmlLi +"</li>")
+            closeRestaurants.append("<li>" + results[i].name + rating + ratingHtmlLi +"</li>")
           }
 
 
         });
+
+      //_________________________________________________________END William changes
 
 
 
@@ -247,3 +239,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
 }
+
+
+
+
+
+
