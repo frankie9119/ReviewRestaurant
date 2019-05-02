@@ -1,10 +1,6 @@
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
 
 var map, infoWindow, marker;
-let ratingHtmlLi = '';
+
 
 //______________________________________________________________________BEGIN helper Functions (William code)
 
@@ -200,7 +196,7 @@ function initMap() {
 
 
 
-            closeRestaurants.append("<li>" + results[i].name + rating + ratingHtmlLi +"</li>")
+            closeRestaurants.append("<li>" + results[i].name + rating + "</li>")
           }
 
 
