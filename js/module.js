@@ -28,10 +28,10 @@ function initMap() {
             //___________________________________________________BEGIN set initial state of app
 
     
-            map: undefined,
+            
             infoWindow: undefined,
             marker: undefined,
-            currentPosition: undefined,
+           
 
             //__________________________________________________END set initial state of app
 
@@ -82,9 +82,13 @@ function initMap() {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude,
                         };
+
                         callback(pos)
+
                         currentPosition = pos
                         console.log(currentPosition)
+
+                        // CREATE MARKER MY POSITION ___________________________
 
                         markerMyPosition = new google.maps.Marker({
                             map: map,
@@ -100,7 +104,6 @@ function initMap() {
                             },
 
                             draggable: true
-                            //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
                           });
 
                     })
