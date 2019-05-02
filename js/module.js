@@ -28,14 +28,16 @@ function initMap() {
             //___________________________________________________BEGIN set initial state of app
 
     
-         
+            map: undefined,
             infoWindow: undefined,
             marker: undefined,
+            currentPosition: undefined,
 
             //__________________________________________________END set initial state of app
 
             //__________________________________________________BEGIN build rating stars
             buildRatingStarDisplayValue: function(numbVal) {
+
                 let ratingHTML = ""
                 if (numbVal) {
 
@@ -58,11 +60,12 @@ function initMap() {
             //__________________________________________________END build rating stars
 
 
-            createMap:function(coordinates){
-                let map = new google.maps.Map(document.getElementById('map'), {
+            createMap: function(coordinates){
+                    map = new google.maps.Map(document.getElementById('map'), {
                     center: coordinates, // Set location
                     zoom: 17
                 })
+                    //console.log("helloxxx")
                 return map
             },
 
@@ -70,6 +73,8 @@ function initMap() {
 
             getUserGeolocation: function(callback) {   // callback creates map
                 let pos;
+                let markerMyPosition;
+
                 if (navigator.geolocation) {
 
                     navigator.geolocation.getCurrentPosition(function(position) {
@@ -77,10 +82,26 @@ function initMap() {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude,
                         };
-                        
-
                         callback(pos)
-                        console.log(pos)
+                        currentPosition = pos
+                        console.log(currentPosition)
+
+                        markerMyPosition = new google.maps.Marker({
+                            map: map,
+                            position: pos,
+                            icon: {
+                              path: google.maps.SymbolPath.CIRCLE,
+                              fillColor: 'blue',
+                              fillOpacity: 0.4,
+                              scale: 15,
+                              strokeColor: 'blue',
+                              strokeWeight: 1,
+                              zIndex: 1
+                            },
+
+                            draggable: true
+                            //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                          });
 
                     })
 
@@ -91,10 +112,9 @@ function initMap() {
                     console.log("Browser does not support geo location")
                 }
 
-                return pos
+                return pos, markerMyPosition
 
             },
-
 
 
             run: function() {

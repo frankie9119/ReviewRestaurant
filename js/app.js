@@ -71,6 +71,7 @@ function initMap() {
           strokeWeight: 1,
           zIndex: 1
         },
+
         draggable: true
         //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
       });
@@ -88,15 +89,6 @@ function initMap() {
 
           place = places[i]
 
-          /* NOT NECESSARY
-          var image = {
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25)
-          };
-          */
 
           let marker = new google.maps.Marker({
             map: map,
@@ -111,16 +103,6 @@ function initMap() {
           // __________________ Click marker restaurant and display name of restaurant
           (function(marker) {
             marker.addListener('click', function() {
-
-              //alert OK !;
-              //alert(marker.title);
-              //alert(marker.rate);
-
-              //it is not working
-              //alert(marker.review);
-
-
-              // Display the rating with Stars
               function buildStars() {
                 if (marker.rate) {
                   let ratingHtml = '';
