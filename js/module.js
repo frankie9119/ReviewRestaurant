@@ -14,7 +14,7 @@
 
 
 
-
+let map;
 
 
 function initMap() {
@@ -22,16 +22,17 @@ function initMap() {
 
     var MODULE = (function Module() {
 
+        
 
         var app = {
 
             //___________________________________________________BEGIN set initial state of app
 
     
-            map: undefined,
+            
             infoWindow: undefined,
             marker: undefined,
-            currentPosition: undefined,
+            
 
             //__________________________________________________END set initial state of app
 
@@ -69,6 +70,31 @@ function initMap() {
                 return map
             },
 
+            restaurants: function(rest) {
+                  // Loop through markers
+                  for(var i = 0;i < restaurants.length;i++){
+                    // Add marker
+                    addMarker(restaurants[i]);
+                  
+                    
+                    }
+                                      // Add Marker Function
+                   function addMarker(props){
+                    var marker = new google.maps.Marker({
+                      position:props.coords,
+                      map:map,
+                      //icon:props.iconImage
+                    }); 
+                    console.log(restaurants[i]);
+                    //console.log(currentPosition);
+
+              }
+                },
+
+
+
+
+            
 
 
             getUserGeolocation: function(callback) {   // callback creates map
@@ -84,7 +110,7 @@ function initMap() {
                         };
                         callback(pos)
                         currentPosition = pos
-                        console.log(currentPosition)
+                        //console.log(currentPosition)
 
                         markerMyPosition = new google.maps.Marker({
                             map: map,
@@ -120,6 +146,8 @@ function initMap() {
             run: function() {
 
                app.getUserGeolocation(app.createMap)
+               app.restaurants(app.restaurants)
+               //app.addMarker(app.addMarker)
 
             }
         }

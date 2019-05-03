@@ -1,96 +1,65 @@
-      // This example displays a marker at the center of Australia.
-      // When the user clicks the marker, an info window opens.
+// This example requires the Places library. Include the libraries=places
+// parameter when you first load the API. For example:
+// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-      function initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
-        });
 
-        var contentString = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-            '<div id="bodyContent">'+
-            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-            'sandstone rock formation in the southern part of the '+
-            'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
-            'south west of the nearest large town, Alice Springs; 450&#160;km '+
-            '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
-            'features of the Uluru - Kata Tjuta National Park. Uluru is '+
-            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-            'Aboriginal people of the area. It has many springs, waterholes, '+
-            'rock caves and ancient paintings. Uluru is listed as a World '+
-            'Heritage Site.</p>'+
-            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-            '(last visited June 22, 2009).</p>'+
-            '</div>'+
-            '</div>';
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
+//var map;
 
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map,
-          title: 'Uluru (Ayers Rock)'
-        });
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
+function initMap() {
+  // Create the map.
+  var pyrmont = {
+    lat:51.5089022,
+    lng: -0.0990328
+  }; // Get initial map location
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: pyrmont, // Set location
+    zoom: 17
+  });
+
+
+//___________________________________ BEGUIN Loop through Restaurants array
+
+      // Loop through markers
+      for(var i = 0;i < restaurants.length;i++){
+        // Add marker
+        addMarker(restaurants[i]);
       }
 
-
-
-
-
-
- (function(marker) {
-            marker.addListener('click', function() {
-
-              //alert OK !;
-              alert(marker.title);
-              alert(marker.rate);
-
-              //it is not working
-              alert(marker.review);
-
-
-              // Display the rating with Stars
-              function buildStars() {
-                if (marker.rate) {
-                  let ratingHtml = '';
-                  for (let i = 0; i < 5; i++) {
-                    if (marker.rate < (i + 0.5)) {
-                      ratingHtml += '&#10025;';
-                    } else {
-                      ratingHtml += '&#10029;';
-                    }
-                    //document.getElementById('rating-small').style.display = '';
-                    document.getElementById('rating-small').innerHTML = ratingHtml;
-                  }
-                } else {
-                  document.getElementById('rating-small').style.display = 'none';
-                }
-              }
-              buildStars()
-
-
-function starRating(place) {
-    let rating = [];
-    if (place.rating) {
-        for (let i = 0; i < 5; i++) {
-            if (place.rating < (i + 0.5)) {
-                rating.push('&#10025;');
-            } else {
-                rating.push('&#10029;');
-            }
-        }
-        return rating.join(' ');
+      // Add Marker Function
+      function addMarker(props){
+        var marker = new google.maps.Marker({
+          position:props.coords,
+          map:map,
+          //icon:props.iconImage
+        });
+        
+      }
     }
+
+// __________________________________________-END
+
+/*
+
+
+  // Create the places service.
+  var service = new google.maps.places.PlacesService(map);
+  
+
+  // Perform a nearby search.
+  service.nearbySearch({
+      location: pyrmont,
+      radius: 500,
+      type: ['restaurant']
+    },
+
+
+    function(results, status, pagination) {
+      if (status !== 'OK') return;
+
+      createMarkers(results);
+      
+    });
 }
 
 
@@ -108,23 +77,36 @@ function starRating(place) {
 
 
 
+//________________________________________BEGIN create markers for type on line 31 "restaurant"
 
+function createMarkers(places) {
+  var bounds = new google.maps.LatLngBounds();
+  var placesList = document.getElementById('places');
 
+  for (var i = 0, place; place = places[i]; i++) {
+    var image = {
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(25, 25)
+    };
 
+    var marker = new google.maps.Marker({
+      map: map,
+      icon: image,
+      title: place.name,
+      position: place.geometry.location
+    });
 
+    var li = document.createElement('li');
+    li.textContent = place.name;
+    placesList.appendChild(li);
 
+    bounds.extend(place.geometry.location);
+  }
+  map.fitBounds(bounds);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
+*/
+//________________________________________END create markers for type on line 26 "restaurant"
