@@ -88,7 +88,7 @@ function initMap() {
         for (var i = 0; i < places.length; i++) {
 
           place = places[i]
-
+          console.log(places[i])
 
           let marker = new google.maps.Marker({
             map: map,
@@ -99,7 +99,7 @@ function initMap() {
             position: place.geometry.location
             //r: place.rating,
           });
-
+/*
           // __________________ Click marker restaurant and display name of restaurant
           (function(marker) {
             marker.addListener('click', function() {
@@ -136,7 +136,7 @@ function initMap() {
               //____________________________________________________________END StreetView
 
             })
-          }(marker))
+          }(marker))*/
           //__________________END Click Marker
 
 
@@ -151,15 +151,14 @@ function initMap() {
 
       var service = new google.maps.places.PlacesService(map);
       var getNextPage = null;
-
       // Perform a nearby search.
       service.nearbySearch({
           location: currentLocation,
-
           //alert(currentLocation);
           radius: 5000,
           type: ['restaurant']
         },
+
         function(results, status, pagination) {
           if (status !== 'OK') return;
 
@@ -168,20 +167,13 @@ function initMap() {
           console.log(results);
 
           let closeRestaurants = $("#closeRestaurants");
-
-
          //_______________________________________________________BEGIN William changes
 
           for (let i = 0; i < results.length; i += 1) {
 
              let rating = buildRatingStarDisplayValue(results[i].rating)
-
-
-
             closeRestaurants.append("<li>" + results[i].name + rating + "</li>")
           }
-
-
         });
 
       //_________________________________________________________END William changes
@@ -217,6 +209,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
 }
+
+
 
 
 
