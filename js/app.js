@@ -1,7 +1,7 @@
 
 var map, infoWindow, marker, resultRestaurantsLoop,markerRate, markerTitle, markerReview;
 
-let all = false;
+let all = true;
 let one = false;
 let two = false;
 let three = false;
@@ -70,36 +70,6 @@ function displayRestaurantsList(){
   }
 
 
-  function panoramaStreetView (){
-
-  }
-
-/*
-function getValueSort(){
-  alert(getValue)
-  if (getValue.value === 'one'){
-    alert('one')
-  }
-} getValueSort()
-
-getValue.on('change', function(){
-
-  if (getValue.val() === 'one'){
-    sort();
-    one = true;
-    createMarkers();
-  }
-})
-
-function sort(){
-
-    one = false;
-    two = false;
-    four = false;
-    three = false;
-    five = false;
-    all = false;
-}*/
 
 function initMap() {
 
@@ -123,7 +93,7 @@ function restSort() {
     five = false;
 }
 
-  //________________________BEGUIN try HTML5 geolocation
+  //________________________BEGUIN HTML5 geolocation
 
 
 
@@ -190,6 +160,7 @@ function restSort() {
 
               buildStars()
 
+              //======= street View ========
               var panorama = new google.maps.StreetViewPanorama(
               document.getElementById('street-view'), {
               position: marker.position,
@@ -300,6 +271,11 @@ function search(){
 //_______________END loop ____________
 
         });//end nearby search
+
+
+
+      
+    }// end function search
       getValue.addEventListener('change', function () {
                 if (getValue.value === 'all') {
                     restSort();
@@ -340,9 +316,8 @@ function search(){
                     search();
                 }
             });
-    }// end function search
-
-search()
+    // Run function search()
+    search()
 
 
 
@@ -353,7 +328,7 @@ search()
   } 
 //=============================== END IF (navigator.geolocation) ==============================================
 
-  //________________________ END try HTML5 geolocation
+  //________________________ END HTML5 geolocation
 
 
 
