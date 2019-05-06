@@ -44,33 +44,35 @@ function displayRestaurantsList(){
   let displayRestaurantsList = closeRestaurants.append("<li>" + resultRestaurantsLoop.name + resultRestaurantsLoop.rating + buildRatingStarDisplayValue(resultRestaurantsLoop.rating) + "</li>")
   return displayRestaurantsList
 }
-              function buildStars() {
-                if (markerRate) {
-                  let ratingHtml = '';
-                  for (let i = 0; i < 5; i++) {
-                    if (markerRate < (i + 0.5)) {
-                      ratingHtml += '&#10025;';
-                    } else {
-                      ratingHtml += '&#10029;';
-                    }
-                    //document.getElementById('rating-small').style.display = '';
-                    document.getElementById('rating-small').innerHTML = ratingHtml;
-                  }
-                } else {
-                  document.getElementById('rating-small').style.display = 'none';
-                }
-                              //document.getElementById('title').textContent = marker.title;
-              $("#title").html(markerTitle);
-              $("#review").html(markerReview);
-
-              // Modal
-              $("#myModal").modal();
-              }
 
 
-              function panoramaStreetView (){
+  function buildStars() {
+    if (markerRate) {
+      let ratingHtml = '';
+      for (let i = 0; i < 5; i++) {
+        if (markerRate < (i + 0.5)) {
+          ratingHtml += '&#10025;';
+        } else {
+          ratingHtml += '&#10029;';
+        }
+        //document.getElementById('rating-small').style.display = '';
+        document.getElementById('rating-small').innerHTML = ratingHtml;
+      }
+    } else {
+      document.getElementById('rating-small').style.display = 'none';
+    }
+                  //document.getElementById('title').textContent = marker.title;
+  $("#title").html(markerTitle);
+  $("#review").html(markerReview);
 
-              }
+  // Modal
+  $("#myModal").modal();
+  }
+
+
+  function panoramaStreetView (){
+
+  }
 
 /*
 function getValueSort(){
@@ -253,44 +255,45 @@ function search(){
              if (all) {
               if (results[i].rating >= 0){
                 console.log('all')
+                displayRestaurantsList()
                 //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
               }
              } else if (one) {
                 if (results[i].rating >= 1 && results[i].rating < 2){
                   console.log('three')
-                  
+                  displayRestaurantsList()
 
-                  closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
+                  //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
              }else if (two) {
                 if (results[i].rating >= 2 && results[i].rating < 3){
                   console.log('three')
-                  
+                  displayRestaurantsList()
 
                   closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
              }else if (three === true) {
                 if (results[i].rating >= 3 && results[i].rating < 4){
                   console.log('three')
-                  
+                  displayRestaurantsList()
 
-                  closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
+                  //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
              } else if (four === true) {
                 if (results[i].rating >= 4 && results[i].rating < 5){
                 
                 let fourRest = results[i].rating === 4
                 console.log(fourRest)
-                
+                displayRestaurantsList()
 
-               closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
+               //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
               }
             }else if (five) {
                 if (results[i].rating >= 5){
                   console.log('three')
-                  
+                  displayRestaurantsList()
 
-                  closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
+                  //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
              }
           }
