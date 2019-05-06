@@ -69,7 +69,7 @@ function displayRestaurantsList(){
   $("#myModal").modal();
   }
 
-
+// ======================== BEGUIN initMap function =====================================
 
 function initMap() {
 
@@ -82,7 +82,8 @@ function initMap() {
   let map = new google.maps.Map(document.getElementById('map'), {
     center: currentLocation, // Set location
     zoom: 17
-  });
+  });// END get initial map location
+
 
 function restSort() {
     all = false;
@@ -93,9 +94,8 @@ function restSort() {
     five = false;
 }
 
+
   //________________________BEGUIN HTML5 geolocation
-
-
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -136,25 +136,22 @@ function restSort() {
         for (var i = 0; i < places.length; i++) {
 
           place = places[i]
-
-
+        //________________ BEGUIN place markers on map
           let marker = new google.maps.Marker({
             map: map,
             icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
             title: place.name,
             rate: place.rating,
-            //review: place.reviews.rating,
             position: place.geometry.location
 
-            //r: place.rating,
-          });
+          }); // _______________ END place markers on map
+
           marker.rate = markerRate
           marker.title = markerTitle
           marker.review = markerReview
           
-          // __________________ Click marker restaurant and display name of restaurant
 
-  //==============FUNCTION MARKER  ======================
+  //==============FUNCTION MARKER  =================================================
           //(function(marker) {
             marker.addListener('click', function() {
 
@@ -167,28 +164,23 @@ function restSort() {
                 });
             })
           //}(marker))
-          //__________________END Click Marker
-
   //================END FUNCTION MARKER==================================================================
 
 
           bounds.extend(place.geometry.location);
         }
         map.fitBounds(bounds);
-      }
+      } //=========================== END FUNCTION createMarkers(places) ======================================
+            
 
 
-
-
-      //=========================== END FUNCTION createMarkers(places) ======================================
-            //reset results 
-
-            function clearResults() {
-                let results = document.getElementById('closeRestaurants');
-                while (results.childNodes[0]) {
-                    results.removeChild(results.childNodes[0]);
-                }
-            }
+// clear Results
+function clearResults() {
+    let results = document.getElementById('closeRestaurants');
+    while (results.childNodes[0]) {
+        results.removeChild(results.childNodes[0]);
+    }
+}
 
 // ============ ******************* ===================================== ___________________----------------_________________ // @!#!$!@*(%^!(*&!@*&#^))
 function search(){
@@ -274,8 +266,10 @@ function search(){
 
 
 
-      
+
     }// end function search
+
+    // ____________ BEGUIN Sort by Event Listener (rating option user) _____________________
       getValue.addEventListener('change', function () {
                 if (getValue.value === 'all') {
                     restSort();
@@ -315,21 +309,15 @@ function search(){
                     clearResults();
                     search();
                 }
-            });
+
+            }); // __________________ END BEGUIN Sort by Event Listener (rating option user) __________________
+
     // Run function search()
     search()
 
-
-
-
   });
 
-
-  } 
-//=============================== END IF (navigator.geolocation) ==============================================
-
-  //________________________ END HTML5 geolocation
-
+  } //=============================== END IF (navigator.geolocation) END HTML5 geolocation==============================================
 
 
 } // ========================== END INIT FUNCTION ==========================================================
