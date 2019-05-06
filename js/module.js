@@ -9,14 +9,6 @@
 
 
 
-
-
-
-
-
-
-
-
 function initMap() {
 
 
@@ -32,6 +24,9 @@ function initMap() {
             
             infoWindow: undefined,
             marker: undefined,
+            pos: undefined,
+            currentPosition: {},
+            test: undefined,
             
 
             //__________________________________________________END set initial state of app
@@ -60,7 +55,6 @@ function initMap() {
 
             //__________________________________________________END build rating stars
 
-
             createMap: function(coordinates){
                     map = new google.maps.Map(document.getElementById('map'), {
                     center: coordinates, // Set location
@@ -70,31 +64,15 @@ function initMap() {
                 return map
             },
 
-            restaurants: function(rest) {
-                  // Loop through markers
-                  for(var i = 0;i < restaurants.length;i++){
-                    // Add marker
-                    addMarker(restaurants[i]);
-                  
-                    
-                    }
-                                      // Add Marker Function
-                   function addMarker(props){
-                    var marker = new google.maps.Marker({
-                      position:props.coords,
-                      map:map,
-                      //icon:props.iconImage
-                    }); 
-                    console.log(restaurants[i]);
-                    //console.log(currentPosition);
-
-              }
-                },
-
-
-
-
+            testing: function(testex){
             
+                test = 5
+
+                return test
+                
+
+
+            },
 
 
             getUserGeolocation: function(callback) {   // callback creates map
@@ -143,10 +121,36 @@ function initMap() {
             },
 
 
+
+            restaurants: function(rest) {
+                  // Loop through markers
+                  for(var i = 0;i < restaurants.length;i++){
+                    // Add marker
+                    addMarker(restaurants[i]);
+                  
+                    
+                    }
+                                      // Add Marker Function
+                   function addMarker(props){
+                    var marker = new google.maps.Marker({
+                      position:props.coords,
+                      map:map,
+                      //icon:props.iconImage
+                    }); 
+                    console.log(restaurants[i]);
+                    console.log(app.currentPosition);
+                    console.log(app.pos);
+                    alert()
+
+              }
+                },
+
+
             run: function() {
 
                app.getUserGeolocation(app.createMap)
-               app.restaurants(app.restaurants)
+               app.testing(app.testing)
+               app.restaurants()
                //app.addMarker(app.addMarker)
 
             }
