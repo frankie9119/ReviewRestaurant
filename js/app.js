@@ -301,7 +301,7 @@ function search(){
                   displayRestaurantsList()
                   geoRestaurantSelected = (results[i].geometry.location)
                   
-                  resultMarker()
+resultMarker()
 
 
 
@@ -347,8 +347,6 @@ function search(){
                     all = true;
                     clearResults();
                     deleteMarkersTry()
-                    deleteRedM()
-                    search();
 
                 } else if (getValue.value === 'one') {
                     restSort();
