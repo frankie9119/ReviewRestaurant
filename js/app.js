@@ -18,6 +18,7 @@ let markersArray = [];
 
 let markers = [];
 let delMarker = [];
+let redMarker = [];
 
 
 //______________________________________________________________________BEGIN helper Functions (William code)
@@ -169,18 +170,17 @@ function restSort() {
 
   //==============FUNCTION MARKER  =================================================
           //(function(marker) {
+            
             markers.addListener('click', function() {
               
-              
               buildStars();
-
               //======= street View ========
-
               var panorama = new google.maps.StreetViewPanorama(
               document.getElementById('street-view'), {
               position: markers.position,
                 });
             })
+          
           //}(marker))
   //================END FUNCTION MARKER==================================================================
 
@@ -240,6 +240,9 @@ function search(){
         function(results, status, pagination) {
           if (status !== 'OK') return;
 
+if (all) {
+  createMarkers(results);
+}
           
           //this console.log is super helpfull
           console.log(results);
@@ -260,20 +263,24 @@ function search(){
                     //alert('resultMarker')
                           
 
-                          var redMarker = new google.maps.Marker({
+                          let redMarker = new google.maps.Marker({
                             position: geoRestaurantSelected,
                             map: map,
                             title: markerTitle,
                           });
 
                           markerRestaurantSelected.push(redMarker)
+
+                            
+
+                          //clickMarker()
                  // console.log(geoRestaurantSelected + 'hey hey geo loc here')
-                  console.log(markerRestaurantSelected + 'markerRestaurantSelected test')
+                  //console.log(markerRestaurantSelected + 'markerRestaurantSelected test')
                   }
             //displayRestaurantsList();
              
              if (all) {
-              createMarkers(results);
+              
               if (results[i].rating >= 0){
                 console.log('all')
                 displayRestaurantsList()
@@ -283,15 +290,17 @@ function search(){
                 if (results[i].rating >= 1 && results[i].rating < 2){
                   console.log('three')
                   displayRestaurantsList()
-
+                  geoRestaurantSelected = (results[i].geometry.location) 
+                  resultMarker()
                   //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
              }else if (two) {
                 if (results[i].rating >= 2 && results[i].rating < 3){
                   console.log('three')
                   displayRestaurantsList()
-
-                  closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
+                  geoRestaurantSelected = (results[i].geometry.location) 
+                  resultMarker()
+                  //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
              }else if (three === true) {
 
@@ -299,11 +308,8 @@ function search(){
                   console.log('three')
                   //clearMarkers()
                   displayRestaurantsList()
-                  geoRestaurantSelected = (results[i].geometry.location)
-                  
-resultMarker()
-
-
+                  geoRestaurantSelected = (results[i].geometry.location) 
+                  resultMarker()
 
                   //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
@@ -326,7 +332,6 @@ resultMarker()
                   console.log('three')
                   deleteMarkers()
                   displayRestaurantsList()
-
                   //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
              }
@@ -334,9 +339,6 @@ resultMarker()
 //_______________END loop ____________
 
         });//end nearby search
-
-
-
 
     }// end function search
 
@@ -347,12 +349,13 @@ resultMarker()
                     all = true;
                     clearResults();
                     deleteMarkersTry()
+                    search();
 
                 } else if (getValue.value === 'one') {
                     restSort();
                     one = true;
                     clearResults();
-                                        deleteMarkersTry()
+                    deleteMarkersTry()
                     deleteRedM()
                     search();
                 }
@@ -360,27 +363,27 @@ resultMarker()
                     restSort();
                     two = true;
                     clearResults();
-                                        deleteMarkersTry()
+                    deleteMarkersTry()
                     deleteRedM()
                     search();
                 }
                 else if (getValue.value === 'three') {
                     restSort();
                     three = true;
+
                     clearResults();
-
-                                        deleteMarkersTry()
-                    deleteRedM()
-                    //clearMarkers();
-
+                    deleteMarkersTry();
+                    deleteRedM();
                     search();
+                    //clearMarkers();
+                    
                 }
                 else if (getValue.value === 'four') {
                     restSort();
                     four = true;
                     clearResults();
                     //clearMarkers();
-                                        deleteMarkersTry()
+                    deleteMarkersTry()
                     deleteRedM()
                     search();
                 }
