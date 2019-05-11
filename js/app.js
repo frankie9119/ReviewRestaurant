@@ -56,30 +56,7 @@ function displayRestaurantsList(){
 }
 
 
-  function buildStars() {
-    /*if (markerRate) {
-      let ratingHtml = '';
-      for (let i = 0; i < 5; i++) {
-        if (markerRate < (i + 0.5)) {
-          ratingHtml += '&#10025;';
-        } else {
-          ratingHtml += '&#10029;';
-        }
-        //document.getElementById('rating-small').style.display = '';
-        document.getElementById('rating-small').innerHTML = ratingHtml;
-      }
-    } else {
-      document.getElementById('rating-small').style.display = 'none';
-    }*/
 
-                  //document.getElementById('title').textContent = marker.title;
-  
-  $("#title").html(markerTitle);
-  $("#rating-small").html(buildRatingStarDisplayValue(markerRate));
-  $("#review").html(markerTitle);
-  // Modal
-  $("#myModal").modal();
-  }
 
 // ======================== BEGUIN initMap function =====================================
 
@@ -105,7 +82,6 @@ function restSort() {
     four = false;
     five = false;
 }
-
 
   //________________________BEGUIN HTML5 geolocation
 
@@ -172,12 +148,20 @@ function restSort() {
           //(function(marker) {
             
             markers.addListener('click', function() {
-              
-              buildStars();
+
+              //alert(markerTitle)
+              //buildStars();
+                $("#title").html(markers.title);
+                alert(markers.title)
+                $("#rating-small").html(buildRatingStarDisplayValue(markers.rate));
+                $("#review").html(markers.title);
+                // Modal
+                $("#myModal").modal();
               //======= street View ========
               var panorama = new google.maps.StreetViewPanorama(
               document.getElementById('street-view'), {
               position: markers.position,
+
                 });
             })
           
@@ -271,7 +255,25 @@ if (all) {
 
                           markerRestaurantSelected.push(redMarker)
 
-                            
+            redMarker.addListener('click', function() {
+              //alert(markerTitle)
+              //buildStars();
+                
+                alert(redMarker.title)
+                $("#title").html(redMarker.title);
+                $("#rating-small").html(buildRatingStarDisplayValue(markers.rate));
+                $("#review").html(markers.title);
+                // Modal
+                $("#myModal").modal();
+              //======= street View ========
+              var panorama2 = new google.maps.StreetViewPanorama(
+              document.getElementById('street-view'), {
+              position: redMarker.position,
+
+
+                });
+
+            })
 
                           //clickMarker()
                  // console.log(geoRestaurantSelected + 'hey hey geo loc here')
