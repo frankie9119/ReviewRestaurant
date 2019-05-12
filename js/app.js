@@ -1,5 +1,5 @@
 
-var map, infoWindow, resultRestaurantsLoop,markerRate, markerTitle, markerReview;
+var map, infoWindow, resultRestaurantsLoop, service, place;
 
 let all = true;
 let one = false;
@@ -11,10 +11,8 @@ let five = false;
 let closeRestaurants = $("#closeRestaurants");
 let getValue = document.getElementById("rating-control");
 
-let geoRestaurantSelected = {}
-let markerNew = [];
+let geoRestaurantSelected = {};
 let markerRestaurantSelected = [];
-let markersArray = [];
 
 let markers = [];
 let delMarker = [];
@@ -157,7 +155,13 @@ function restSort() {
 
                 });
             })
-          
+         
+
+
+
+
+
+
           //}(marker))
   //================END FUNCTION MARKER==================================================================
 
@@ -210,7 +214,24 @@ function search(){
 
         function(results, status, pagination) {
           if (status !== 'OK') return;
-
+/*
+              service.getDetails({placeId: place.place_id}, function(place, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        //let rating = document.querySelector('#rating');
+        let reviewEl = document.querySelector('.modal-body');
+        
+        rating.innerHTML = place.rating;
+        
+        for (let review of place.reviews){
+          let li = document.createElement('li');
+          li.innerHTML = `<div>Author: ${review.author_name}</div>
+                          <em>${review.text}</em>
+                          <div>Rating: ${review.rating} star(s)</div>`;
+          reviewEl.appendChild(li);
+        }
+      }
+    }); 
+*/
 if (all) {
   createMarkers(results);
 }         
@@ -224,34 +245,30 @@ if (all) {
           for (let i = 0; i < results.length; i += 1) {
 
             placeRed = results[i]
-            //console.log(resultRestaurantsLoop)
-            resultRestaurantsLoop = results[i]
-            //alert(resultRestaurantsLoop)
-                  function resultMarker(){
-                    //alert('resultMarker')
-                          
 
+            resultRestaurantsLoop = results[i]
+
+// ============ ____________ BEGUIN resultMarker ___________ ==============
+
+                  function resultMarker(){
+                          // creating red markers from selected rating SELECT 
                           let redMarker = new google.maps.Marker({
                             position: geoRestaurantSelected,
                             map: map,
                             title: placeRed.name,
                             rate: placeRed.rating,
-
                           });
 
                           markerRestaurantSelected.push(redMarker)
 
             redMarker.addListener('click', function() {
-              //alert(markerTitle)
-              //buildStars();
-                
-                //alert(redMarker.title)
+
                 $("#title").html(redMarker.title);
                 $("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
                 $("#review").html(markers.title);
                 // Modal
                 $("#myModal").modal();
-                //alert(markerRestaurantSelected.position)
+
               //======= street View ========
               var panorama2 = new google.maps.StreetViewPanorama(
               document.getElementById('street-view'), {
