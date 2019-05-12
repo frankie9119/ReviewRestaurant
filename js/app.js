@@ -128,7 +128,7 @@ function restSort() {
 
           }); // _______________ END place markers on map
           
-          alert(places.title)
+          //alert(places.title)
           //console.log(marker);
            markerRate = markers.rate
            markerTitle = markers.title
@@ -177,13 +177,13 @@ function clearResults() {
     }
 }
 
-function deleteMarkers() {
-    for (let i = 0; i < markers.length; i++) {
-        if (markers[i]) {
-            map: null
-        }
-    }
-    markers = [];
+
+
+function deleteMarkersTry() {
+  //alert('dmt')
+  for (let i = 0; i < delMarker.length; i++) {
+    if (delMarker[i].getMap() != null) delMarker[i].setMap(null);
+  }
 }
 
 function deleteRedM(){
@@ -223,7 +223,7 @@ if (all) {
 
           for (let i = 0; i < results.length; i += 1) {
 
-
+            placeRed = results[i]
             //console.log(resultRestaurantsLoop)
             resultRestaurantsLoop = results[i]
             //alert(resultRestaurantsLoop)
@@ -234,7 +234,9 @@ if (all) {
                           let redMarker = new google.maps.Marker({
                             position: geoRestaurantSelected,
                             map: map,
-                            title: markerTitle,
+                            title: placeRed.name,
+                            rate: placeRed.rating,
+
                           });
 
                           markerRestaurantSelected.push(redMarker)
@@ -243,18 +245,21 @@ if (all) {
               //alert(markerTitle)
               //buildStars();
                 
-                alert(markers.title)
+                //alert(redMarker.title)
                 $("#title").html(redMarker.title);
-                $("#rating-small").html(buildRatingStarDisplayValue(markers.rate));
+                $("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
                 $("#review").html(markers.title);
                 // Modal
                 $("#myModal").modal();
+                //alert(markerRestaurantSelected.position)
               //======= street View ========
               var panorama2 = new google.maps.StreetViewPanorama(
               document.getElementById('street-view'), {
               position: redMarker.position,
 
+
                 });
+
 
             })
 
@@ -266,11 +271,11 @@ if (all) {
               if (results[i].rating >= 0){
                 console.log('all')
                 displayRestaurantsList()
+
                 //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
               }
              } else if (one) {
                 if (results[i].rating >= 1 && results[i].rating < 2){
-                  console.log('three')
                   displayRestaurantsList()
                   geoRestaurantSelected = (results[i].geometry.location) 
                   resultMarker()
@@ -278,7 +283,6 @@ if (all) {
                 }
              }else if (two) {
                 if (results[i].rating >= 2 && results[i].rating < 3){
-                  console.log('three')
                   displayRestaurantsList()
                   geoRestaurantSelected = (results[i].geometry.location) 
                   resultMarker()
@@ -287,8 +291,6 @@ if (all) {
              }else if (three === true) {
 
                 if (results[i].rating >= 3 && results[i].rating < 4){
-                  console.log('three')
-                  //clearMarkers()
                   displayRestaurantsList()
                   geoRestaurantSelected = (results[i].geometry.location) 
                   resultMarker()
@@ -298,10 +300,6 @@ if (all) {
              } else if (four === true) {
               
                 if (results[i].rating >= 4 && results[i].rating < 5){
-                
-                let fourRest = results[i].rating === 4
-                console.log(fourRest)
-                deleteMarkers()
                 displayRestaurantsList()
                 geoRestaurantSelected = (results[i].geometry.location)
                 resultMarker()
@@ -312,7 +310,6 @@ if (all) {
               
                 if (results[i].rating >= 5){
                   console.log('three')
-                  deleteMarkers()
                   displayRestaurantsList()
                   //closeRestaurants.append("<li>" + results[i].name + results[i].rating  + "</li>")
                 }
@@ -354,7 +351,7 @@ if (all) {
                     three = true;
 
                     clearResults();
-                    //deleteMarkersTry();
+                    deleteMarkersTry();
                     deleteRedM();
                     search();
                     //clearMarkers();

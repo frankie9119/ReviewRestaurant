@@ -106,7 +106,53 @@ function starRating(place) {
 
 
 
+function createMarkers(places) {
+        var bounds = new google.maps.LatLngBounds();
+        var place;
+        // LOOP through markers
+        for (var i = 0; i < places.length; i++) {
 
+          place = places[i]
+        //________________ BEGUIN place markers on map
+          let markers = new google.maps.Marker({
+            map: map,
+            icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            title: place.name,
+            rate: place.rating,
+            position: place.geometry.location
+
+          }); // _______________ END place markers on map
+          
+          //alert(places.title)
+          //console.log(marker);
+           markerRate = markers.rate
+           markerTitle = markers.title
+          //alert(markerTitle)
+           markerReview = markers.review
+
+          delMarker.push(markers)
+
+  //==============FUNCTION MARKER  =================================================
+          //(function(marker) {
+            
+            markers.addListener('click', function() {
+
+              //alert(markerTitle)
+              //buildStars();
+                $("#title").html(markers.title);
+                //alert(markers.title)
+                $("#rating-small").html(buildRatingStarDisplayValue(markers.rate));
+                $("#review").html(markers.title);
+                // Modal
+                $("#myModal").modal();
+              //======= street View ========
+              var panorama = new google.maps.StreetViewPanorama(
+              document.getElementById('street-view'), {
+              position: markers.position,
+
+                });
+            })
+          
 
 
 
