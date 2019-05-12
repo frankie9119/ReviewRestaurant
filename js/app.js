@@ -29,8 +29,6 @@ function buildRatingStarDisplayValue(numbVal) { // @ creates a string of "stars"
   let ratingHTML = ""
   if (numbVal) {
 
-
-
     for (let i = 0; i < 5; i++) {
       if (numbVal < (i + 0.5)) {
         ratingHTML += '&#10025;';
@@ -90,9 +88,9 @@ function restSort() {
       var pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
-        //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
       };
 
+//__________________ Place round blue marker MyPosition
       let markerMyPosition = new google.maps.Marker({
         map: map,
         position: pos,
@@ -105,17 +103,13 @@ function restSort() {
           strokeWeight: 1,
           zIndex: 1
         },
-
         draggable: true
-        //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
       });
 
 
       currentLocation = pos;
 
-      //__________________________BEGUIN markers
-
-
+      //__________________________BEGUIN markers Restaurants
 
       function createMarkers(places) {
         var bounds = new google.maps.LatLngBounds();
@@ -132,14 +126,13 @@ function restSort() {
             rate: place.rating,
             position: place.geometry.location
 
-
-
           }); // _______________ END place markers on map
           
+          alert(places.title)
           //console.log(marker);
            markerRate = markers.rate
            markerTitle = markers.title
-          //alert(marker.title)
+          //alert(markerTitle)
            markerReview = markers.review
 
           delMarker.push(markers)
@@ -152,7 +145,7 @@ function restSort() {
               //alert(markerTitle)
               //buildStars();
                 $("#title").html(markers.title);
-                alert(markers.title)
+                //alert(markers.title)
                 $("#rating-small").html(buildRatingStarDisplayValue(markers.rate));
                 $("#review").html(markers.title);
                 // Modal
@@ -176,7 +169,7 @@ function restSort() {
             
 
 
-// clear Results
+// ==========_______ Clear Results and Markers _______===================
 function clearResults() {
     let results = document.getElementById('closeRestaurants');
     while (results.childNodes[0]) {
@@ -184,30 +177,24 @@ function clearResults() {
     }
 }
 
-
-      // Deletes all markers in the array by removing references to them.
-            function deleteMarkers() {
-                for (let i = 0; i < markers.length; i++) {
-                    if (markers[i]) {
-                        map: null
-                    }
-                }
-                markers = [];
-            }
-function deleteMarkersTry() {
-  //alert('dmt')
-  for (let i = 0; i < delMarker.length; i++) {
-    if (delMarker[i].getMap() != null) delMarker[i].setMap(null);
-  }
+function deleteMarkers() {
+    for (let i = 0; i < markers.length; i++) {
+        if (markers[i]) {
+            map: null
+        }
+    }
+    markers = [];
 }
+
 function deleteRedM(){
   for (let j = 0; j < markerRestaurantSelected.length; j++){
     //alert('dmt+redmarkers')
     if (markerRestaurantSelected[j].getMap() != null) markerRestaurantSelected[j].setMap(null);
   }
 }
+// ============_________ END Clear Results and Markers _____________=============
 
-// ============ ******************* ===================================== ___________________----------------_________________ // @!#!$!@*(%^!(*&!@*&#^))
+// ============ BEGUIN SEARCH FUNCTION ******************* ===================================== ___________________----------------_________________ // @!#!$!@*(%^!(*&!@*&#^))
 function search(){
       var service = new google.maps.places.PlacesService(map);
       var getNextPage = null;
@@ -226,14 +213,11 @@ function search(){
 
 if (all) {
   createMarkers(results);
-}
-          
+}         
           //this console.log is super helpfull
           console.log(results);
-
-          
+        
           let userRating = $('#form-control');
-
 
          //___________________________BEGIN Loop_____________
 
@@ -259,7 +243,7 @@ if (all) {
               //alert(markerTitle)
               //buildStars();
                 
-                alert(redMarker.title)
+                alert(markers.title)
                 $("#title").html(redMarker.title);
                 $("#rating-small").html(buildRatingStarDisplayValue(markers.rate));
                 $("#review").html(markers.title);
@@ -270,16 +254,12 @@ if (all) {
               document.getElementById('street-view'), {
               position: redMarker.position,
 
-
                 });
 
             })
 
-                          //clickMarker()
-                 // console.log(geoRestaurantSelected + 'hey hey geo loc here')
-                  //console.log(markerRestaurantSelected + 'markerRestaurantSelected test')
-                  }
-            //displayRestaurantsList();
+                  } // END Function resultMarker
+
              
              if (all) {
               
@@ -374,7 +354,7 @@ if (all) {
                     three = true;
 
                     clearResults();
-                    deleteMarkersTry();
+                    //deleteMarkersTry();
                     deleteRedM();
                     search();
                     //clearMarkers();
@@ -393,9 +373,6 @@ if (all) {
                     restSort();
                     five = true;
                     clearResults();
-                    //markersArray.push(markerRestaurantSelected);
-                    //clearMarkers();
-                    //deleteMarkers();
                     deleteMarkersTry()
                     deleteRedM()
 
