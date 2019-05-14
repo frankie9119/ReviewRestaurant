@@ -16,9 +16,10 @@ let markerRestaurantSelected = [];
 let markers = [];
 let delMarker = [];
 let redMarker = [];
+let newPlace = [];
 
 
-//______________________________________________________________________BEGIN helper Functions (William code)
+
 
 
 
@@ -41,15 +42,30 @@ function buildRatingStarDisplayValue(numbVal) { // @ creates a string of "stars"
 
 console.log(buildRatingStarDisplayValue(3))
 
-
-
-//_____________________________________________________________________END helper functions (William code)
+// ============= DISPLAY RESTAURANT SORT BY LIST function =============================================
 
 function displayRestaurantsList() {
   let displayRestaurantsList = closeRestaurants.append("<li>" + resultRestaurantsLoop.name + resultRestaurantsLoop.rating + buildRatingStarDisplayValue(resultRestaurantsLoop.rating) + "</li>")
   return displayRestaurantsList
-}
+}// ============ END DISPLAY RESTAURANT SORT BY LIST function =======================================
 
+// _____________--------- when click on map PlaceMarker --------___________________________________
+      function placeMarkerAndPanTo(latLng, map) {
+        var newMarker = new google.maps.Marker({
+          position: latLng,
+          map: map
+        });
+        map.panTo(latLng);
+
+          newMarker.addListener('click', function() {
+
+            // Modal
+            $("#modal-add-rest").modal();
+            //======= street View ========
+            
+          })
+
+      }//_________ end - when click on map PlaceMarker_________________
 
 // ======================== BEGUIN initMap function =====================================
 
@@ -136,7 +152,7 @@ function initMap() {
 
             $("#title").html(markers.title);
             $("#rating-small").html(buildRatingStarDisplayValue(markers.rate));
-            $("#review").html(markers.title);
+            //$("#review").html(markers.title);
             // Modal
             $("#myModal").modal();
             //======= street View ========
@@ -154,6 +170,38 @@ function initMap() {
         }
         map.fitBounds(bounds);
       } //=========================== END FUNCTION createMarkers(places) ======================================
+
+      // ------_______ click on map to PlaceMarker ________----------
+        map.addListener('click', function(e) {
+          placeMarkerAndPanTo(e.latLng, map);
+        });// end click on map to PlaceMarker
+
+//_________ modal submit new restaurant
+document.getElementById("form-add-restaurant").addEventListener("submit", function (e) {
+                e.preventDefault();
+                
+                let name = document.getElementById('res-name');
+                let address = document.getElementById('res-address');                                
+                let rating = document.getElementById('res-rating');
+
+                let place = {
+                    name: name.value,
+                    vicinity: address.value,
+                    rating: rating.value,
+                    position: position,
+                    geometry: {location: position},
+                    reviews: '',
+
+                };
+                /*-----------------------------------------------------------------------------------
+                Pushes to array 
+                -------------------------------------------------------------------------------------*/
+                markers.push(place);
+                
+            });
+
+
+
 
 
 
@@ -180,47 +228,55 @@ function initMap() {
       }
       // ============_________ END Clear Results and Markers _____________=============
 
-
-
       // ============ BEGUIN SEARCH FUNCTION ******************* ===================================== ___________________----------------_________________ // @!#!$!@*(%^!(*&!@*&#^))
       function search() {
-        var service = new google.maps.places.PlacesService(map);
         var getNextPage = null;
+        service = new google.maps.places.PlacesService(map);
+
+/* TEST id places ===== not working =====
+function searchResult(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    // show first result on map and request for details
+    var placex = results[0];
+
+
+    service.getDetails({placeId: placex.place_id}, function(place, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        //let rating = document.querySelector('#rating');
+        let reviewEl = document.querySelector('.modal-body');
+        
+        //rating.innerHTML = place.rating;
+        
+        for (let review of place.reviews){
+          let li = document.createElement('li');
+          li.innerHTML = `<div>Author: ${review.author_name}</div>
+                          <em>${review.text}</em>
+                          <div>Rating: ${review.rating} star(s)</div>`;
+          reviewEl.appendChild(li);
+        }
+      }
+    });
+  }
+}
+     */   
+        
 
         // Perform a nearby search.
         service.nearbySearch({
             location: currentLocation,
-
             //alert(currentLocation);
-            radius: 5000,
+            radius: "5000",
             type: ['restaurant']
           },
 
           function(results, status, pagination) {
             if (status !== 'OK') return;
-            /*
-            // ==========_______ startning to try id ( get review from google places) ________ ===========
 
-                          service.getDetails({placeId: place.place_id}, function(place, status) {
-                  if (status == google.maps.places.PlacesServiceStatus.OK) {
-                    //let rating = document.querySelector('#rating');
-                    let reviewEl = document.querySelector('.modal-body');
-                    
-                    rating.innerHTML = place.rating;
-                    
-                    for (let review of place.reviews){
-                      let li = document.createElement('li');
-                      li.innerHTML = `<div>Author: ${review.author_name}</div>
-                                      <em>${review.text}</em>
-                                      <div>Rating: ${review.rating} star(s)</div>`;
-                      reviewEl.appendChild(li);
-                    }
-                  }
-                }); 
-            */
             if (all) {
               //markers - beach flags
               createMarkers(results);
+
+
             }
             //this console.log is super helpfull
             console.log(results);
@@ -254,7 +310,7 @@ function initMap() {
 
                   $("#title").html(redMarker.title);
                   $("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
-                  $("#review").html(markers.title);
+                  //$("#review").html(markers.title);
                   // Modal
                   $("#myModal").modal();
 

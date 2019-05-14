@@ -61,9 +61,40 @@
 
       </div>
     </div>
+    <!-- END Modal -->
 
 
+    <!-- Modal Add Restaurant-->
+    <div class="modal fade" id="modal-add-rest" role="dialog">
+      <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                  <form id="form-add-restaurant">
+                  <h3 class="add-res-heading">Add A Restaurant</h3>
+                    <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required/>
+                    <input type="text" name="res-address" id="res-address" placeholder="Restaurant Address" required/>
+                    <label for="res-rating">Rating: </label>
+                    <select name="res-rating" id="res-rating" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                    <button id="add-restaurant" class="button add-restaurant">Add New Restaurant</button>
+                    </form>
+          </div>
+          
+        </div>
+
+      </div>
+    </div>
+<!-- END Modal Add Restaurant-->
 
 
 

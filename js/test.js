@@ -243,6 +243,170 @@ function searchResult(results, status) {
 
 
 
+for (let i = 0; i < results.length; i++) {
+    markers[i] = new google.maps.Marker({
+        position: results[i].geometry.location,
+        placeId: results[i].id,
+        zIndex: 5,
+        id: googleRestaurantsArray[i].id
+    });
+    for (let i = 0; i < restaurantsArray.length; i++) {
+                            markers[googleRestaurantsArray.length + i] = new google.maps.Marker({
+                                position: restaurantsArray[i].geometry.location,
+                                placeId: restaurantsArray[i].id,
+                                zIndex: 5,
+                                id: restaurantsArray[i].id,
+                            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: {lat: -25.363882, lng: 131.044922 }
+        });
+
+        map.addListener('click', function(e) {
+          placeMarkerAndPanTo(e.latLng, map);
+        });
+      }
+
+      function placeMarkerAndPanTo(latLng, map) {
+        var marker = new google.maps.Marker({
+          position: latLng,
+          map: map
+        });
+        map.panTo(latLng);
+      }
+
+
+
+
+
+
+
+
+
+ /*-----------------------------------------------------------------------------------
+            Builds the new Restaurant info Window
+            -------------------------------------------------------------------------------------*/
+            function buildResDetailContent(marker) {
+                restaurantInfoDiv.style.display = "block";
+                form.style.padding = '10px';
+                form.innerHTML = `
+                    <h3 class="add-res-heading">Add A Restaurant</h3>
+                    <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required/>
+                    <input type="hidden" id="res-location-lat" name="res-location-lat" value="${marker.position.lat()}"/>
+                    <input type="hidden" id="res-location-lng" name="res-location-lng" value="${marker.position.lng()}"/>
+                    <input type="text" name="res-address" id="res-address" placeholder="Restaurant Address" required/>
+                    <label for="res-rating">Rating: </label>
+                    <select name="res-rating" id="res-rating" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    <input type="text" name="res-telephone" id="res-telephone" placeholder="Restaurant Telephone" />
+                    <input type="text" name="res-website" id="res-website" placeholder="Restaurant Website" />
+                    <button id="add-restaurant" class="button add-restaurant">Add New Restaurant</button>`;
+            }
+
+            document.getElementById("form-add-restaurant").addEventListener("submit", function (e) {
+                e.preventDefault();
+                form.style.padding = '';
+                let name = document.getElementById('res-name');
+                let address = document.getElementById('res-address');
+                let telephone = document.getElementById('res-telephone');
+                let website = document.getElementById('res-website');
+                let rating = document.getElementById('res-rating');
+                let locationLat = document.getElementById('res-location-lat');
+                let locationLng = document.getElementById('res-location-lng');
+
+                let position = new google.maps.LatLng(locationLat.value, locationLng.value);
+
+                let place = {
+                    name: name.value,
+                    vicinity: address.value,
+                    website: website.value,
+                    url: website.value,
+                    formatted_phone_number: telephone.value,
+                    rating: rating.value,
+                    position: position,
+                    geometry: {location: position},
+                    icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png',
+                    reviews: '',
+                    photos: '',
+
+                };
+                /*-----------------------------------------------------------------------------------
+                Pushes to array so that it knows which new restaurant to open when you add more than one
+                -------------------------------------------------------------------------------------*/
+                newPlace.push(place);
+                closeInfoWindowNew();
+                let marker = newRestaurantMarker[newResNum];
+                restaurantIsNew = false;
+                infoWindow.open(map, marker);
+                buildIWContent(place);
+                displayRestaurantInfo(place);
+
+            });
+
+            /*-----------------------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       
