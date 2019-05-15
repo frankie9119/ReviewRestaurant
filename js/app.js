@@ -1,4 +1,4 @@
-var map, infoWindow, resultRestaurantsLoop, service, place;
+var map, infoWindow, resultRestaurantsLoop, service, place, newPlace, newMarker;
 
 let all = true;
 let one = false;
@@ -47,22 +47,12 @@ console.log(buildRatingStarDisplayValue(3))
 function displayRestaurantsList() {
   let displayRestaurantsList = closeRestaurants.append("<li>" + resultRestaurantsLoop.name + resultRestaurantsLoop.rating + buildRatingStarDisplayValue(resultRestaurantsLoop.rating) + "</li>")
   return displayRestaurantsList
-}// ============ END DISPLAY RESTAURANT SORT BY LIST function =======================================
+} // ============ END DISPLAY RESTAURANT SORT BY LIST function =======================================
 
 // _____________--------- when click on map PlaceMarker --------___________________________________
-      function placeMarkerAndPanTo(latLng, map) {
-        var newMarker = new google.maps.Marker({
-          position: latLng,
-          map: map
-        });
-        map.panTo(latLng);
 
-        // Modal
-        $("#modal-add-rest").modal();
-                       
-          }
 
-      //_________ end - when click on map PlaceMarker_________________
+//_________ end - when click on map PlaceMarker_________________
 
 // ======================== BEGUIN initMap function =====================================
 
@@ -168,36 +158,59 @@ function initMap() {
         map.fitBounds(bounds);
       } //=========================== END FUNCTION createMarkers(places) ======================================
 
+
+      /*---------------------------------------------------------------------------------------------------------
+                             ADD NEW RESTAURANT CLICK * TO BE FINISHED *
+      ---------------------------------------------------------------------------------------------------------*/
       // ------_______ click on map to PlaceMarker ________----------
-        map.addListener('click', function(e) {
-          placeMarkerAndPanTo(e.latLng, map);
-        });// end click on map to PlaceMarker
+      map.addListener('rightclick', function(e) {
+        placeMarkerAndPanTo(e.latLng, map);
+      }); // end click on map to PlaceMarker
 
-//_________ modal submit new restaurant
-document.getElementById("form-add-restaurant").addEventListener("submit", function (e) {
-                
+      //_________ modal submit new restaurant
+      function placeMarkerAndPanTo(latLng, map) {
+        var newMarker = new google.maps.Marker({
+          position: latLng,
+          map: map
+        });
+        map.panTo(latLng);
 
-                let name = document.getElementById('res-name');
-                let address = document.getElementById('res-address');                                
-                let rating = document.getElementById('res-rating');
+        newMarker.addListener('click', function() {
+
+          $("#title").html(newRestaurant.name);
+          $("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
+          //$("#review").html(markers.title);
+          // Modal
+          $("#myModal").modal();
+
+        })
+        alert(newMarker.position)
+
+        // Modal
+        $("#modal-add-rest").modal();
+
+        $("#add-restaurant").click(function() {
+
+          let name = document.getElementById('res-name');
+          let address = document.getElementById('res-address');
+          let rating = document.getElementById('res-rating');
 
 
-                let newPlace = {
-                    name: name.value,
-                    vicinity: address.value,
-                    rating: rating.value,
-                    position: position,
+          let newPlace = {
+            name: name.value,
+            rating: rating.value,
+            position: newMarker.position,
 
-                };
-                /*-----------------------------------------------------------------------------------
-                Pushes to array 
-                -------------------------------------------------------------------------------------*/
-                newRestaurant.push(newPlace);
+          };
 
-                //search();
-                
-            });
+          newRestaurant.push(newPlace);
 
+        });
+
+      }
+      /*---------------------------------------------------------------------------------------------------------
+                         END    ADD NEW RESTAURANT CLICK * TO BE FINISHED *.    END
+      ---------------------------------------------------------------------------------------------------------*/
 
 
 
@@ -218,7 +231,7 @@ document.getElementById("form-add-restaurant").addEventListener("submit", functi
         }
       }
 
-      
+
       // ============_________ END Clear Results and Markers _____________=============
 
       // ============ BEGUIN SEARCH FUNCTION ******************* ===================================== ___________________----------------_________________ // @!#!$!@*(%^!(*&!@*&#^))
@@ -226,33 +239,33 @@ document.getElementById("form-add-restaurant").addEventListener("submit", functi
         var getNextPage = null;
         service = new google.maps.places.PlacesService(map);
 
-/* TEST id places ===== not working =====
-function searchResult(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    // show first result on map and request for details
-    var placex = results[0];
+        /* TEST id places ===== not working =====
+        function searchResult(results, status) {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            // show first result on map and request for details
+            var placex = results[0];
 
 
-    service.getDetails({placeId: placex.place_id}, function(place, status) {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        //let rating = document.querySelector('#rating');
-        let reviewEl = document.querySelector('.modal-body');
-        
-        //rating.innerHTML = place.rating;
-        
-        for (let review of place.reviews){
-          let li = document.createElement('li');
-          li.innerHTML = `<div>Author: ${review.author_name}</div>
-                          <em>${review.text}</em>
-                          <div>Rating: ${review.rating} star(s)</div>`;
-          reviewEl.appendChild(li);
+            service.getDetails({placeId: placex.place_id}, function(place, status) {
+              if (status == google.maps.places.PlacesServiceStatus.OK) {
+                //let rating = document.querySelector('#rating');
+                let reviewEl = document.querySelector('.modal-body');
+                
+                //rating.innerHTML = place.rating;
+                
+                for (let review of place.reviews){
+                  let li = document.createElement('li');
+                  li.innerHTML = `<div>Author: ${review.author_name}</div>
+                                  <em>${review.text}</em>
+                                  <div>Rating: ${review.rating} star(s)</div>`;
+                  reviewEl.appendChild(li);
+                }
+              }
+            });
+          }
         }
-      }
-    });
-  }
-}
-     */   
-        
+             */
+
 
         // Perform a nearby search.
         service.nearbySearch({
