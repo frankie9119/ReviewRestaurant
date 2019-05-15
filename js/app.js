@@ -16,7 +16,7 @@ let markerRestaurantSelected = [];
 let markers = [];
 let delMarker = [];
 let redMarker = [];
-let newPlace = [];
+let newRestaurant = [];
 
 
 
@@ -57,15 +57,12 @@ function displayRestaurantsList() {
         });
         map.panTo(latLng);
 
-          newMarker.addListener('click', function() {
+        // Modal
+        $("#modal-add-rest").modal();
+                       
+          }
 
-            // Modal
-            $("#modal-add-rest").modal();
-            //======= street View ========
-            
-          })
-
-      }//_________ end - when click on map PlaceMarker_________________
+      //_________ end - when click on map PlaceMarker_________________
 
 // ======================== BEGUIN initMap function =====================================
 
@@ -178,25 +175,26 @@ function initMap() {
 
 //_________ modal submit new restaurant
 document.getElementById("form-add-restaurant").addEventListener("submit", function (e) {
-                e.preventDefault();
                 
+
                 let name = document.getElementById('res-name');
                 let address = document.getElementById('res-address');                                
                 let rating = document.getElementById('res-rating');
 
-                let place = {
+
+                let newPlace = {
                     name: name.value,
                     vicinity: address.value,
                     rating: rating.value,
                     position: position,
-                    geometry: {location: position},
-                    reviews: '',
 
                 };
                 /*-----------------------------------------------------------------------------------
                 Pushes to array 
                 -------------------------------------------------------------------------------------*/
-                markers.push(place);
+                newRestaurant.push(newPlace);
+
+                //search();
                 
             });
 
@@ -211,21 +209,16 @@ document.getElementById("form-add-restaurant").addEventListener("submit", functi
         while (results.childNodes[0]) {
           results.removeChild(results.childNodes[0]);
         }
-      }
-
-      function deleteMarkersTry() {
-        //alert('dmt')
         for (let i = 0; i < delMarker.length; i++) {
           if (delMarker[i].getMap() != null) delMarker[i].setMap(null);
         }
-      }
-
-      function deleteRedM() {
         for (let j = 0; j < markerRestaurantSelected.length; j++) {
           //alert('dmt+redmarkers')
           if (markerRestaurantSelected[j].getMap() != null) markerRestaurantSelected[j].setMap(null);
         }
       }
+
+      
       // ============_________ END Clear Results and Markers _____________=============
 
       // ============ BEGUIN SEARCH FUNCTION ******************* ===================================== ___________________----------------_________________ // @!#!$!@*(%^!(*&!@*&#^))
@@ -378,43 +371,32 @@ function searchResult(results, status) {
           restSort();
           all = true;
           clearResults();
-          deleteMarkersTry()
           search();
 
         } else if (getValue.value === 'one') {
           restSort();
           one = true;
           clearResults();
-          deleteMarkersTry()
-          deleteRedM()
           search();
         } else if (getValue.value === 'two') {
           restSort();
           two = true;
           clearResults();
-          deleteMarkersTry()
-          deleteRedM()
           search();
         } else if (getValue.value === 'three') {
           restSort();
           three = true;
           clearResults(); // clear sort by list
-          deleteMarkersTry(); // clear beach flag markers
-          deleteRedM(); // clear red flags
           search(); // search again
         } else if (getValue.value === 'four') {
           restSort();
           four = true;
           clearResults();
-          deleteMarkersTry()
-          deleteRedM()
           search();
         } else if (getValue.value === 'five') {
           restSort();
           five = true;
           clearResults();
-          deleteMarkersTry()
-          deleteRedM()
           search();
         }
 
