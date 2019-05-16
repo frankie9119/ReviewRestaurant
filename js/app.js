@@ -33,7 +33,6 @@ function buildRatingStarDisplayValue(numbVal) { // @ creates a string of "stars"
       } else {
         ratingHTML += '&#10029;';
       }
-
     }
   }
 
@@ -171,14 +170,15 @@ function initMap() {
       function placeMarkerAndPanTo(latLng, map) {
         var newMarker = new google.maps.Marker({
           position: latLng,
-          map: map
+          map: map,
+          //name: 'Bob',
         });
         map.panTo(latLng);
 
         newMarker.addListener('click', function() {
 
-          $("#title").html(newRestaurant.name);
-          $("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
+          $("#title").html(newMarker.name);
+          $("#rating-small").html(buildRatingStarDisplayValue(newRestaurant.rate));
           //$("#review").html(markers.title);
           // Modal
           $("#myModal").modal();
