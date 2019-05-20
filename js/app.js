@@ -31,6 +31,7 @@ let resultRestaurantsLoop = [];
 let form = $('#form-add-restaurant');
 let restaurantIsNew = true;
 let newRestPlace = [];
+let placesResults = [];
 
 //__________________________________________END william code
 
@@ -60,17 +61,13 @@ console.log(buildRatingStarDisplayValue(3))
 
 function displayRestaurantsList() {
     let displayRestaurantsList = closeRestaurants.append("<li>" + resultRestaurantsLoop.name + resultRestaurantsLoop.rating + buildRatingStarDisplayValue(resultRestaurantsLoop.rating) + "</li>")
-    return displayRestaurantsList
+    let addDisplayRestToList = closeRestaurants.append("<li>" + newRestPlace.name + newRestPlace.rating + buildRatingStarDisplayValue(newRestPlace.rating) +"</li>")
+    return displayRestaurantsList, addDisplayRestToList
 } 
 
-function addDisplayRestToList(){
-  let addDisplayRestToList = closeRestaurants.append("<li>" + newRestPlace.name + newRestPlace.rating + buildRatingStarDisplayValue(newRestPlace.rating) +"</li>")
-}// ============ END DISPLAY RESTAURANT SORT BY LIST function =======================================
-
-// _____________--------- when click on map PlaceMarker --------___________________________________
+// ============ END DISPLAY RESTAURANT SORT BY LIST function =======================================
 
 
-//_________ end - when click on map PlaceMarker_________________
 
 // ======================== BEGUIN initMap function =====================================
 
@@ -138,7 +135,7 @@ function initMap() {
 
             currentLocation = pos;
 
-            //__________________________BEGUIN markers Restaurants
+            //__________________________BEGUIN markers Restaurants BEACH FLAG
 
             function createMarkers(places) {
                 var bounds = new google.maps.LatLngBounds();
@@ -223,24 +220,29 @@ function initMap() {
                       position: data.latLng,
                       map: map
                     });
+                    markerRestaurantSelected.push(newMarker)
                 //}
 
 
 
                /*-----------------------------------------------------------------------------------
-            Builds the new Restaurant info Window
+            Builds the new Restaurant Content
             -------------------------------------------------------------------------------------*/
             function buildResDetailContent(marker) {
-              alert('restaurantInfoDiv')
+              //alert('restaurantInfoDiv')
+
               if (restaurantIsNew){
-                alert('new restaurant')
+
+                //alert('new restaurant')
                 $("#modal-add-rest").modal();
+
               }else{
+
                 $("#titleNewRest").html(newRestPlace.name);
-                //$("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
+                $("#rating-small-new-rest").html(buildRatingStarDisplayValue(newRestPlace.rating));
                 $("#modalNewRest").modal();
 
-                alert('modalNewRest') 
+                //alert('new rest form') 
               }
 
             } 
@@ -251,8 +253,6 @@ function initMap() {
 
 
             document.getElementById("add-restaurant").addEventListener("click", function (e) {
-              alert('btn')
-                e.preventDefault();
 
                 let name = document.getElementById('res-name');
                 let address = document.getElementById('res-address');
@@ -263,31 +263,26 @@ function initMap() {
                     name: name.value,
                     address: address.value,
                     rating: rating.value,
-                    position: data.latLng,
+                    geometry: {location: data.latLng},
                     icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png',
                     reviews: '',
 
                 };
                 /*-----------------------------------------------------------------------------------
-                Pushes to array so that it knows which new restaurant to open when you add more than one
+                Reset restaurantIsNew to false - displayRestaurantList
                 -------------------------------------------------------------------------------------*/
 
-                      userCreatedMarkers.push(newRestPlace);
-                      //console.log('userCreatedMarkers' + '  ' + newRestPlace.name)
                       restaurantIsNew = false;
-                      //resultRestaurantsLoop.push(userCreatedMarkers)
-                      addDisplayRestToList();
+                      displayRestaurantsList();
                     
                 
 
             });
 
-            }
+            } 
             /*---------------------------------------------------------------------------------------------------------
                                END    ADD NEW RESTAURANT CLICK * TO BE FINISHED *.    END
             ---------------------------------------------------------------------------------------------------------*/
-
-
 
 
 
@@ -314,33 +309,6 @@ function initMap() {
                 var getNextPage = null;
                 service = new google.maps.places.PlacesService(map);
 
-                /* TEST id places ===== not working =====
-                function searchResult(results, status) {
-                  if (status == google.maps.places.PlacesServiceStatus.OK) {
-                    // show first result on map and request for details
-                    var placex = results[0];
-
-
-                    service.getDetails({placeId: placex.place_id}, function(place, status) {
-                      if (status == google.maps.places.PlacesServiceStatus.OK) {
-                        //let rating = document.querySelector('#rating');
-                        let reviewEl = document.querySelector('.modal-body');
-                        
-                        //rating.innerHTML = place.rating;
-                        
-                        for (let review of place.reviews){
-                          let li = document.createElement('li');
-                          li.innerHTML = `<div>Author: ${review.author_name}</div>
-                                          <em>${review.text}</em>
-                                          <div>Rating: ${review.rating} star(s)</div>`;
-                          reviewEl.appendChild(li);
-                        }
-                      }
-                    });
-                  }
-                }
-                     */
-
 
                 // Perform a nearby search.
                 service.nearbySearch({
@@ -351,38 +319,49 @@ function initMap() {
                     },
 
                     function(results, status, pagination) {
+
+
                         if (status !== 'OK') return;
-
-                        if (all) {
-                            //markers - beach flags
-                            createMarkers(results);
-
-
-                        }
                         //this console.log is super helpfull
                         console.log(results);
+
+                        placesResults = results
+
+                        console.log(placesResults + ' NEW RESULTS HERE ' )
+
+                        if (all) {
+
+                            //markers - beach flags
+//---------------------------------------------------------------------------------------------------------------------------------
+                            // HERE I THINK I SHOULD CHANGE SOMETHING. I DONT WANT JUST THE FLAG BEACH
+                            // BUT THE NEW RESTAURANT RED FLAT TOO
+//---------------------------------------------------------------------------------------------------------------------------------
+
+                            createMarkers(placesResults);
+                            console.log('WE ' + placesResults)
+
+                        }
+
 
                         let userRating = $('#form-control');
 
                         //___________________________BEGIN Loop_____________
+                        placesResults.push(newRestPlace);
 
-                        for (let i = 0; i < results.length; i += 1) {
+                        for (let i = 0; i < placesResults.length; i += 1) {
 
-                            placeRed = results[i]
-
-                            resultRestaurantsLoop = results[i]
+                            resultRestaurantsLoop = placesResults[i]
 
                             // ============ ____________ BEGUIN resultMarker ___________ ==============
 
                             // this function displays the red flags ( sort by rating section )
-
                             function resultMarker() {
                                 // creating red markers from selected rating SORTING BY 
                                 let redMarker = new google.maps.Marker({
                                     position: geoRestaurantSelected,
                                     map: map,
-                                    title: placeRed.name,
-                                    rate: placeRed.rating,
+                                    title: resultRestaurantsLoop.name,
+                                    rate: resultRestaurantsLoop.rating,
                                 });
 
                                 markerRestaurantSelected.push(redMarker)
@@ -391,8 +370,7 @@ function initMap() {
 
                                     $("#title").html(redMarker.title);
                                     $("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
-                                    //$("#review").html(markers.title);
-                                    // Modal
+                                    //MODAL
                                     $("#myModal").modal();
 
                                     //======= street View ========
@@ -407,41 +385,41 @@ function initMap() {
 
                             if (all) {
 
-                                if (results[i].rating >= 0) {
+                                if (resultRestaurantsLoop.rating >= 0 && resultRestaurantsLoop.rating <= 5) {
                                     console.log('all')
                                     displayRestaurantsList()
                                 }
                             } else if (one) {
-                                if (results[i].rating >= 1 && results[i].rating < 2) {
+                                if (resultRestaurantsLoop.rating >= 1 && resultRestaurantsLoop.rating < 2) {
                                     displayRestaurantsList()
-                                    geoRestaurantSelected = (results[i].geometry.location)
+                                    geoRestaurantSelected = (resultRestaurantsLoop.geometry.location)
                                     resultMarker()
                                 }
                             } else if (two) {
-                                if (results[i].rating >= 2 && results[i].rating < 3) {
-                                    displayRestaurantsList()
-                                    geoRestaurantSelected = (results[i].geometry.location)
+                                if (resultRestaurantsLoop.rating >= 2 && resultRestaurantsLoop.rating < 3) {
+                                    displayRestaurantsList()                                 
+                                    geoRestaurantSelected = (resultRestaurantsLoop.geometry.location)
                                     resultMarker()
                                 }
                             } else if (three === true) {
 
-                                if (results[i].rating >= 3 && results[i].rating < 4) {
-                                    displayRestaurantsList()
-                                    geoRestaurantSelected = (results[i].geometry.location)
+                                if (resultRestaurantsLoop.rating >= 3 && resultRestaurantsLoop.rating < 4) {
+                                    displayRestaurantsList()                                 
+                                    geoRestaurantSelected = (resultRestaurantsLoop.geometry.location)
                                     resultMarker()
                                 }
                             } else if (four === true) {
 
-                                if (results[i].rating >= 4 && results[i].rating < 5) {
-                                    displayRestaurantsList()
-                                    geoRestaurantSelected = (results[i].geometry.location)
+                                if (resultRestaurantsLoop.rating >= 4 && resultRestaurantsLoop.rating < 5) {
+                                    displayRestaurantsList()                                  
+                                    geoRestaurantSelected = (resultRestaurantsLoop.geometry.location)
                                     resultMarker()
                                 }
                             } else if (five) {
 
-                                if (results[i].rating >= 5) {
-                                    console.log('three')
+                                if (resultRestaurantsLoop.rating >= 5) {
                                     displayRestaurantsList()
+                                 
                                 }
                             }
                         }
