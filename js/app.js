@@ -1,6 +1,6 @@
 var map, 
 infoWindow, 
-resultRestaurantsLoop, 
+
 service, place, newPlace, newMarker, infoWindowNew;
 
 let all = true;
@@ -26,6 +26,7 @@ let restaurantInfoDiv = document.getElementById('form-add-restaurant');
 //__________________________________________BEGIN william code
 
 let userCreatedMarkers = [];
+let resultRestaurantsLoop = [];
 
 let form = $('#form-add-restaurant');
 let restaurantIsNew = true;
@@ -60,7 +61,11 @@ console.log(buildRatingStarDisplayValue(3))
 function displayRestaurantsList() {
     let displayRestaurantsList = closeRestaurants.append("<li>" + resultRestaurantsLoop.name + resultRestaurantsLoop.rating + buildRatingStarDisplayValue(resultRestaurantsLoop.rating) + "</li>")
     return displayRestaurantsList
-} // ============ END DISPLAY RESTAURANT SORT BY LIST function =======================================
+} 
+
+function addDisplayRestToList(){
+  let addDisplayRestToList = closeRestaurants.append("<li>" + newRestPlace.name + newRestPlace.rating + buildRatingStarDisplayValue(newRestPlace.rating) +"</li>")
+}// ============ END DISPLAY RESTAURANT SORT BY LIST function =======================================
 
 // _____________--------- when click on map PlaceMarker --------___________________________________
 
@@ -198,13 +203,11 @@ function initMap() {
             }); // end click on map to PlaceMarker
 
             //_________ modal submit new restaurant
-            infoWindowNew = new google.maps.InfoWindow({
-                content: document.getElementById('info-content-new-restaurant'),
-            });
+
             function placeMarkerAndPanTo(data, map) {
 
-              userCreatedMarkers.push({name:"",position: data.latLng, lat: data.latLng.lat(),lng: data.latLng.lng(), })
-              console.log(userCreatedMarkers)
+              //userCreatedMarkers.push({name:"",position: data.latLng, lat: data.latLng.lat(),lng: data.latLng.lng(), })
+              //console.log(userCreatedMarkers)
 
 
 
@@ -214,20 +217,15 @@ function initMap() {
                 // });
 
 
-                for(let i = 0; i < userCreatedMarkers.length; i+=1){
+                //for(let i = 0; i < userCreatedMarkers.length; i+=1){
 
                     var newMarker = new google.maps.Marker({
                       position: data.latLng,
                       map: map
                     });
+                //}
 
 
-                }
-                newMarker.addListener('click', function() {
-
-                  buildResDetailContent(newMarker)
-
-                })
 
                /*-----------------------------------------------------------------------------------
             Builds the new Restaurant info Window
@@ -238,7 +236,7 @@ function initMap() {
                 alert('new restaurant')
                 $("#modal-add-rest").modal();
               }else{
-                $("#titleNewRest").html(newRestPlace.name + ' ' + ' HEHEHE ');
+                $("#titleNewRest").html(newRestPlace.name);
                 //$("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
                 $("#modalNewRest").modal();
 
@@ -247,6 +245,9 @@ function initMap() {
 
             } 
 
+                newMarker.addListener('click', function() {
+                  buildResDetailContent(newMarker)
+                })
 
 
             document.getElementById("add-restaurant").addEventListener("click", function (e) {
@@ -255,26 +256,16 @@ function initMap() {
 
                 let name = document.getElementById('res-name');
                 let address = document.getElementById('res-address');
-                //let telephone = document.getElementById('res-telephone');
-                //let website = document.getElementById('res-website');
                 let rating = document.getElementById('res-rating');
-                //let locationLat = document.getElementById('res-location-lat');
-                //let locationLng = document.getElementById('res-location-lng');
 
-                //let position = new google.maps.LatLng(locationLat.value, locationLng.value);
 
                  newRestPlace = {
                     name: name.value,
-                    vicinity: address.value,
-                    //website: website.value,
-                    //url: website.value,
-                    //formatted_phone_number: telephone.value,
+                    address: address.value,
                     rating: rating.value,
                     position: data.latLng,
-                    //geometry: {location: position},
                     icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png',
                     reviews: '',
-                    //photos: '',
 
                 };
                 /*-----------------------------------------------------------------------------------
@@ -282,52 +273,14 @@ function initMap() {
                 -------------------------------------------------------------------------------------*/
 
                       userCreatedMarkers.push(newRestPlace);
-                      console.log('userCreatedMarkers' + '  ' + newRestPlace.name)
+                      //console.log('userCreatedMarkers' + '  ' + newRestPlace.name)
                       restaurantIsNew = false;
+                      //resultRestaurantsLoop.push(userCreatedMarkers)
+                      addDisplayRestToList();
                     
                 
-                //closeInfoWindowNew();
-                //let marker = newRestaurantMarker[newResNum];
-                //restaurantIsNew = false;
-                //infoWindow.open(map, marker);
-                //buildIWContent(place);
-                //displayRestaurantInfo(place);
 
             });
-
-            /*-----------------------------------------------------------------------------------*/
-
-                // newMarker.addListener('click', function() {
-
-                //     $("#title").html(newRestaurant.name);
-                //     $("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
-                //     //$("#review").html(markers.title);
-                //     // Modal
-                //     $("#myModal").modal();
-
-                // })
-                // alert(newMarker.position)
-
-                // // Modal
-                // $("#modal-add-rest").modal();
-
-                // $("#add-restaurant").click(function() {
-
-                //     let name = document.getElementById('res-name');
-                //     let address = document.getElementById('res-address');
-                //     let rating = document.getElementById('res-rating');
-
-
-                //     let newPlace = {
-                //         name: name.value,
-                //         rating: rating.value,
-                //         position: newMarker.position,
-
-                //     };
-
-                //     newRestaurant.push(newPlace);
-
-                // });
 
             }
             /*---------------------------------------------------------------------------------------------------------
