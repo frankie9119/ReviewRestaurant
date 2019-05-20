@@ -1,7 +1,7 @@
 var map, 
 infoWindow, 
 resultRestaurantsLoop, 
-service, place, newPlace, newMarker;
+service, place, newPlace, newMarker, infoWindowNew;
 
 let all = true;
 let one = false;
@@ -26,6 +26,10 @@ let restaurantInfoDiv = document.getElementById('form-add-restaurant');
 //__________________________________________BEGIN william code
 
 let userCreatedMarkers = [];
+
+let form = $('#form-add-restaurant');
+let restaurantIsNew = true;
+let newRestPlace = [];
 
 //__________________________________________END william code
 
@@ -190,9 +194,13 @@ function initMap() {
             // ------_______ click on map to PlaceMarker ________----------
             map.addListener('rightclick', function(e) {
                 placeMarkerAndPanTo(e, map);
+                restaurantIsNew = true;
             }); // end click on map to PlaceMarker
 
             //_________ modal submit new restaurant
+            infoWindowNew = new google.maps.InfoWindow({
+                content: document.getElementById('info-content-new-restaurant'),
+            });
             function placeMarkerAndPanTo(data, map) {
 
               userCreatedMarkers.push({name:"",position: data.latLng, lat: data.latLng.lat(),lng: data.latLng.lng(), })
@@ -217,7 +225,8 @@ function initMap() {
                 }
                 newMarker.addListener('click', function() {
 
-buildResDetailContent(newMarker)
+                  buildResDetailContent(newMarker)
+
                 })
 
                /*-----------------------------------------------------------------------------------
@@ -225,64 +234,64 @@ buildResDetailContent(newMarker)
             -------------------------------------------------------------------------------------*/
             function buildResDetailContent(marker) {
               alert('restaurantInfoDiv')
-                restaurantInfoDiv.style.display = "block";
-                restaurantInfoDiv.style.padding = '10px';
-                restaurantInfoDiv.innerHTML = `
-                    <h3 class="add-res-heading">Add A Restaurant</h3>
-                    <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required/>
-                    <input type="hidden" id="res-location-lat" name="res-location-lat" value="${marker.position.lat()}"/>
-                    <input type="hidden" id="res-location-lng" name="res-location-lng" value="${marker.position.lng()}"/>
-                    <input type="text" name="res-address" id="res-address" placeholder="Restaurant Address" required/>
-                    <label for="res-rating">Rating: </label>
-                    <select name="res-rating" id="res-rating" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    <input type="text" name="res-telephone" id="res-telephone" placeholder="Restaurant Telephone" />
-                    <input type="text" name="res-website" id="res-website" placeholder="Restaurant Website" />
-                    <button id="add-restaurant" class="button add-restaurant">Add New Restaurant</button>`;
+              if (restaurantIsNew){
+                alert('new restaurant')
+                $("#modal-add-rest").modal();
+              }else{
+                $("#titleNewRest").html(newRestPlace.name + ' ' + ' HEHEHE ');
+                //$("#rating-small").html(buildRatingStarDisplayValue(redMarker.rate));
+                $("#modalNewRest").modal();
+
+                alert('modalNewRest') 
+              }
+
             } 
 
-            document.getElementById("form-add-restaurant").addEventListener("submit", function (e) {
+
+
+            document.getElementById("add-restaurant").addEventListener("click", function (e) {
+              alert('btn')
                 e.preventDefault();
-                form.style.padding = '';
+
                 let name = document.getElementById('res-name');
                 let address = document.getElementById('res-address');
-                let telephone = document.getElementById('res-telephone');
-                let website = document.getElementById('res-website');
+                //let telephone = document.getElementById('res-telephone');
+                //let website = document.getElementById('res-website');
                 let rating = document.getElementById('res-rating');
-                let locationLat = document.getElementById('res-location-lat');
-                let locationLng = document.getElementById('res-location-lng');
+                //let locationLat = document.getElementById('res-location-lat');
+                //let locationLng = document.getElementById('res-location-lng');
 
-                let position = new google.maps.LatLng(locationLat.value, locationLng.value);
+                //let position = new google.maps.LatLng(locationLat.value, locationLng.value);
 
-                let place = {
+                 newRestPlace = {
                     name: name.value,
                     vicinity: address.value,
-                    website: website.value,
-                    url: website.value,
-                    formatted_phone_number: telephone.value,
+                    //website: website.value,
+                    //url: website.value,
+                    //formatted_phone_number: telephone.value,
                     rating: rating.value,
-                    position: position,
-                    geometry: {location: position},
+                    position: data.latLng,
+                    //geometry: {location: position},
                     icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png',
                     reviews: '',
-                    photos: '',
+                    //photos: '',
 
                 };
                 /*-----------------------------------------------------------------------------------
                 Pushes to array so that it knows which new restaurant to open when you add more than one
                 -------------------------------------------------------------------------------------*/
-                newPlace.push(place);
-                closeInfoWindowNew();
-                let marker = newRestaurantMarker[newResNum];
-                restaurantIsNew = false;
-                infoWindow.open(map, marker);
-                buildIWContent(place);
-                displayRestaurantInfo(place);
+
+                      userCreatedMarkers.push(newRestPlace);
+                      console.log('userCreatedMarkers' + '  ' + newRestPlace.name)
+                      restaurantIsNew = false;
+                    
+                
+                //closeInfoWindowNew();
+                //let marker = newRestaurantMarker[newResNum];
+                //restaurantIsNew = false;
+                //infoWindow.open(map, marker);
+                //buildIWContent(place);
+                //displayRestaurantInfo(place);
 
             });
 
