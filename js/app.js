@@ -61,10 +61,13 @@ console.log(buildRatingStarDisplayValue(3))
 
 function displayRestaurantsList() {
     let displayRestaurantsList = closeRestaurants.append("<li>" + resultRestaurantsLoop.name + resultRestaurantsLoop.rating + buildRatingStarDisplayValue(resultRestaurantsLoop.rating) + "</li>")
-    let addDisplayRestToList = closeRestaurants.append("<li>" + newRestPlace.name + newRestPlace.rating + buildRatingStarDisplayValue(newRestPlace.rating) +"</li>")
-    return displayRestaurantsList, addDisplayRestToList
+    //let addDisplayRestToList = addNewRestaurantList.append("<li>" + newRestPlace.name + newRestPlace.rating + buildRatingStarDisplayValue(newRestPlace.rating) +"</li>")
+    return displayRestaurantsList//, addDisplayRestToList
 } 
 
+function addNewRestaurantList(){
+  let displayRestaurantsList = closeRestaurants.append("<li>" + newRestPlace.name + newRestPlace.rating + buildRatingStarDisplayValue(newRestPlace.rating) + "</li>")
+}
 // ============ END DISPLAY RESTAURANT SORT BY LIST function =======================================
 
 
@@ -89,6 +92,7 @@ function initMap() {
 
     //__________________________________________________BEGIN william code
 
+    //----- When click on map console.log lat & lng ---
     map.addListener('click', function(e) {
         console.log(e.latLng.lat())
         console.log(e.latLng.lng())
@@ -154,9 +158,6 @@ function initMap() {
 
                     }); // _______________ END place markers on map
 
-                    markerRate = markers.rate
-                    markerTitle = markers.title
-                    markerReview = markers.review
 
                     delMarker.push(markers)
 
@@ -273,7 +274,8 @@ function initMap() {
                 -------------------------------------------------------------------------------------*/
 
                       restaurantIsNew = false;
-                      displayRestaurantsList();
+                      addNewRestaurantList();
+                      //displayRestaurantsList();
                     
                 
 
@@ -326,6 +328,7 @@ function initMap() {
                         console.log(results);
 
                         placesResults = results
+                        
 
                         console.log(placesResults + ' NEW RESULTS HERE ' )
 
@@ -336,9 +339,10 @@ function initMap() {
                             // HERE I THINK I SHOULD CHANGE SOMETHING. I DONT WANT JUST THE FLAG BEACH
                             // BUT THE NEW RESTAURANT RED FLAT TOO
 //---------------------------------------------------------------------------------------------------------------------------------
-
+                            
                             createMarkers(placesResults);
-                            console.log('WE ' + placesResults)
+                            //createMarkers(newRestPlace);
+                            console.log(placesResults);
 
                         }
 
@@ -417,7 +421,7 @@ function initMap() {
                                 }
                             } else if (five) {
 
-                                if (resultRestaurantsLoop.rating >= 5) {
+                                if (resultRestaurantsLoop.rating > 5) {
                                     displayRestaurantsList()
                                  
                                 }

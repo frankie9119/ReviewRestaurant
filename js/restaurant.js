@@ -49,6 +49,11 @@ let restaurants = [{
   }
 ]
 
+
+
+
+/*
+
 function averageRestaurantReview(arrRatingsData) {
 
   let total = 0;
@@ -71,7 +76,7 @@ $('.restaurant_1').html(restaurants[0].name+' - '+'Rating: '+averageRestaurantRe
 $('.restaurant_2').html(restaurants[1].name+' - '+'Rating: '+averageRestaurantReview(restaurants[1].ratings));
 
 
-
+*/
 
 
 
