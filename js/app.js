@@ -34,6 +34,7 @@ let newRestPlace = [];
 let placesResults = [];
 let newPlaceX = [];
 let plaxRed = [];
+let allRestaurants = [];
 
 //__________________________________________END william code
 
@@ -148,6 +149,8 @@ function initMap() {
         for (var i = 0; i < places.length; i++) {
 
           place = places[i]
+          allRestaurants.push(place)
+          //console.log(place)
           //________________ BEGUIN place markers on map
           let markers = new google.maps.Marker({
             map: map,
@@ -160,6 +163,7 @@ function initMap() {
 
 
           delMarker.push(markers)
+          //console.log(delMarker)
 
           //==============FUNCTION MARKER  =================================================
           //(function(marker) {
@@ -330,7 +334,9 @@ function initMap() {
             /* =======================================================================================================
                                 SERVICE - GET REVIEWS FROM GOOGLE - PLACE.ID
             ==========================================================================================================*/
+            
             let place = results[0];
+            console.log(place)
 
             service.getDetails({
               placeId: place.place_id
@@ -398,10 +404,12 @@ function initMap() {
                   //MODAL
                   $("#myModal").modal();
 
+
                   //======= street View ========
                   var panorama2 = new google.maps.StreetViewPanorama(
                     document.getElementById('street-view'), {
                       position: redMarker.position,
+
 
                     });
                 })
@@ -411,7 +419,7 @@ function initMap() {
               if (all) {
 
                 if (resultRestaurantsLoop.rating >= 0 && resultRestaurantsLoop.rating <= 5) {
-                  console.log(resultRestaurantsLoop)
+                  console.log('all')
                   displayRestaurantsList()
                 }
               } else if (one) {
