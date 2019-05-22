@@ -30,51 +30,42 @@ let restaurants = [{
   }
 ]
 
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 
 
-// Francesco, I have added comments below______________________________
-function initMap(){
-      // Map options
-      var options = {
-        zoom:12,
-        center:{lat:51.5074,lng:-0.1278}
+
+
+
+
+
+function getUserGeoLocation(){
+
+  if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            };
+          })
       }
 
-      // New map
-      var map = new google.maps.Map(document.getElementById('map'), options);
+}
 
 
 
 
-      // Loop through markers
-      for(var i = 0;i < restaurants.length;i++){
-        // Add marker
-        addMarker(restaurants[i]);
-      }
 
-      // Add Marker Function
-      function addMarker(props){
-        var marker = new google.maps.Marker({
-          position:props.coords,
-          map:map,
-          //icon:props.iconImage
-        });
-        // Check content
-        if(props.content){
-          var infoWindow = new google.maps.InfoWindow({
-            content:props.content
-          });
 
-          marker.addListener('click', function(){
-            infoWindow.open(map, marker);
-          });
-        }
-      }
-    }
+
+
+
+function createMap(mapCenter){  // mapCenter is users geolocation data got via @getUserGeoLocation()
+  return map = new google.maps.Map(document.getElementById('map'), {
+    center: mapCenter, // Set location
+    zoom: 13
+  });
+}
 
 
 
@@ -86,69 +77,31 @@ function initMap(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var map;
 
 function initMap() {
   // Create the map.
-  var pyrmont = {
-    lat:51.5107886,
-    lng: -0.1101747
-  }; // Get initial map location
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: pyrmont, // Set location
-    zoom: 13
-  });
+ 
+  
+  let map = createMap(getUserGeoLocation()); 
+
+  console.log(map)
 
   // Create the places service.
   var service = new google.maps.places.PlacesService(map);
-  var getNextPage = null;
-  var moreButton = document.getElementById('more');
-  moreButton.onclick = function() {
-    moreButton.disabled = true;
-    if (getNextPage) getNextPage();
-  };
 
+
+   let userLocation = getUserGeoLocation();
   // Perform a nearby search.
   service.nearbySearch({
-      location: pyrmont,
+      location: userLocation,
       radius: 500,
       type: ['restaurant']
     },
     function(results, status, pagination) {
       if (status !== 'OK') return;
-
+      console.log(results)
       createMarkers(results);
-      moreButton.disabled = !pagination.hasNextPage;
-      getNextPage = pagination.hasNextPage && function() {
-        pagination.nextPage();
-      };
+ 
     });
 }
 
@@ -158,32 +111,34 @@ function initMap() {
 //________________________________________BEGIN create markers for type on line 31 "restaurant"
 
 function createMarkers(places) {
-  var bounds = new google.maps.LatLngBounds();
-  var placesList = document.getElementById('places');
 
-  for (var i = 0, place; place = places[i]; i++) {
-    var image = {
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(25, 25)
-    };
+  console.log(places)
+  // var bounds = new google.maps.LatLngBounds();
+  // var placesList = document.getElementById('places');
 
-    var marker = new google.maps.Marker({
-      map: map,
-      icon: image,
-      title: place.name,
-      position: place.geometry.location
-    });
+  // for (var i = 0, place; place = places[i]; i++) {
+  //   var image = {
+  //     url: place.icon,
+  //     size: new google.maps.Size(71, 71),
+  //     origin: new google.maps.Point(0, 0),
+  //     anchor: new google.maps.Point(17, 34),
+  //     scaledSize: new google.maps.Size(25, 25)
+  //   };
 
-    var li = document.createElement('li');
-    li.textContent = place.name;
-    placesList.appendChild(li);
+  //   var marker = new google.maps.Marker({
+  //     map: map,
+  //     icon: image,
+  //     title: place.name,
+  //     position: place.geometry.location
+  //   });
 
-    bounds.extend(place.geometry.location);
-  }
-  map.fitBounds(bounds);
+  //   var li = document.createElement('li');
+  //   li.textContent = place.name;
+  //   placesList.appendChild(li);
+
+  //   bounds.extend(place.geometry.location);
+  // }
+  // map.fitBounds(bounds);
 }
 
 
