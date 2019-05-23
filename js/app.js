@@ -2,10 +2,13 @@
 
 
 function createMap() {
-    return new google.maps.Map(document.getElementById('map'), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 6
-    });
+  return new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: -34.397,
+      lng: 150.644
+    },
+    zoom: 17
+  });
 }
 
 
@@ -22,12 +25,28 @@ function createMap() {
 
 //__________________________________________BEGIN create surrounding place markers
 
-function createSurroundingPlaceMarkers() { // WORK   <---------------
+function createSurroundingPlaceMarkers(places, map) { // WORK   <---------------
 
-    //  he he he 
+  // ==============  Fran code  =========================================
+  for (let i = 0; i < places.length; i++) {
 
+    surroundingPlaces = places[i]
+
+    console.log(surroundingPlaces)
+
+    let marker = new google.maps.Marker({
+      map: map,
+      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+      position: surroundingPlaces.geometry.location
+
+    });
+
+  }
 
 }
+
+
+
 
 
 //__________________________________________END 
@@ -42,21 +61,24 @@ function createSurroundingPlaceMarkers() { // WORK   <---------------
 
 
 function getSurroundingPlaces(map, userGeoLocation) {
-    let service = new google.maps.places.PlacesService(map);
+  let service = new google.maps.places.PlacesService(map);
 
-    service.nearbySearch({
-            location: userGeoLocation,
-            radius: 500,
-            type: ['restaurant']
-        },
-        function(results, status, pagination) {
-            if (status !== 'OK') return;
-            console.log(results)
+  service.nearbySearch({
+      location: userGeoLocation,
+      radius: 500,
+      type: ['restaurant']
+    },
+    function(results, status, pagination) {
+      if (status !== 'OK') return;
+
+      console.log(results)
 
 
-            createSurroundingPlaceMarkers(); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
+      // ==============  Fran code  =========================================
+      createSurroundingPlaceMarkers(results, map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
 
-        });
+
+    });
 
 
 }
@@ -73,26 +95,26 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
 function getUserGeoLocation(map, infoWindow) {
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            infoWindow.open(map);
-            map.setCenter(pos);
-            getSurroundingPlaces(map, pos)
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      infoWindow.open(map);
+      map.setCenter(pos);
+      getSurroundingPlaces(map, pos)
 
-        }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
 
 }
 
@@ -103,7 +125,7 @@ function getUserGeoLocation(map, infoWindow) {
 
 
 function createPopUpInfoWindow() {
-    return new google.maps.InfoWindow;
+  return new google.maps.InfoWindow;
 }
 
 
@@ -120,10 +142,12 @@ function createPopUpInfoWindow() {
 //___________________________________________BEGIN MAIN application
 
 function initMap() {
-    let map = createMap();
+  let map = createMap();
 
-    let infoWindow = createPopUpInfoWindow()
-    getUserGeoLocation(map, infoWindow)
+  let infoWindow = createPopUpInfoWindow()
+  getUserGeoLocation(map, infoWindow)
+
+
 
 
 }
