@@ -1,93 +1,133 @@
+//_________________________________________BEGIN createMap
 
 
-var infoWindow, marker;
+function createMap() {
+    return new google.maps.Map(document.getElementById('map'), {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 6
+    });
+}
+
+
+//__________________________________________END 
 
 
 
-function getUserGeoLocation() {
+
+
+
+
+
+
+
+//__________________________________________BEGIN create surrounding place markers
+
+function createSurroundingPlaceMarkers() { // WORK   <---------------
+
+    //  he he he 
+
+
+}
+
+
+//__________________________________________END 
+
+
+
+
+
+
+
+//__________________________________________BEGIN getSurroundingPlaces
+
+
+function getSurroundingPlaces(map, userGeoLocation) {
+    let service = new google.maps.places.PlacesService(map);
+
+    service.nearbySearch({
+            location: userGeoLocation,
+            radius: 500,
+            type: ['restaurant']
+        },
+        function(results, status, pagination) {
+            if (status !== 'OK') return;
+            console.log(results)
+
+
+            createSurroundingPlaceMarkers(); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
+
+        });
+
+
+}
+
+//___________________________________________END 
+
+
+
+
+
+
+//___________________________________________BEGIN getUserGeolocation data
+
+
+function getUserGeoLocation(map, infoWindow) {
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
                 lat: position.coords.latitude,
-                lng: position.coords.longitude,
-                //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                lng: position.coords.longitude
             };
-        })
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+            getSurroundingPlaces(map, pos)
+
+        }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
     }
 
 }
 
 
-function createMap(geoLocation) {
+//____________________________________________END
 
-    return new google.maps.Map(document.getElementById('map'), {
-        center: geoLocation, // Set location
-        zoom: 17
-    });
-
-}
-
-function createMarkers(places, map) {
-    var bounds = new google.maps.LatLngBounds();
-
-    for (var i = 0, place; place = places[i]; i++) {
-
-        marker = new google.maps.Marker({
-            map: map,
-            icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-            title: place.name,
-            position: place.geometry.location
-        });
+//____________________________________________BEGIN create pop up user geo location indicator
 
 
-        marker.addListener('click', function() {
-
-            alert('OK !');
-            alert(marker.title);
-            alert(marker.position)
-        });
-
-
-
-
-        bounds.extend(place.geometry.location);
-    }
-
-    map.fitBounds(bounds);
+function createPopUpInfoWindow() {
+    return new google.maps.InfoWindow;
 }
 
 
 
 
+
+//____________________________________________END 
+
+
+
+
+
+
+//___________________________________________BEGIN MAIN application
 
 function initMap() {
+    let map = createMap();
 
-    // Create the map.
-    var currentLocation = getUserGeoLocation()
-
-    // Get initial map location
-    let map = createMap(currentLocation )
-
-
-    //________________________BEGUIN try HTML5 geolocation
-
-    
-
-    //________________________ END try HTML5 geolocation
-
+    let infoWindow = createPopUpInfoWindow()
+    getUserGeoLocation(map, infoWindow)
 
 
 }
 
 
 
-//___________________ FUNCTION ERROR GEOLOCATION
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
-}
+//_________________________________________  END MAIN application
