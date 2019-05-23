@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Place Searches</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+
+
+
+
+
+// https://developers.google.com/maps/documentation/javascript/examples/map-geolocation
+
+
+
+
+
+//______________________________________________BEGIN global variables (keep to a minimum!)
+let service, 
+    userGeoLocation;
+
+
+//______________________________________________END global veriables
+
+
+
+//______________________________________________BEGIN getUserGeoLocation
+
+function getUserGeoLocation(){
+
+  if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position)=> {
+            pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            };
+            initMap(pos) 
+          })
+      }else{
+        console.log("Geo location API not available")
+      }
+}
+//_____________________________________________END getUserGeoLocation
+getUserGeoLocation()
+
+
+
+//_____________________________________________BEGIN create marker
+function createMarker(place, map) {
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location
+  });
+
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent(place.name);
+    infowindow.open(map, this);
+  });
+}
+//_____________________________________________END create marker
+
+
+
+
+
+//_____________________________________________BEGIN createMap
+function createMap(pos){
+    return new google.maps.Map( document.getElementById('map'), {center: pos, zoom: 15});
+}
+//_____________________________________________END createMap
+
+
+
+
+
+
+
+
+
+
+function initMap(pos) {
+console.log(pos)
+  let map = createMap(pos)
+
+  var request = {
+    query: 'Museum of Contemporary Art Australia',
+    fields: ['name', 'geometry'],
+  };
+
+  let service = new google.maps.places.PlacesService(map);
+
+  service.findPlaceFromQuery(request, (results, status)=>{
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        createMarker(results[i],map);
+      }
+
+      map.setCenter(results[0].geometry.location);
+    }
+  });
+}
+
+
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCegTNrd3DtW2Bk_Dl8MEayKarv0u6KcQ4&libraries=places&callback=initMap" async defer></script>
+  </body>
+</html>
+
