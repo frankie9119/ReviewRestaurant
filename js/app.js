@@ -1,3 +1,4 @@
+let restaurants = [];
 //_________________________________________BEGIN createMap
 
 
@@ -25,22 +26,18 @@ function createMap() {
 
 //__________________________________________BEGIN create surrounding place markers
 
-function createSurroundingPlaceMarkers(places, map) { // WORK   <---------------
+function createSurroundingPlaceMarkers(map) { // WORK   <---------------
 
   // ==============  Fran code  =========================================
-  for (let i = 0; i < places.length; i++) {
-
-    surroundingPlaces = places[i]
-
-    console.log(surroundingPlaces)
+  for (let i = 0; i < restaurants.length; i++) {
 
     let marker = new google.maps.Marker({
       map: map,
       icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      position: surroundingPlaces.geometry.location
+      position: restaurants[i].position
+
 
     });
-
   }
 
 }
@@ -73,9 +70,20 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
       console.log(results)
 
+      for (let i = 0; i<results.length; i++){
+        //alert(results[i].geometry.location)
+        allRestaurant = {
+            name: results[i].name,
+            position: results[i].geometry.location,
+        }
+        restaurants.push(allRestaurant)
+      }
+
+        console.log(restaurants)
+
 
       // ==============  Fran code  =========================================
-      createSurroundingPlaceMarkers(results, map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
+      createSurroundingPlaceMarkers(map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
 
 
     });
