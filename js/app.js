@@ -14,7 +14,21 @@ function createMap() {
 
 //__________________________________________END 
 
-
+//________________________________________BEGIN create stars rating
+function buildRatingStarDisplayValue(numbVal) { // @ creates a string of "stars" using google maps api
+  let ratingHTML = ""
+  if (numbVal) {
+    for (let i = 0; i < 5; i++) {
+      if (numbVal < (i + 0.5)) {
+        ratingHTML += '&#10025;';
+      } else {
+        ratingHTML += '&#10029;';
+      }
+    }
+  }
+  return ratingHTML
+}
+//________________________________________END
 
 
 
@@ -32,9 +46,9 @@ function createSurroundingPlaceMarkers(places, map) { // WORK   <---------------
 
     surroundingPlaces = places[i]
 
-    console.log(surroundingPlaces)
+    //console.log(surroundingPlaces)
 
-    let marker = new google.maps.Marker({
+    let markerSurroundingPlaces = new google.maps.Marker({
       map: map,
       icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
       position: surroundingPlaces.geometry.location
@@ -46,14 +60,20 @@ function createSurroundingPlaceMarkers(places, map) { // WORK   <---------------
 }
 
 
-
-
-
 //__________________________________________END 
 
+//__________________________________________BEGIN create surrounding place LIST
 
+function createSurroundingPlaceList(places){
+    
+    let closeRestaurants = $("#closeRestaurants");
+    for (let i = 0; i < places.length; i++){
+        closeRestaurants.append("<li>" + places[i].name +' '+ buildRatingStarDisplayValue(places[i].rating) +"</li>")
 
+    }
+}
 
+//__________________________________________END 
 
 
 
@@ -76,7 +96,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
       // ==============  Fran code  =========================================
       createSurroundingPlaceMarkers(results, map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
-
+      createSurroundingPlaceList(results);
 
     });
 
@@ -137,7 +157,7 @@ function createPopUpInfoWindow() {
 
 
 
-
+//HAAAAA
 
 //___________________________________________BEGIN MAIN application
 
