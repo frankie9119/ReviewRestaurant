@@ -1,3 +1,4 @@
+let restaurants = [];
 //_________________________________________BEGIN createMap
 
 
@@ -13,6 +14,7 @@ function createMap() {
 
 
 //__________________________________________END 
+
 
 //________________________________________BEGIN create stars rating
 function buildRatingStarDisplayValue(numbVal) { // @ creates a string of "stars" using google maps api
@@ -32,48 +34,38 @@ function buildRatingStarDisplayValue(numbVal) { // @ creates a string of "stars"
 
 
 
-
-
-
-
-
 //__________________________________________BEGIN create surrounding place markers
 
-function createSurroundingPlaceMarkers(places, map) { // WORK   <---------------
+function createSurroundingPlaceMarkers(map) { // WORK   <---------------
 
   // ==============  Fran code  =========================================
-  for (let i = 0; i < places.length; i++) {
+  for (let i = 0; i < restaurants.length; i++) {
 
-    surroundingPlaces = places[i]
-
-    //console.log(surroundingPlaces)
-
-    let markerSurroundingPlaces = new google.maps.Marker({
+    let marker = new google.maps.Marker({
       map: map,
       icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      position: surroundingPlaces.geometry.location
-
+      position: restaurants[i].position,
     });
-
   }
 
 }
 
-
 //__________________________________________END 
 
 //__________________________________________BEGIN create surrounding place LIST
-
-function createSurroundingPlaceList(places){
+// ================ Fran code ===================
+function createSurroundingPlaceList(){
     
-    let closeRestaurants = $("#closeRestaurants");
-    for (let i = 0; i < places.length; i++){
-        closeRestaurants.append("<li>" + places[i].name +' '+ buildRatingStarDisplayValue(places[i].rating) +"</li>")
+    let restaurantsList = $("#restaurantsList");
+    for (let i = 0; i < restaurants.length; i++){
+        restaurantsList.append("<li>" + restaurants[i].name +' '+ buildRatingStarDisplayValue(restaurants[i].rating) +"</li>")
 
     }
 }
 
 //__________________________________________END 
+
+
 
 
 
@@ -93,10 +85,22 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
       console.log(results)
 
+      for (let i = 0; i<results.length; i++){
+        // storing all the results restaurants in an array. I am structuring the data
+        allRestaurant = {
+            name: results[i].name,
+            position: results[i].geometry.location,
+            rating: results[i].rating,
+        }
+        restaurants.push(allRestaurant)
+      }
+
+        console.log(restaurants)
+
 
       // ==============  Fran code  =========================================
-      createSurroundingPlaceMarkers(results, map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
-      createSurroundingPlaceList(results);
+      createSurroundingPlaceMarkers(map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
+      createSurroundingPlaceList();
 
     });
 
@@ -157,7 +161,7 @@ function createPopUpInfoWindow() {
 
 
 
-//HAAAAA
+
 
 //___________________________________________BEGIN MAIN application
 
