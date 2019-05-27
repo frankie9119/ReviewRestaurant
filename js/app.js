@@ -45,8 +45,13 @@ function createSurroundingPlaceMarkers(map) { // WORK   <---------------
       map: map,
       icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
       position: restaurants[i].position,
+      name: restaurants[i].name,
     });
+// add click on marker info modal()
+ clickOnMarkerInfo(marker)
+
   }
+
 
 }
 
@@ -59,14 +64,72 @@ function createSurroundingPlaceList(){
     let restaurantsList = $("#restaurantsList");
     for (let i = 0; i < restaurants.length; i++){
         restaurantsList.append("<li>" + restaurants[i].name +' '+ buildRatingStarDisplayValue(restaurants[i].rating) +"</li>")
-
     }
 }
 
 //__________________________________________END 
 
+//___________________________________________BEGIN click on markers info
+// ================ Fran code ===================
+    function clickOnMarkerInfo(marker){
+
+            marker.addListener('click', function(){
+
+            alert(marker.name)
+            $("#title").html(marker.name);
+            // Modal
+            $("#myModal").modal();
+
+            })
+          }
+//___________________________________________END
 
 
+//___________________________________________BEGIN right click add restaurant
+// ================ Fran code ===================
+function addRestaurant (map){
+    // This event listener calls addMarker() when the map is clicked.
+        map.addListener('rightclick', function(e) {
+          addMarker(e, map);
+        });
+}
+//___________________________________________END
+
+
+//_________________________________________BEGIN add marker for new restaurant to the map.
+
+function addMarker(data, map) {
+  // Add the marker at the clicked location, and add the next-available label
+  // from the array of alphabetical characters.
+
+  restaurants.push({
+    name:"",
+    position: data.latLng, 
+    lat: data.latLng.lat(),
+    lng: data.latLng.lng(), 
+  })
+
+  console.log(restaurants)
+
+  var newMarker = new google.maps.Marker({
+       position: data.latLng,
+       map: map
+   });
+  newRestaurantContent(newMarker)
+}
+
+
+//___________________________________________END
+
+//______________________________________________BEGIN new restaurant content
+function newRestaurantContent(newMarker){
+  newMarker.addListener('click', function(){
+    alert(newMarker.position)
+  })
+
+}
+
+//______________________________________________END
 
 
 //__________________________________________BEGIN getSurroundingPlaces
@@ -162,14 +225,15 @@ function createPopUpInfoWindow() {
 
 
 
-
 //___________________________________________BEGIN MAIN application
 
 function initMap() {
   let map = createMap();
 
-  let infoWindow = createPopUpInfoWindow()
-  getUserGeoLocation(map, infoWindow)
+  let infoWindow = createPopUpInfoWindow();
+  getUserGeoLocation(map, infoWindow);
+  addRestaurant(map);
+
 
 
 
