@@ -1,3 +1,4 @@
+"use strict";
 let restaurants = [];
 //_________________________________________BEGIN createMap
 
@@ -150,6 +151,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
       for (let i = 0; i<results.length; i++){
         // storing all the results restaurants in an array. I am structuring the data
+        let allRestaurant =[];
         allRestaurant = {
             name: results[i].name,
             position: results[i].geometry.location,
