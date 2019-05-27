@@ -1,3 +1,5 @@
+"use strict";
+
 let restaurants = [];
 //_________________________________________BEGIN createMap
 
@@ -72,6 +74,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
       for (let i = 0; i<results.length; i++){
         //alert(results[i].geometry.location)
+        let allRestaurant = [];
         allRestaurant = {
             name: results[i].name,
             position: results[i].geometry.location,
