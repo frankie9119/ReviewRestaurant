@@ -90,6 +90,33 @@ li:nth-child(odd) {
   height: 200px;
   position: relative;
 }
+/* add new restaurant form info window */
+#form-add-restaurant{
+    max-width: 300px;
+
+}
+#form-add-restaurant input{
+    height: 20px;
+    width: 100%;
+    max-width: 280px;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+#form-add-restaurant select{
+    height: 20px;
+    width: 50px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    border-radius: unset;
+    border: none;
+}
+.add-res-heading{
+    color: #96bb1e;
+}
+#add-restaurant {
+    width: 95%;
+}
+
 /*_____________MEDIA QUERY______________*/
 
 @media only screen and (max-width: 768px) {

@@ -48,8 +48,8 @@ function createSurroundingPlaceMarkers(map) { // WORK   <---------------
       position: restaurants[i].position,
       name: restaurants[i].name,
     });
-// add click on marker info modal()
- clickOnMarkerInfo(marker)
+    // add click on marker info modal()
+    clickOnMarkerInfo(marker)
 
   }
 
@@ -60,39 +60,39 @@ function createSurroundingPlaceMarkers(map) { // WORK   <---------------
 
 //__________________________________________BEGIN create surrounding place LIST
 // ================ Fran code ===================
-function createSurroundingPlaceList(){
-    
-    let restaurantsList = $("#restaurantsList");
-    for (let i = 0; i < restaurants.length; i++){
-        restaurantsList.append("<li>" + restaurants[i].name +' '+ buildRatingStarDisplayValue(restaurants[i].rating) +"</li>")
-    }
+function createSurroundingPlaceList() {
+
+  let restaurantsList = $("#restaurantsList");
+  for (let i = 0; i < restaurants.length; i++) {
+    restaurantsList.append("<li>" + restaurants[i].name + ' ' + buildRatingStarDisplayValue(restaurants[i].rating) + "</li>")
+  }
 }
 
 //__________________________________________END 
 
 //___________________________________________BEGIN click on markers info
 // ================ Fran code ===================
-    function clickOnMarkerInfo(marker){
+function clickOnMarkerInfo(marker) {
 
-            marker.addListener('click', function(){
+  marker.addListener('click', function() {
 
-            alert(marker.name)
-            $("#title").html(marker.name);
-            // Modal
-            $("#myModal").modal();
+    alert(marker.name)
+    $("#title").html(marker.name);
+    // Modal
+    $("#myModal").modal();
 
-            })
-          }
+  })
+}
 //___________________________________________END
 
 
 //___________________________________________BEGIN right click add restaurant
 // ================ Fran code ===================
-function addRestaurant (map){
-    // This event listener calls addMarker() when the map is clicked.
-        map.addListener('rightclick', function(e) {
-          addMarker(e, map);
-        });
+function addRestaurant(map) {
+  // This event listener calls addMarker() when the map is clicked.
+  map.addListener('rightclick', function(e) {
+    addMarker(e, map);
+  });
 }
 //___________________________________________END
 
@@ -104,18 +104,18 @@ function addMarker(data, map) {
   // from the array of alphabetical characters.
 
   restaurants.push({
-    name:"",
-    position: data.latLng, 
+    name: "",
+    position: data.latLng,
     lat: data.latLng.lat(),
-    lng: data.latLng.lng(), 
+    lng: data.latLng.lng(),
   })
 
   console.log(restaurants)
 
   var newMarker = new google.maps.Marker({
-       position: data.latLng,
-       map: map
-   });
+    position: data.latLng,
+    map: map
+  });
   newRestaurantContent(newMarker)
 }
 
@@ -123,12 +123,14 @@ function addMarker(data, map) {
 //___________________________________________END
 
 //______________________________________________BEGIN new restaurant content
-function newRestaurantContent(newMarker){
-  newMarker.addListener('click', function(){
+function newRestaurantContent(newMarker) {
+  newMarker.addListener('click', function() {
     alert(newMarker.position)
-  })
 
-}
+          })
+          }
+
+            /*-----------------------------------------------------------------------------------*/
 
 //______________________________________________END
 
@@ -149,18 +151,18 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
       console.log(results)
 
-      for (let i = 0; i<results.length; i++){
+      for (let i = 0; i < results.length; i++) {
         // storing all the results restaurants in an array. I am structuring the data
-        let allRestaurant =[];
+        let allRestaurant = [];
         allRestaurant = {
-            name: results[i].name,
-            position: results[i].geometry.location,
-            rating: results[i].rating,
+          name: results[i].name,
+          position: results[i].geometry.location,
+          rating: results[i].rating,
         }
         restaurants.push(allRestaurant)
       }
 
-        console.log(restaurants)
+      console.log(restaurants)
 
 
       // ==============  Fran code  =========================================
