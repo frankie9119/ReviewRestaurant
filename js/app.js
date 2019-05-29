@@ -170,8 +170,6 @@ function getSurroundingPlaces(map, userGeoLocation) {
       createSurroundingPlaceList();
 
     });
-
-
 }
 
 //___________________________________________END 
@@ -192,12 +190,14 @@ function getUserGeoLocation(map, infoWindow) {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-
+   
       infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
+      infoWindow.setContent('You are here!');
       infoWindow.open(map);
+
       map.setCenter(pos);
-      getSurroundingPlaces(map, pos)
+      markerMyPosition (pos, map); // Blue marker myPosition
+      getSurroundingPlaces(map, pos) // restaurants nearBy
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -212,15 +212,33 @@ function getUserGeoLocation(map, infoWindow) {
 
 //____________________________________________END
 
+//_____________________________________________BEGIN create blue marker MyPosition
+      // ==============  Fran code  =========================================
+      function markerMyPosition (pos, map){
+      return new google.maps.Marker({
+        map: map,
+        position: pos,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: 'blue',
+          fillOpacity: 0.4,
+          scale: 15,
+          strokeColor: 'blue',
+          strokeWeight: 1,
+          zIndex: 1
+        },
+        draggable: true
+      });
+    }
+//____________________________________________END
+
+
 //____________________________________________BEGIN create pop up user geo location indicator
 
 
 function createPopUpInfoWindow() {
   return new google.maps.InfoWindow;
 }
-
-
-
 
 
 //____________________________________________END 
