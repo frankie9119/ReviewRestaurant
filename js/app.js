@@ -5,10 +5,7 @@ let restaurants = [];
 
 function createMap() {
   return new google.maps.Map(document.getElementById('map'), {
-    center: {
-      lat: -34.397,
-      lng: 150.644
-    },
+
     zoom: 17
   });
 }
@@ -127,10 +124,10 @@ function newRestaurantContent(newMarker) {
   newMarker.addListener('click', function() {
     alert(newMarker.position)
 
-          })
-          }
+  })
+}
 
-            /*-----------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
 
 //______________________________________________END
 
@@ -190,13 +187,13 @@ function getUserGeoLocation(map, infoWindow) {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-   
+
       infoWindow.setPosition(pos);
       infoWindow.setContent('You are here!');
       infoWindow.open(map);
 
       map.setCenter(pos);
-      markerMyPosition (pos, map); // Blue marker myPosition
+      markerMyPosition(pos, map); // Blue marker myPosition
       getSurroundingPlaces(map, pos) // restaurants nearBy
 
     }, function() {
@@ -213,23 +210,23 @@ function getUserGeoLocation(map, infoWindow) {
 //____________________________________________END
 
 //_____________________________________________BEGIN create blue marker MyPosition
-      // ==============  Fran code  =========================================
-      function markerMyPosition (pos, map){
-      return new google.maps.Marker({
-        map: map,
-        position: pos,
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          fillColor: 'blue',
-          fillOpacity: 0.4,
-          scale: 15,
-          strokeColor: 'blue',
-          strokeWeight: 1,
-          zIndex: 1
-        },
-        draggable: true
-      });
-    }
+// ==============  Fran code  =========================================
+function markerMyPosition(pos, map) {
+  return new google.maps.Marker({
+    map: map,
+    position: pos,
+    icon: {
+      path: google.maps.SymbolPath.CIRCLE,
+      fillColor: 'blue',
+      fillOpacity: 0.4,
+      scale: 15,
+      strokeColor: 'blue',
+      strokeWeight: 1,
+      zIndex: 1
+    },
+    draggable: true
+  });
+}
 //____________________________________________END
 
 
