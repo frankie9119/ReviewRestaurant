@@ -15,6 +15,7 @@ body {
   color: orange;
 }
 #map{
+  z-index: 1;
 	height: 90%;
 	width: 70%;
 	float: left;
@@ -92,7 +93,11 @@ li:nth-child(odd) {
 }
 /* add new restaurant form info window */
 #form-add-restaurant{
+    display: block;
+    z-index: 5;
+    position: absolute;
     max-width: 300px;
+    background-color: orange;
 
 }
 #form-add-restaurant input{

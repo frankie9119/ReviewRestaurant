@@ -101,17 +101,18 @@ function addMarker(data, map) {
   // from the array of alphabetical characters.
 
   restaurants.push({
-    name: "",
+    name: "A",
     position: data.latLng,
     lat: data.latLng.lat(),
     lng: data.latLng.lng(),
+    userCreated: true,
   })
 
   console.log(restaurants)
 
   var newMarker = new google.maps.Marker({
     position: data.latLng,
-    map: map
+    map: map,
   });
   newRestaurantContent(newMarker)
 }
@@ -120,11 +121,54 @@ function addMarker(data, map) {
 //___________________________________________END
 
 //______________________________________________BEGIN new restaurant content
-function newRestaurantContent(newMarker) {
-  newMarker.addListener('click', function() {
-    alert(newMarker.position)
+// ======= Fran code -> WORKING HERE <- ====================================
 
-  })
+function newRestaurantContent(newMarker) {
+
+      for (let i = 0; i < restaurants.length; i++) {
+        if (restaurants[i].position === newMarker.position){
+
+            $('#add-restaurant').on('click',function(){
+            let newName = document.getElementById('res-name').value  
+            restaurants[i].name = newName         
+            })
+                
+                newMarker.addListener('click', function() {
+                  
+                    alert(newMarker.position)
+                    alert(restaurants[i].position)
+                    alert(restaurants[i].name)
+                    
+
+                  //alert(restaurants[i].name)
+
+                })
+
+
+/*
+          if (restaurants[i].userCreated = true){
+                          
+          $('#add-restaurant').on('click',function(){
+
+            let newName = document.getElementById('res-name').value
+            
+              restaurants[i].name = newName
+              restaurants[i].userCreated = false
+              //alert(restaurants[i].name)
+              alert(newName)
+
+            })
+
+              //clickOnMarkerInfo(newMarker)
+              newMarker.addListener('click', function() {
+                alert(restaurants[i].name)
+              })
+          
+        }*/
+        
+      }
+    }
+
 }
 
 /*-----------------------------------------------------------------------------------*/
