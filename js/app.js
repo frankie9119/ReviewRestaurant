@@ -136,17 +136,18 @@ function newRestaurantContent(newMarker) {
                   document.getElementById("form-add-restaurant").style.display = "block";
 
 
-
             $('#add-restaurant').on('click',function(){
             let newName = document.getElementById('res-name').value
 
             //the problem is here!
+            if (restaurants[i].name === 'A'){
               restaurants[i].name = newName
-          
+            }else{
+
+            }
             
             document.getElementById("form-add-restaurant").style.display = "none";      
             })
-
 
                     let coord = $("#coord")
                     
@@ -155,32 +156,9 @@ function newRestaurantContent(newMarker) {
                     alert(restaurants[i].lat)
                     alert(restaurants[i].name)
                     
-
                   //alert(restaurants[i].name)
 
                 })
-
-
-/*
-          if (restaurants[i].userCreated = true){
-                          
-          $('#add-restaurant').on('click',function(){
-
-            let newName = document.getElementById('res-name').value
-            
-              restaurants[i].name = newName
-              restaurants[i].userCreated = false
-              //alert(restaurants[i].name)
-              alert(newName)
-
-            })
-
-              //clickOnMarkerInfo(newMarker)
-              newMarker.addListener('click', function() {
-                alert(restaurants[i].name)
-              })
-          
-        }*/
         
       }
     }
