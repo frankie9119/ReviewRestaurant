@@ -113,6 +113,9 @@ function addMarker(data, map) {
   var newMarker = new google.maps.Marker({
     position: data.latLng,
     map: map,
+    lat: data.latLng.lat(),
+    lng: data.latLng.lng(),
+
   });
   newRestaurantContent(newMarker)
 }
@@ -127,16 +130,29 @@ function newRestaurantContent(newMarker) {
 
       for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].position === newMarker.position){
-
-            $('#add-restaurant').on('click',function(){
-            let newName = document.getElementById('res-name').value  
-            restaurants[i].name = newName         
-            })
+        
                 
                 newMarker.addListener('click', function() {
-                  
-                    alert(newMarker.position)
-                    alert(restaurants[i].position)
+                  document.getElementById("form-add-restaurant").style.display = "block";
+
+
+
+            $('#add-restaurant').on('click',function(){
+            let newName = document.getElementById('res-name').value
+
+            //the problem is here!
+              restaurants[i].name = newName
+          
+            
+            document.getElementById("form-add-restaurant").style.display = "none";      
+            })
+
+
+                    let coord = $("#coord")
+                    
+                    coord.html(restaurants[i].lat)
+                    
+                    alert(restaurants[i].lat)
                     alert(restaurants[i].name)
                     
 

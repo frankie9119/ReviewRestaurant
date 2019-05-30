@@ -93,7 +93,7 @@ li:nth-child(odd) {
 }
 /* add new restaurant form info window */
 #form-add-restaurant{
-    display: block;
+    display: none;
     z-index: 5;
     position: absolute;
     max-width: 300px;
