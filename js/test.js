@@ -779,6 +779,134 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 
 
+let list = [{
+    name: "A",
+    rating: 3
+  },
+  {
+    name: "B",
+    rating: 1
+  },
+  {
+    name: "C",
+    rating: 5
+  },
+  {
+    name: "D",
+    rating: 2
+  },
+  {
+    name: "E",
+    rating: 0
+  },
+  {
+    name: "F",
+    rating: 3
+  },
+  {
+    name: "G",
+    rating: 2
+  },
+  {
+    name: "H",
+    rating: 10
+  }
+];
+
+
+
+function sortRestByRating(restaurantsArraySort) {
+  let list = [...restaurantsArraySort];
+  let listSort = list.sort((a, b) => {
+    return a.rating - b.rating
+  });
+  return listSort
+}
+
+function getSpecificRating(restaurantsArraySpecific, ratingValue) {
+  //let sortedRest = sortRestByRating(restaurantsArray)
+  let resultList = restaurantsArraySpecific.filter((val) => {
+    return val.rating === ratingValue
+
+  })
+  return resultList
+}
+let ratingFromUser = 2
+console.log(getSpecificRating(list, ratingFromUser))
+
+
+function displaySurroundingPlaceList(restaurantsArray) {
+  $("#restaurantsList").empty();
+  let restaurantsList = $("#restaurantsList");
+  for (let i = 0; i < restaurantsArray.length; i++) {
+    restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating + "</li>")
+  }
+}
+
+let sortedRestaurants = sortRestByRating(list);
+displaySurroundingPlaceList(sortedRestaurants)
+
+$('#selector').on('click',function(){
+let specificRating = getSpecificRating(list,ratingFromUser)
+displaySurroundingPlaceList(specificRating)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -57,15 +57,66 @@ function createSurroundingPlaceMarkers(map) { // WORK   <---------------
 
 //__________________________________________BEGIN create surrounding place LIST
 // ================ Fran code ===================
+/*function createSurroundingPlaceList() {
+
+  let restaurantsList = $("#restaurantsList");
+  for (let i = 0; i < restaurants.length; i++) {
+    restaurantsList.append("<li>" + restaurants[i].name + ' ' + buildRatingStarDisplayValue(restaurants[i].rating) + "</li>")
+  }
+}*/
+//__________________________________________END 
+//_________________________________________BEGIN sort Restaurant List By Rating
+// ================= Fran code =========================
+function sortRestByRating(restaurantsArray){
+  let restaurants = [...restaurantsArray];
+  let restaurantsSort = restaurants.sort((a,b)=>{
+    return a.rating - b.rating
+  });
+  return restaurantsSort
+}
+//__________________________________________END
+
+
+
+function displaySurroundingPlaceList(restaurantsArray) {
+  $("#restaurantsList").empty();
+  let restaurantsList = $("#restaurantsList");
+  for (let i = 0; i < restaurantsArray.length; i++) {
+    restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating + "</li>")
+  }
+}
+/*
 function createSurroundingPlaceList() {
 
   let restaurantsList = $("#restaurantsList");
   for (let i = 0; i < restaurants.length; i++) {
     restaurantsList.append("<li>" + restaurants[i].name + ' ' + buildRatingStarDisplayValue(restaurants[i].rating) + "</li>")
   }
-}
+}*/
 
-//__________________________________________END 
+//let sortedRestaurants = sortRestByRating(restaurants);
+//displaySurroundingPlaceList(sortedRestaurants)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //___________________________________________BEGIN click on markers info
 // ================ Fran code ===================
@@ -207,7 +258,9 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
       // ==============  Fran code  =========================================
       createSurroundingPlaceMarkers(map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
-      createSurroundingPlaceList();
+      //createSurroundingPlaceList();
+      //let sortedRestaurants = sortRestByRating(restaurants);
+      displaySurroundingPlaceList(sortRestByRating(restaurants));
 
     });
 }
