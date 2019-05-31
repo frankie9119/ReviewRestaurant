@@ -49,11 +49,11 @@ function createSurroundingPlaceMarkers(map) { // WORK   <---------------
     clickOnMarkerInfo(marker)
 
   }
-
-
 }
 
 //__________________________________________END 
+
+
 
 //__________________________________________BEGIN create surrounding place LIST
 // ================ Fran code ===================
@@ -72,13 +72,19 @@ function createSurroundingPlaceList() {
 function clickOnMarkerInfo(marker) {
 
   marker.addListener('click', function() {
-
     alert(marker.name)
     $("#title").html(marker.name);
     // Modal
     $("#myModal").modal();
-
   })
+}
+//___________________________________________END
+//___________________________________________BEGIN display New Restaurant Content
+// ================ Fran code ===================
+function displayNewRestaurantContent(newMarker, newRestaurantContent) {
+  $("#title").html(newRestaurantContent.name);
+  // Modal
+  $("#myModal").modal();
 }
 //___________________________________________END
 
@@ -98,9 +104,9 @@ function addRestaurant(map) {
 
 function addMarker(data, map) {
   // Add the marker at the clicked location, and add the next-available label
-  // from the array of alphabetical characters.
 
   restaurants.push({
+    //default name for new restaurant is "A"
     name: "A",
     position: data.latLng,
     lat: data.latLng.lat(),
@@ -113,9 +119,8 @@ function addMarker(data, map) {
   var newMarker = new google.maps.Marker({
     position: data.latLng,
     map: map,
-    lat: data.latLng.lat(),
-    lng: data.latLng.lng(),
-
+    lat: data.latLng.lat(),//more readable
+    lng: data.latLng.lng(),//more readable 
   });
   newRestaurantContent(newMarker)
 }
@@ -124,45 +129,45 @@ function addMarker(data, map) {
 //___________________________________________END
 
 //______________________________________________BEGIN new restaurant content
-// ======= Fran code -> WORKING HERE <- ====================================
+// =============== Fran code ====================================
+
+/****************************************************************************
+             Getting data from user - DOM manipulation *****
+**************************************************************************** */
 
 function newRestaurantContent(newMarker) {
+  //loop through restaurants global
+  for (let i = 0; i < restaurants.length; i++) {
+    //looking for restaurant with same position of marker
+    if (restaurants[i].position === newMarker.position) {
+      let newRestaurantContent = restaurants[i]
 
-      for (let i = 0; i < restaurants.length; i++) {
-        if (restaurants[i].position === newMarker.position){
-        
-                
-                newMarker.addListener('click', function() {
-                  document.getElementById("form-add-restaurant").style.display = "block";
+      //when click new marker DisplayForm - set newName
+      newMarker.addListener('click', function() {
+        //check if it is a new restaurant
+        if (newRestaurantContent.userCreated === true) {
+          //display form
+          document.getElementById("form-add-restaurant").style.display = "block";
 
-
-            $('#add-restaurant').on('click',function(){
+          $('#add-restaurant').on('click', function() {
             let newName = document.getElementById('res-name').value
-
-            //the problem is here!
-            if (restaurants[i].name === 'A'){
-              restaurants[i].name = newName
-            }else{
-
+            //when you create a new restaurant the default name is "A"
+            //if the default name is A change it with new user input
+            if (newRestaurantContent.name === 'A') {
+              newRestaurantContent.name = newName
             }
-            
-            document.getElementById("form-add-restaurant").style.display = "none";      
-            })
+            //hide form
+            document.getElementById("form-add-restaurant").style.display = "none";
+          })
+        } else {
+          displayNewRestaurantContent(newMarker, newRestaurantContent)
+        }
 
-                    let coord = $("#coord")
-                    
-                    coord.html(restaurants[i].lat)
-                    
-                    alert(restaurants[i].lat)
-                    alert(restaurants[i].name)
-                    
-                  //alert(restaurants[i].name)
+        newRestaurantContent.userCreated = false;
 
-                })
-        
-      }
+      }) // END when click new marker DisplayForm - set newName
     }
-
+  }
 }
 
 /*-----------------------------------------------------------------------------------*/
