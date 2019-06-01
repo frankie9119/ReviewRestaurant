@@ -80,6 +80,7 @@ function getSpecificRating(restaurantsArraySpecific, ratingValue) {
   let restaurantsResultList = restaurantsArraySpecific.filter((val) => {
     return val.rating === ratingValue
   })
+  //console.log(restaurantsResultList)
   return restaurantsResultList
 }
 
@@ -114,98 +115,20 @@ if(e.target.value === "all"){
 }else{
   let ratingNumberFromUser = parseInt(ratingFromUser);
 
+
+  // I THINK I SHOULD ROUND THE RATING NUMBERS HERE before passing it in into SPECIFIC-RATING
+
+
+
   let specificRating = getSpecificRating(restaurants,ratingNumberFromUser);
+  console.log(restaurants)
+  //console.log(specificRating)
   displaySurroundingPlaceList(specificRating);
   }
 });
 
 
 //__________________________________________END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ================ Fran code ===================
-/*function createSurroundingPlaceList() {
-
-  let restaurantsList = $("#restaurantsList");
-  for (let i = 0; i < restaurants.length; i++) {
-    restaurantsList.append("<li>" + restaurants[i].name + ' ' + buildRatingStarDisplayValue(restaurants[i].rating) + "</li>")
-  }
-}*/
-//__________________________________________END 
-//_________________________________________BEGIN sort Restaurant List By Rating
-/*
-// ================= Fran code =========================
-function sortRestByRating(restaurantsArray){
-  let restaurants = [...restaurantsArray];
-  let restaurantsSort = restaurants.sort((a,b)=>{
-    return a.rating - b.rating
-  });
-  return restaurantsSort
-}
-//__________________________________________END
-
-
-
-function displaySurroundingPlaceList(restaurantsArray) {
-  $("#restaurantsList").empty();
-  let restaurantsList = $("#restaurantsList");
-  for (let i = 0; i < restaurantsArray.length; i++) {
-    restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating + "</li>")
-  }
-}
-
-
-*/
-
-
-
-/*
-function createSurroundingPlaceList() {
-
-  let restaurantsList = $("#restaurantsList");
-  for (let i = 0; i < restaurants.length; i++) {
-    restaurantsList.append("<li>" + restaurants[i].name + ' ' + buildRatingStarDisplayValue(restaurants[i].rating) + "</li>")
-  }
-}*/
-
-//let sortedRestaurants = sortRestByRating(restaurants);
-//displaySurroundingPlaceList(sortedRestaurants)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -220,6 +143,7 @@ function clickOnMarkerInfo(marker) {
     $("#title").html(marker.name);
     // Modal
     $("#myModal").modal();
+
   })
 }
 //___________________________________________END
@@ -295,19 +219,24 @@ function newRestaurantContent(newMarker) {
 
           $('#add-restaurant').on('click', function() {
             let newName = document.getElementById('res-name').value
+            let ratingNewRestaurant = document.getElementById('ratingNewRestaurant').value
+            let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant)
             //when you create a new restaurant the default name is "A"
             //if the default name is A change it with new user input
             if (newRestaurantContent.name === 'A') {
-              newRestaurantContent.name = newName
+              newRestaurantContent.name = newName;
+              newRestaurantContent.rating = ratingNumberNewRestaurant;
+              displaySurroundingPlaceList(sortRestByRating(restaurants));
             }
             //hide form
             document.getElementById("form-add-restaurant").style.display = "none";
           })
-        } else {
+        } else { // If the newRestaurantContent.userCreated is NOT true 
           displayNewRestaurantContent(newMarker, newRestaurantContent)
         }
 
         newRestaurantContent.userCreated = false;
+        
 
       }) // END when click new marker DisplayForm - set newName
     }
