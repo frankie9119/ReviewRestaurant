@@ -1,5 +1,6 @@
 "use strict";
 let restaurants = [];
+
 //_________________________________________BEGIN createMap
 
 
@@ -55,7 +56,92 @@ function createSurroundingPlaceMarkers(map) { // WORK   <---------------
 
 
 
-//__________________________________________BEGIN create surrounding place LIST
+//__________________________________________BEGIN Sort Restaurants by rating
+
+function sortRestByRating(restaurantsArraySort) {
+  let restaurants = [...restaurantsArraySort];
+
+  let restaurantsSort = restaurants.sort((a, b) => {
+    return a.rating - b.rating
+  });
+  return restaurantsSort
+} 
+
+
+//__________________________________________END
+
+
+//__________________________________________BEGIN get ready to get specific rating from user
+
+
+
+function getSpecificRating(restaurantsArraySpecific, ratingValue) {
+
+  let restaurantsResultList = restaurantsArraySpecific.filter((val) => {
+    return val.rating === ratingValue
+  })
+  return restaurantsResultList
+}
+
+
+//__________________________________________END
+
+
+//__________________________________________BEGIN Display surrounding Place List in right pannel
+
+
+function displaySurroundingPlaceList(restaurantsArray) {
+  $("#restaurantsList").empty();
+  let restaurantsList = $("#restaurantsList");
+  for (let i = 0; i < restaurantsArray.length; i++) {
+    restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating +' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) +"</li>")
+  }
+}
+
+
+//__________________________________________END
+
+
+//__________________________________________BEGIN get user rating choice and display
+
+
+$('#rating-control').on('change', function(e) {
+let ratingFromUser = this.value
+
+if(e.target.value === "all"){
+   //alert("Weeeeeee")
+   displaySurroundingPlaceList(sortRestByRating(restaurants));
+}else{
+  let ratingNumberFromUser = parseInt(ratingFromUser);
+
+  let specificRating = getSpecificRating(restaurants,ratingNumberFromUser);
+  displaySurroundingPlaceList(specificRating);
+  }
+});
+
+
+//__________________________________________END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ================ Fran code ===================
 /*function createSurroundingPlaceList() {
 
@@ -66,6 +152,7 @@ function createSurroundingPlaceMarkers(map) { // WORK   <---------------
 }*/
 //__________________________________________END 
 //_________________________________________BEGIN sort Restaurant List By Rating
+/*
 // ================= Fran code =========================
 function sortRestByRating(restaurantsArray){
   let restaurants = [...restaurantsArray];
@@ -85,6 +172,12 @@ function displaySurroundingPlaceList(restaurantsArray) {
     restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating + "</li>")
   }
 }
+
+
+*/
+
+
+
 /*
 function createSurroundingPlaceList() {
 
@@ -260,6 +353,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
       createSurroundingPlaceMarkers(map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
       //createSurroundingPlaceList();
       //let sortedRestaurants = sortRestByRating(restaurants);
+      //displaySurroundingPlaceList(sortRestByRating(restaurants));
       displaySurroundingPlaceList(sortRestByRating(restaurants));
 
     });
