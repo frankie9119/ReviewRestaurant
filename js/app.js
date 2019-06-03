@@ -1,5 +1,6 @@
 "use strict";
 let restaurants = [];
+let markers = [];
 
 //_________________________________________BEGIN createMap
 
@@ -99,11 +100,22 @@ function createSurroundingPlaceMarkers(map,restaurantsArray) {
       name: restaurantsArray[i].name,
     });
     // add click on marker info modal()
+    markers.push(marker)
     clickOnMarkerInfo(marker)
 
   }
 }
+      // Sets the map on all markers in the array.
 
+            // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        setMapOnAll(null);
+      }
+            // Deletes all markers in the array by removing references to them.
+      function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+      }
 //__________________________________________END 
 
 
@@ -123,14 +135,14 @@ if(e.target.value === "all"){
 
 
   // *****************************************************************************************
-  //                   WORKING ON ALSO UPDATE THE MAP WHEN SORT BY RATING 
+  //                   WORKING ON UPDATE THE MAP WHEN SORT BY RATING 
   // *****************************************************************************************
 
   let specificRating = getSpecificRating(restaurants,ratingNumberFromUser);
-  console.log(restaurants)
-  //console.log(specificRating)
+  console.log(restaurants);
   displaySurroundingPlaceList(specificRating);
-
+  //deleteMarkers()
+  //createSurroundingPlaceMarkers(map,specificRating)
   }
 });
 
