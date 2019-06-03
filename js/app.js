@@ -237,6 +237,17 @@ function initMap() {
       // ============ BEGUIN SEARCH FUNCTION ******************* ===================================== ___________________----------------_________________ // @!#!$!@*(%^!(*&!@*&#^))
       function search() {
         var getNextPage = null;
+
+var serviceNew = new google.maps.places.PlacesService(map);
+  serviceNew.getDetails({
+    placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'
+  }, function(place, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      for(var i=0; i <= place.reviews.length; i++) {
+        console.log(place.reviews[i]);
+      }
+    }
+  });
         service = new google.maps.places.PlacesService(map);
 
         /* TEST id places ===== not working =====
@@ -275,6 +286,11 @@ function initMap() {
             type: ['restaurant']
           },
 
+
+
+
+
+
           function(results, status, pagination) {
             if (status !== 'OK') return;
 
@@ -286,6 +302,21 @@ function initMap() {
             }
             //this console.log is super helpfull
             console.log(results);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             let userRating = $('#form-control');
 
