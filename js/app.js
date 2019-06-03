@@ -156,7 +156,7 @@ let serviceNew = new google.maps.places.PlacesService(map);
       for(let i = 0; i <= restaurants.reviews.length; i++) {
 
         
-        let displayReview = restaurants.reviews[i]
+        let displayReview = restaurants.reviews[i];
         
         console.log(displayReview);
         let reviewDisplayList = $("#review");
