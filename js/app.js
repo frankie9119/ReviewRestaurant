@@ -97,6 +97,7 @@ function createSurroundingPlaceMarkers(map,restaurantsArray) {
       icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
       position: restaurantsArray[i].position,
       name: restaurantsArray[i].name,
+      rating: restaurantsArray[i].rating,
     });
     // add click on marker info modal()
     clickOnMarkerInfo(marker)
@@ -146,8 +147,10 @@ if(e.target.value === "all"){
 function clickOnMarkerInfo(marker) {
 
   marker.addListener('click', function() {
-    alert(marker.name)
+    //alert(marker.name)
+    //alert(marker.rating)
     $("#title").html(marker.name);
+    $("#rating-small").html(buildRatingStarDisplayValue(marker.rating))
     // Modal
     $("#myModal").modal();
 
@@ -165,6 +168,8 @@ function clickOnMarkerInfo(marker) {
 // ================ Fran code ===================
 function displayNewRestaurantContent(newMarker, newRestaurantContent) {
   $("#title").html(newRestaurantContent.name);
+  $("#rating-small").html(buildRatingStarDisplayValue(newRestaurantContent.rating))
+
   // Modal
   $("#myModal").modal();
         // ======== STREET VIEW ============
