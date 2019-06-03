@@ -33,26 +33,7 @@ function buildRatingStarDisplayValue(numbVal) { // @ creates a string of "stars"
 
 
 
-//__________________________________________BEGIN create surrounding place markers
 
-function createSurroundingPlaceMarkers(map) { // WORK   <---------------
-
-  // ==============  Fran code  =========================================
-  for (let i = 0; i < restaurants.length; i++) {
-
-    let marker = new google.maps.Marker({
-      map: map,
-      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      position: restaurants[i].position,
-      name: restaurants[i].name,
-    });
-    // add click on marker info modal()
-    clickOnMarkerInfo(marker)
-
-  }
-}
-
-//__________________________________________END 
 
 
 
@@ -101,6 +82,26 @@ function displaySurroundingPlaceList(restaurantsArray) {
 
 
 //__________________________________________END
+//__________________________________________BEGIN create surrounding place markers
+
+function createSurroundingPlaceMarkers(map) { 
+
+  // ==============  Fran code  =========================================
+  for (let i = 0; i < restaurants.length; i++) {
+
+    let marker = new google.maps.Marker({
+      map: map,
+      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+      position: restaurants[i].position,
+      name: restaurants[i].name,
+    });
+    // add click on marker info modal()
+    clickOnMarkerInfo(marker)
+
+  }
+}
+
+//__________________________________________END 
 
 
 //__________________________________________BEGIN get user rating choice and display
@@ -116,9 +117,9 @@ if(e.target.value === "all"){
   let ratingNumberFromUser = parseInt(ratingFromUser);
 
 
-  // I THINK I SHOULD ROUND THE RATING NUMBERS HERE before passing it in into SPECIFIC-RATING
-
-
+  // *****************************************************************************************
+  //                   WORKING ON ALSO UPDATE THE MAP WHEN SORT BY RATING 
+  // *****************************************************************************************
 
   let specificRating = getSpecificRating(restaurants,ratingNumberFromUser);
   console.log(restaurants)
@@ -270,8 +271,9 @@ function getSurroundingPlaces(map, userGeoLocation) {
         allRestaurant = {
           name: results[i].name,
           position: results[i].geometry.location,
-          rating: results[i].rating,
+          rating: Math.round(results[i].rating),
         }
+
         restaurants.push(allRestaurant)
       }
 
