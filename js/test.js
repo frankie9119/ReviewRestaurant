@@ -39,3 +39,40 @@
 
 
 
+
+
+
+
+markers.addListener('click', function() {
+
+  $("#title").html(markers.title);
+  $("#rating-small").html(buildRatingStarDisplayValue(markers.rate));
+  //$("#review").html(markers.title);
+  // Modal
+  $("#myModal").modal();
+  //======= street View ========
+  var panorama = new google.maps.StreetViewPanorama(
+    document.getElementById('street-view'), {
+      position: markers.position,
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -151,6 +151,13 @@ function clickOnMarkerInfo(marker) {
     // Modal
     $("#myModal").modal();
 
+      // ======== STREET VIEW ============
+      var panorama = new google.maps.StreetViewPanorama(
+    document.getElementById('street-view'), {
+      position: marker.position,
+
+    });
+
   })
 }
 //___________________________________________END
@@ -160,6 +167,12 @@ function displayNewRestaurantContent(newMarker, newRestaurantContent) {
   $("#title").html(newRestaurantContent.name);
   // Modal
   $("#myModal").modal();
+        // ======== STREET VIEW ============
+      var panorama = new google.maps.StreetViewPanorama(
+    document.getElementById('street-view'), {
+      position: newMarker.position,
+
+    });
 }
 //___________________________________________END
 
