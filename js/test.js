@@ -35,7 +35,20 @@
 
 
 
-
+let service = new google.maps.places.PlacesService(map);
+  service.nearbySearch({
+      location: userGeoLocation,
+    },
+    function(results, status) {
+      if (status !== 'OK') return;
+      for (let i = 0; i < results.length; i++) {
+        let storage = [];
+        storage = {
+          position: results[i].geometry.location,
+          placeId: results[i].id,
+        }
+      }
+    });
 
 
 

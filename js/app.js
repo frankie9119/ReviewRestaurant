@@ -87,7 +87,7 @@ function displaySurroundingPlaceList(restaurantsArray) {
 
 
 function createSurroundingPlaceMarkers(map,restaurantsArray) { 
-
+//console.log(restaurantsArray)
   // ==============  Fran code  =========================================
   for (let i = 0; i < restaurantsArray.length; i++) {
 
@@ -98,24 +98,19 @@ function createSurroundingPlaceMarkers(map,restaurantsArray) {
       icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
       position: restaurantsArray[i].position,
       name: restaurantsArray[i].name,
+      rating: restaurantsArray[i].rating,
+      placeId: restaurantsArray[i].placeId,
+      id: restaurantsArray[i].id
+      //review: restaurantsArray[i].review,
     });
     // add click on marker info modal()
-    markers.push(marker)
     clickOnMarkerInfo(marker)
+    markers.push(marker)
+    //console.log(marker.review)
 
   }
 }
-      // Sets the map on all markers in the array.
 
-            // Removes the markers from the map, but keeps them in the array.
-      function clearMarkers() {
-        setMapOnAll(null);
-      }
-            // Deletes all markers in the array by removing references to them.
-      function deleteMarkers() {
-        clearMarkers();
-        markers = [];
-      }
 //__________________________________________END 
 
 
@@ -135,14 +130,14 @@ if(e.target.value === "all"){
 
 
   // *****************************************************************************************
-  //                   WORKING ON UPDATE THE MAP WHEN SORT BY RATING 
+  //                   WORKING ON ALSO UPDATE THE MAP WHEN SORT BY RATING 
   // *****************************************************************************************
 
   let specificRating = getSpecificRating(restaurants,ratingNumberFromUser);
-  console.log(restaurants);
+  console.log(restaurants)
+  //console.log(specificRating)
   displaySurroundingPlaceList(specificRating);
-  //deleteMarkers()
-  //createSurroundingPlaceMarkers(map,specificRating)
+
   }
 });
 
@@ -158,10 +153,22 @@ if(e.target.value === "all"){
 function clickOnMarkerInfo(marker) {
 
   marker.addListener('click', function() {
-    alert(marker.name)
+    //alert(marker.name)
+    //alert(marker.rating)
     $("#title").html(marker.name);
+    $("#rating-small").html(buildRatingStarDisplayValue(marker.rating));
+    $("#review").html(marker.placeId);
+    
+
     // Modal
     $("#myModal").modal();
+
+      // ======== STREET VIEW ============
+      var panorama = new google.maps.StreetViewPanorama(
+    document.getElementById('street-view'), {
+      position: marker.position,
+
+    });
 
   })
 }
@@ -170,8 +177,16 @@ function clickOnMarkerInfo(marker) {
 // ================ Fran code ===================
 function displayNewRestaurantContent(newMarker, newRestaurantContent) {
   $("#title").html(newRestaurantContent.name);
+  $("#rating-small").html(buildRatingStarDisplayValue(newRestaurantContent.rating))
+
   // Modal
   $("#myModal").modal();
+        // ======== STREET VIEW ============
+      var panorama = new google.maps.StreetViewPanorama(
+    document.getElementById('street-view'), {
+      position: newMarker.position,
+
+    });
 }
 //___________________________________________END
 
@@ -210,6 +225,7 @@ function addMarker(data, map) {
     lng: data.latLng.lng(),//more readable 
   });
   newRestaurantContent(newMarker)
+  markers.push(newMarker)
 }
 
 
@@ -273,6 +289,7 @@ function newRestaurantContent(newMarker) {
 function getSurroundingPlaces(map, userGeoLocation) {
   let service = new google.maps.places.PlacesService(map);
 
+
   service.nearbySearch({
       location: userGeoLocation,
       radius: 500,
@@ -290,6 +307,8 @@ function getSurroundingPlaces(map, userGeoLocation) {
           name: results[i].name,
           position: results[i].geometry.location,
           rating: Math.round(results[i].rating),
+          placeId: results[i].place_id,
+          id: results[i].id
         }
 
         restaurants.push(allRestaurant)
