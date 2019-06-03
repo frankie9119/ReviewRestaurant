@@ -158,7 +158,7 @@ let serviceNew = new google.maps.places.PlacesService(map);
         
         let displayReview = restaurants.reviews[i];
         
-        console.log(displayReview);
+        console.log(displayReview.text);
         let reviewDisplayList = $("#review");
 
         reviewDisplayList.append("<li>" + displayReview.text +"</li>")
