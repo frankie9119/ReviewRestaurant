@@ -52,3 +52,92 @@ let service = new google.maps.places.PlacesService(map);
 
 
 
+
+
+
+
+
+
+
+
+function getReviewFromGoogle (marker){
+
+let serviceNew = new google.maps.places.PlacesService(map);
+
+  serviceNew.getDetails({
+    placeId: marker.placeId
+  }, function(restaurants, status) {
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+      for(let i = 0; i <= restaurants.reviews.length; i++) {
+
+        console.log(restaurants.reviews[i]);
+      }
+    }
+  });
+}
+
+var service = new google.maps.places.PlacesService(map);
+  service.getDetails({
+    placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'
+  }, function(place, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      for(var i=0; i <= place.reviews.length; i++) {
+        console.log(place.reviews[i]);
+      }
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function displaySurroundingPlaceList(restaurantsArray) {
+  $("#restaurantsList").empty();
+  let restaurantsList = $("#restaurantsList");
+  for (let i = 0; i < restaurantsArray.length; i++) {
+    restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating +' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) +"</li>")
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

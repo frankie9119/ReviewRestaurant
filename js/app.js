@@ -144,7 +144,32 @@ if(e.target.value === "all"){
 
 //__________________________________________END
 
+function getReviewFromGoogle(marker) {
+let serviceNew = new google.maps.places.PlacesService(map);
 
+  serviceNew.getDetails({
+    placeId: marker.placeId
+  }, function(restaurants, status) {
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+      for(let i = 0; i <= restaurants.reviews.length; i++) {
+
+        
+        let displayReview = restaurants.reviews[i]
+        
+        console.log(displayReview);
+        let reviewDisplayList = $("#review");
+
+        reviewDisplayList.append("<li>" + displayReview.text +"</li>")
+
+
+
+
+      }
+    }
+  });
+}
 
 
 
@@ -157,11 +182,12 @@ function clickOnMarkerInfo(marker) {
     //alert(marker.rating)
     $("#title").html(marker.name);
     $("#rating-small").html(buildRatingStarDisplayValue(marker.rating));
-    $("#review").html(marker.placeId);
+    //$("#review").html(marker.placeId);
+    getReviewFromGoogle(marker, restaurants)
     
-
     // Modal
     $("#myModal").modal();
+    //getReviewFromGoogle(marker);
 
       // ======== STREET VIEW ============
       var panorama = new google.maps.StreetViewPanorama(
