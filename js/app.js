@@ -84,16 +84,19 @@ function displaySurroundingPlaceList(restaurantsArray) {
 //__________________________________________END
 //__________________________________________BEGIN create surrounding place markers
 
-function createSurroundingPlaceMarkers(map) { 
+
+function createSurroundingPlaceMarkers(map,restaurantsArray) { 
 
   // ==============  Fran code  =========================================
-  for (let i = 0; i < restaurants.length; i++) {
+  for (let i = 0; i < restaurantsArray.length; i++) {
+
+//if (restaurantsArray[i].getMap() != null) restaurantsArray[i].setMap(null);
 
     let marker = new google.maps.Marker({
       map: map,
       icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      position: restaurants[i].position,
-      name: restaurants[i].name,
+      position: restaurantsArray[i].position,
+      name: restaurantsArray[i].name,
     });
     // add click on marker info modal()
     clickOnMarkerInfo(marker)
@@ -114,6 +117,8 @@ if(e.target.value === "all"){
    //alert("Weeeeeee")
    displaySurroundingPlaceList(sortRestByRating(restaurants));
 }else{
+
+
   let ratingNumberFromUser = parseInt(ratingFromUser);
 
 
@@ -125,6 +130,7 @@ if(e.target.value === "all"){
   console.log(restaurants)
   //console.log(specificRating)
   displaySurroundingPlaceList(specificRating);
+
   }
 });
 
@@ -281,7 +287,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
 
       // ==============  Fran code  =========================================
-      createSurroundingPlaceMarkers(map); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
+      createSurroundingPlaceMarkers(map, restaurants); // WOrk (this might not be the proper place to invoke this function.....you must decide for yourself. It looks about right ....kinda :)
       //createSurroundingPlaceList();
       //let sortedRestaurants = sortRestByRating(restaurants);
       //displaySurroundingPlaceList(sortRestByRating(restaurants));
