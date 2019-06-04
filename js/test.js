@@ -110,6 +110,48 @@ var service = new google.maps.places.PlacesService(map);
 
 
 
+function getReviewFromGoogle(marker,restaurants,map) {
+let serviceNew = new google.maps.places.PlacesService(map);
+for(let i = 0; i < restaurants.placeId.length; i++){
+  let restaurantsPlaceId = restaurants.placeId[i]
+  console.log(restaurantsPlaceId)
+}
+  serviceNew.getDetails({
+    placeId: marker.placeId
+  }, function(restaurants, status) {
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      
+      
+      for(let i = 0; i <= restaurants.reviews.length; i++) {
+        console.log(restaurants.reviews[i]);
+        let review = restaurants.reviews[i];
+        //reviews.push(review);
+        console.log(restaurants);
+        //console.log(displayReview.author_name);
+        
+
+      }
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function displaySurroundingPlaceList(restaurantsArray) {
   $("#restaurantsList").empty();
   let restaurantsList = $("#restaurantsList");
