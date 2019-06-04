@@ -171,7 +171,7 @@ function getReviewFromGoogle(marker, restaurants, map) {
 function displayReviewList(displayReview) {
   $("#review").empty();
   let reviewDisplayList = $("#review");
-  //$("#review").empty();
+  
   for (let i = 0; i <= displayReview.length; i++) {
     console.log(displayReview[i])
     reviewDisplayList.append("<li>" + displayReview[i].text + "</li>")
