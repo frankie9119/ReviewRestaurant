@@ -104,7 +104,7 @@ function createSurroundingPlaceMarkers(map,restaurantsArray) {
       //review: restaurantsArray[i].review,
     });
     // add click on marker info modal()
-    clickOnMarkerInfo(marker)
+    clickOnMarkerInfo(marker,map)
     markers.push(marker)
     //console.log(marker.review)
 
@@ -144,7 +144,7 @@ if(e.target.value === "all"){
 
 //__________________________________________END
 
-function getReviewFromGoogle(marker) {
+function getReviewFromGoogle(marker,restaurants,map) {
 let serviceNew = new google.maps.places.PlacesService(map);
 
   serviceNew.getDetails({
@@ -152,17 +152,20 @@ let serviceNew = new google.maps.places.PlacesService(map);
   }, function(restaurants, status) {
 
     if (status === google.maps.places.PlacesServiceStatus.OK) {
-
+      
+      
       for(let i = 0; i <= restaurants.reviews.length; i++) {
-
+        console.log(restaurants.reviews[i])
         
         let displayReview = restaurants.reviews[i];
-        
-        console.log(displayReview.text);
+
         let reviewDisplayList = $("#review");
-
         reviewDisplayList.append("<li>" + displayReview.text +"</li>")
+        
+        //console.log(displayReview.author_name);
+        
 
+        
 
 
 
@@ -175,7 +178,7 @@ let serviceNew = new google.maps.places.PlacesService(map);
 
 //___________________________________________BEGIN click on markers info
 // ================ Fran code ===================
-function clickOnMarkerInfo(marker) {
+function clickOnMarkerInfo(marker,map) {
 
   marker.addListener('click', function() {
     //alert(marker.name)
@@ -183,8 +186,25 @@ function clickOnMarkerInfo(marker) {
     $("#title").html(marker.name);
     $("#rating-small").html(buildRatingStarDisplayValue(marker.rating));
     //$("#review").html(marker.placeId);
-    getReviewFromGoogle(marker, restaurants)
+    getReviewFromGoogle(marker, restaurants, map)
     
+/*
+var service = new google.maps.places.PlacesService(map);
+  service.getDetails({
+    placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'
+  }, function(restaurants, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      for(var i=0; i <= restaurants.reviews.length; i++) {
+        console.log(restaurants.reviews[i]);
+      }
+    }
+  });
+
+*/
+
+
+
+
     // Modal
     $("#myModal").modal();
     //getReviewFromGoogle(marker);
