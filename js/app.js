@@ -152,8 +152,8 @@ function getReviewFromGoogle(marker, restaurants, map) {
   let serviceNew = new google.maps.places.PlacesService(map);
 
   serviceNew.getDetails({
-    placeId: marker.placeId
-  }, function(restaurants, status) {
+    placeId: restaurants.placeId
+  }, function(marker, status) {
 
     if (status === google.maps.places.PlacesServiceStatus.OK) {
 
