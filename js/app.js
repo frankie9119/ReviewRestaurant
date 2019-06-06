@@ -1,6 +1,7 @@
 "use strict";
 let restaurants = [];
 let newRestaurants = [];
+let allMarkers = [];
 
 
 //_________________________________________BEGIN createMap
@@ -105,6 +106,7 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
       //review: restaurantsArray[i].review,
     });
     // add click on marker info modal()
+    allMarkers.push(marker);
     clickOnMarkerInfo(marker, map)
     
     //console.log(marker.review)
@@ -124,6 +126,8 @@ $('#rating-control').on('change', function(e) {
   if (e.target.value === "all") {
     //alert("Weeeeeee")
     displaySurroundingPlaceList(sortRestByRating(restaurants));
+    setMapOnAll(null);
+    showMarkers();
   } else {
 
 
@@ -138,13 +142,38 @@ $('#rating-control').on('change', function(e) {
     console.log(restaurants)
     //console.log(specificRating)
     displaySurroundingPlaceList(specificRating);
-
+    setMapOnAll(null);
+    setMapOnSome(ratingNumberFromUser);
   }
 });
 
 
 //__________________________________________END
+/* ==============================================================
+           HERE I AM SETTING THE MARKERS ON MAP
+==============================================================*/ 
+      function setMapOnAll(map) {
+        for (var i = 0; i < allMarkers.length; i++) {
 
+          allMarkers[i].setMap(map);
+        }
+      }
+
+      function showMarkers() {
+        setMapOnAll(map);
+      }
+
+      function setMapOnSome(ratingNumberFromUser){
+        //setMapOnAll(null);
+        for (var i = 0; i < allMarkers.length; i++) {
+          if(allMarkers[i].rating === ratingNumberFromUser){
+            allMarkers[i].setMap(map);
+          }
+        }
+      }
+/* ==============================================================
+      end - HERE I AM SETTING THE MARKERS ON MAP  -  end
+==============================================================*/
 
 //___________________________________________BEGIN get review from google
 // ================ Fran code ===================
@@ -276,6 +305,7 @@ function createNewPlaceMarker(data,map,newRestaurantContent){
     lat: data.latLng.lat(), //more readable
     lng: data.latLng.lng(), //more readable 
   });
+  allMarkers.push(newMarker);
   clickOnNewMarkerInfo(newMarker, map,newRestaurantContent)
 
 }
@@ -340,6 +370,7 @@ function newRestaurantContent(data,map) {
 
       //}) // END when click new marker DisplayForm - set newName
     }
+
   }
 
 //}
@@ -467,17 +498,18 @@ function createPopUpInfoWindow() {
 
 
 
-
-
 //___________________________________________BEGIN MAIN application
-
+let map;
 function initMap() {
-  let map = createMap();
+  map = createMap();
 
   let infoWindow = createPopUpInfoWindow();
   getUserGeoLocation(map, infoWindow);
   addRestaurant(map);
 
+
+  //setMapOnAll(map);
+  //displaySomeMarkers(map)
 
 
 
