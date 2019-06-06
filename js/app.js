@@ -1,6 +1,6 @@
 "use strict";
 let restaurants = [];
-let newRestaurants = [];
+//let newRestaurants = [];
 let allMarkers = [];
 
 
@@ -275,7 +275,7 @@ function createNewDataStructureForNewRestaurants(data, map) {
     
     //default name for new restaurant is "A"
 
-    newRestaurants.push({
+    restaurants.push({
     name: 'A',
     position: data.latLng,
     lat: data.latLng.lat(),
@@ -291,7 +291,7 @@ function createNewDataStructureForNewRestaurants(data, map) {
   //newRestaurants.push(restaurantsCreated)
 
 
-  console.log(newRestaurants)
+  console.log(restaurants)
 
 
   newRestaurantContent(data,map)
@@ -323,10 +323,10 @@ function createNewPlaceMarker(data,map,newRestaurantContent,ratingNumberNewResta
 
 function newRestaurantContent(data,map) {
   //loop through restaurants global
-  for (let i = 0; i < newRestaurants.length; i++) {
+  for (let i = 0; i < restaurants.length; i++) {
     //looking for restaurant with same position of marker
     //if (newRestaurants[i].position === newMarker.position) {
-      let newRestaurantContent = newRestaurants[i]
+      let newRestaurantContent = restaurants[i]
 
       //when click new marker DisplayForm - set newName
       //newMarker.addListener('click', function() {
@@ -353,7 +353,7 @@ function newRestaurantContent(data,map) {
               newRestaurantContent.userReview = userReview;
 
               //pushing to global RESTAURANTS 
-              restaurants.push(newRestaurantContent)
+
               //display on right pannel list
               displaySurroundingPlaceList(sortRestByRating(restaurants));
             }
