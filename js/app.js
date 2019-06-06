@@ -298,12 +298,13 @@ function createNewDataStructureForNewRestaurants(data, map) {
   
 }
 
-function createNewPlaceMarker(data,map,newRestaurantContent){
+function createNewPlaceMarker(data,map,newRestaurantContent,ratingNumberNewRestaurant){
     let newMarker = new google.maps.Marker({
     position: data.latLng,
     map: map,
     lat: data.latLng.lat(), //more readable
-    lng: data.latLng.lng(), //more readable 
+    lng: data.latLng.lng(), //more readable
+    rating: ratingNumberNewRestaurant, 
   });
   allMarkers.push(newMarker);
   clickOnNewMarkerInfo(newMarker, map,newRestaurantContent)
@@ -341,7 +342,7 @@ function newRestaurantContent(data,map) {
             let userName = document.getElementById('user-name').value;
             let userReview = document.getElementById('user-review').value;
 
-            createNewPlaceMarker(data,map,newRestaurantContent)
+            createNewPlaceMarker(data,map,newRestaurantContent,ratingNumberNewRestaurant)
             //when you create a new restaurant the default name is "A"
             //if the default name is A change it with new user input
             if (newRestaurantContent.name === 'A') {
