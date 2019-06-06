@@ -1,6 +1,7 @@
 "use strict";
 let restaurants = [];
-let markers = [];
+let newRestaurants = [];
+
 
 //_________________________________________BEGIN createMap
 
@@ -105,7 +106,7 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
     });
     // add click on marker info modal()
     clickOnMarkerInfo(marker, map)
-    markers.push(marker)
+    
     //console.log(marker.review)
 
   }
@@ -209,8 +210,8 @@ function clickOnMarkerInfo(marker, map) {
 //___________________________________________END
 //___________________________________________BEGIN display New Restaurant Content
 // ================ Fran code ===================
-function displayNewRestaurantContent(newMarker, newRestaurantContent) {
-
+function clickOnNewMarkerInfo(newMarker, map,newRestaurantContent) {
+newMarker.addListener('click', function() {
   $("#title").html(newRestaurantContent.name);
   $("#rating-small").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
   $("review").html(newRestaurantContent.userReview);
@@ -222,6 +223,7 @@ function displayNewRestaurantContent(newMarker, newRestaurantContent) {
       position: newMarker.position,
 
     });
+  });
 }
 //___________________________________________END
 
@@ -231,7 +233,8 @@ function displayNewRestaurantContent(newMarker, newRestaurantContent) {
 function addRestaurant(map) {
   // This event listener calls addMarker() when the map is clicked.
   map.addListener('rightclick', function(e) {
-    addMarker(e, map);
+    document.getElementById("form-add-restaurant").style.display = "block";
+    createNewDataStructureForNewRestaurants(e, map);
   });
 }
 //___________________________________________END
@@ -239,32 +242,43 @@ function addRestaurant(map) {
 
 //_________________________________________BEGIN add marker for new restaurant to the map.
 
-function addMarker(data, map) {
-  // Add the marker at the clicked location, and add the next-available label
-
-  restaurants.push({
+function createNewDataStructureForNewRestaurants(data, map) {
+    
     //default name for new restaurant is "A"
-    name: "A",
+
+    newRestaurants.push({
+    name: 'A',
     position: data.latLng,
     lat: data.latLng.lat(),
     lng: data.latLng.lng(),
+    userName: '',
+    userReview: '',
     userCreated: true,
     placeId: 0,
     newPlaceId: true,
-  })
+    })
+  
+  
+  //newRestaurants.push(restaurantsCreated)
 
-  console.log(restaurants)
 
-  var newMarker = new google.maps.Marker({
+  console.log(newRestaurants)
+
+
+  newRestaurantContent(data,map)
+  
+}
+
+function createNewPlaceMarker(data,map,newRestaurantContent){
+    let newMarker = new google.maps.Marker({
     position: data.latLng,
     map: map,
     lat: data.latLng.lat(), //more readable
     lng: data.latLng.lng(), //more readable 
   });
-  newRestaurantContent(newMarker)
-  markers.push(newMarker)
-}
+  clickOnNewMarkerInfo(newMarker, map,newRestaurantContent)
 
+}
 
 //___________________________________________END
 
@@ -275,15 +289,16 @@ function addMarker(data, map) {
              Getting data from user - DOM manipulation *****
 **************************************************************************** */
 
-function newRestaurantContent(newMarker) {
+
+function newRestaurantContent(data,map) {
   //loop through restaurants global
-  for (let i = 0; i < restaurants.length; i++) {
+  for (let i = 0; i < newRestaurants.length; i++) {
     //looking for restaurant with same position of marker
-    if (restaurants[i].position === newMarker.position) {
-      let newRestaurantContent = restaurants[i]
+    //if (newRestaurants[i].position === newMarker.position) {
+      let newRestaurantContent = newRestaurants[i]
 
       //when click new marker DisplayForm - set newName
-      newMarker.addListener('click', function() {
+      //newMarker.addListener('click', function() {
         //check if it is a new restaurant
         if (newRestaurantContent.userCreated === true) {
           //display form
@@ -296,6 +311,7 @@ function newRestaurantContent(newMarker) {
             let userName = document.getElementById('user-name').value;
             let userReview = document.getElementById('user-review').value;
 
+            createNewPlaceMarker(data,map,newRestaurantContent)
             //when you create a new restaurant the default name is "A"
             //if the default name is A change it with new user input
             if (newRestaurantContent.name === 'A') {
@@ -304,22 +320,30 @@ function newRestaurantContent(newMarker) {
 
               newRestaurantContent.userName = userName;
               newRestaurantContent.userReview = userReview;
+
+              //pushing to global RESTAURANTS 
+              restaurants.push(newRestaurantContent)
+              //display on right pannel list
               displaySurroundingPlaceList(sortRestByRating(restaurants));
             }
             //hide form
             document.getElementById("form-add-restaurant").style.display = "none";
+
           })
         } else { // If the newRestaurantContent.userCreated is NOT true 
-          displayNewRestaurantContent(newMarker, newRestaurantContent)
+
+          //displayNewRestaurantContent(newMarker, newRestaurantContent)
         }
 
         newRestaurantContent.userCreated = false;
 
 
-      }) // END when click new marker DisplayForm - set newName
+      //}) // END when click new marker DisplayForm - set newName
     }
   }
-}
+
+//}
+
 
 /*-----------------------------------------------------------------------------------*/
 
