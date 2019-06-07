@@ -1,6 +1,6 @@
 "use strict";
 
-//_______ globals
+//_______ globals ________
 let restaurants = [];
 let allMarkers = [];
 let map;
