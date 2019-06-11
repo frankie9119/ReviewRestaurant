@@ -12,7 +12,7 @@ let map;
 function createMap() {
   return new google.maps.Map(document.getElementById('map'), {
 
-    zoom: 17
+    zoom: 15
   });
 }
 
@@ -94,7 +94,8 @@ function displayReviewList(displayReview) {
   let reviewDisplayList = $("#review");
 
   for (let i = 0; i < displayReview.length; i++) {
-    reviewDisplayList.append("<li>" + displayReview[i].text + "</li>")
+    console.log(displayReview[i]);
+    reviewDisplayList.append("<li>" +'<b>Author:</b> ' + displayReview[i].author_name +'<br>' +'<b>Review:</b> '+displayReview[i].text + "</li>")
   }
 }
 
@@ -173,7 +174,7 @@ function clickOnMarkerInfo(marker, map) {
   marker.addListener('click', function() {
 
     $("#title").html(marker.name);
-    $("#rating-small").html(buildRatingStarDisplayValue(marker.rating));
+    $("#rating-stars").html(buildRatingStarDisplayValue(marker.rating));
     $("#review").html(marker.placeId);
     //alert(marker.placeId)
     getReviewFromGoogle(marker, restaurants, map)
@@ -220,6 +221,7 @@ function clickOnMarkerInfo(marker, map) {
 function addRestaurant(map) {
   // This event listener calls addMarker() when the map is clicked.
   map.addListener('rightclick', function(e) {
+
     document.getElementById("form-add-restaurant").style.display = "block";
     createNewDataStructureForNewRestaurants(e, map);
   });
@@ -341,16 +343,15 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
 // ================ Fran code ===================
 function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
   newMarker.addListener('click', function() {
-    $("#title-n").html('newRestaurantContent.name');
-    $("#rating-small-n").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
+    $("#title").html(newRestaurantContent.name);
+    $("#rating-stars").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
+    $("#review").append("<li>" +'<b>Author:</b> ' + newRestaurantContent.userName +'<br>' +'<b>Review:</b> '+newRestaurantContent.userReview + "</li>")
 
-    $("#rev-n").html(newRestaurantContent.userReview);
-//displayNewReviewList(newRestaurantContent)
     // Modal
-    $("#newModal").modal();
+    $("#myModal").modal();
     // ======== STREET VIEW ============
     let panoramaN = new google.maps.StreetViewPanorama(
-      document.getElementById('street-view-n'), {
+      document.getElementById('street-view'), {
         position: newMarker.position,
 
       });
@@ -360,13 +361,62 @@ function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
 
 //___________________________________________END
 
-function displayNewReviewList(newRestaurantContent) {
-  $("#review-n").empty();
-  let reviewDisplayList = $("#review");
 
-  //$("review-n").html('newRestaurantContent.userReview)');
-  $("review-n").append("<li>" + 'displayReview[i].text' + "</li>")
-}
+
+
+
+
+
+
+/* =================================================================================
+  
+                              WORKING ON ADD A REVIEW
+
+==================================================================================== */
+
+
+
+$('#btn-add-review').on('click', function() {
+  document.getElementById("add-new-review").style.display = "block";
+});
+
+
+
+
+
+
+    $('#add-new-review').on('click', function() {
+      
+      let ratingReview = document.getElementById('new-rating').value
+      let ratingReviewNumber = parseInt(ratingReview);
+      let userNameReview = document.getElementById('new-user-name').value;
+      let newReview = document.getElementById('new-user-review').value;
+
+
+document.getElementById("add-new-review").style.display = "none";
+    });
+
+
+
+
+
+
+
+/* =================================================================================
+  
+               end--->      WORKING ON ADD A REVIEW     <---end
+
+==================================================================================== */
+
+
+
+
+
+
+
+
+
+
 /* =================================================================================
   
    end----- THE FOLLOWING CODE IS WORKING WITH THE NEW RESTAURANTS ADDED --- end
@@ -400,7 +450,9 @@ function getSurroundingPlaces(map, userGeoLocation) {
           position: results[i].geometry.location,
           rating: Math.round(results[i].rating),
           placeId: results[i].place_id,
-          id: results[i].id
+          id: results[i].id,
+          review: '',
+          userReview: '',
         }
 
         restaurants.push(allRestaurant)

@@ -17,11 +17,16 @@
     </div>
 
 
-
+<!-- ===================================================================
+                            MAP
+=================================================================== -->
     <div id="map"></div>
-
+<!-- ===================================================================
+                          right panel
+=================================================================== -->
     <div id="right-panel" class="right-panel">
-      <h2>Sort by </h2>
+      <div class="right-panel-head">
+      <label><h2>Sort by </h2></label>
                   <select id="rating-control">
                     <option value="all">All stars</option>
                     <option value="1">1</option>
@@ -30,12 +35,15 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                   </select>
-      <h2>Results</h2>
+      </div>
       <ul id="restaurantsList"></ul>
     </div>
 
-<div id="info-content-new-restaurant" >
+<!-- ===================================================================
+                Info Content - When right click
+=================================================================== -->
 
+<div id="info-content-new-restaurant" >
 
             <form id="form-add-restaurant" action="post">
               <h3 class="add-res-heading">Add A Restaurant</h3>
@@ -60,26 +68,35 @@
         </div>
 
 
+
+<!-- ===================================================================
+             MODAL - When click on  markers
+=================================================================== -->
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title" id="title"></h4>
-            <h4 id="rating-small"></h4>
+            
+            <div class="title-modal"><h4 class="modal-title" id="title"></h4></div>
+            <div class="rating-stars"><h4 id="rating-stars"></h4></div>
 
           </div>
           <div id="street-view"></div>
-
+          <p id="review-text">Reviews:</p>
           <div class="modal-body" id="review">
-            <p>Reviews:</p>
+            
           </div>
 
           <div class="modal-footer">
+            <div class="btn-add-review">
+            <button type="button" class="btn btn-default " data-dismiss="modal" id="btn-add-review">Add Review</button>
+            </div>
+            <div>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
           </div>
         </div>
 
@@ -88,35 +105,40 @@
 
 
 
+<!-- ===================================================================
+                    ADD NEW REVIEW form
+=================================================================== -->
+<div id="div-add-new-review" >
+            <form id="add-new-review" action="post">
+              <h3 class="add-new-review-head">Add A Review</h3>
+              <label for="add-new-user-name">Please add Your Name</label>
+              <input type="text" name="new-user-name" id="new-user-name" placeholder="Your Name" required>
 
+              <label for="new-rating">What Rating do you give this Restaurant</label>
+              <select id="new-rating" required>
+                    <option value="all">All stars</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
 
-
-    <!-- Modal -->
-    <div class="modal fade" id="newModal" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title" id="title-n"></h4>
-            <h4 id="rating-small-n"></h4>
-
-          </div>
-          <div id="street-view-n"></div>
-
-          <div class="modal-body" id="rev-n">
-            <p>Reviews:<br>kfjashd</p>
-
-          </div>
-          
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+              <label for="new-review">What would you like to say about this restaurant</label>
+              <textarea name="new-user-review" id="new-user-review" placeholder="Your Review" required></textarea>
+              <input type="button" id="btn-add-new-review"  class="button add-new-review"/>
+            </form>
         </div>
 
-      </div>
-    </div>
+
+
+
+
+
+
+
+
+
 
 
 

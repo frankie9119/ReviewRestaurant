@@ -581,3 +581,54 @@ function displayReviewList(displayReview) {
     reviewDisplayList.append("<li>" + displayReview[i].text + "</li>")
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#right-panel {
+  width: 30%;
+  height: 90%;
+  line-height: 30px;
+  padding-left: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  position: absolute;
+  right: 5px;
+  padding: 5px;
+  z-index: 5;
+  border: 1px solid #999;
+  background: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
