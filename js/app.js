@@ -239,12 +239,24 @@ function createNewDataStructureForNewRestaurants(data, map) {
   console.log(restaurants)
 
 
+  
+//setNewMarkerMap(null,newMarker);
+  
+
+  newRestaurantContent(data, map);
+  
+  
+
+}
+//______________________________________________END
+
+function newMarker(map,data,ratingNumberNewRestaurant){
   var newMarker = new google.maps.Marker({
     position: data.latLng,
     map: map,
     lat: data.latLng.lat(), //more readable
     lng: data.latLng.lng(), //more readable 
-    rating: 1,
+    rating: ratingNumberNewRestaurant,
                icon: {
                   path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
                   scale: 5,
@@ -254,21 +266,8 @@ function createNewDataStructureForNewRestaurants(data, map) {
                
                animation:google.maps.Animation.DROP,
   });
-
-//setNewMarkerMap(null,newMarker);
-  
-
-  newRestaurantContent(data, map,newMarker);
-  allMarkers.push(newMarker);
-  console.log(newMarker);
-
-}
-//______________________________________________END
-
-function setNewMarkerMap(map,newMarker){
-  for (let i=0; i<newMarker.length;i++){
-    newMarker[i].setMap(map);
-  }
+allMarkers.push(newMarker);
+console.log(newMarker);
 }
 
 //______________________________________________BEGIN new restaurant content
@@ -277,11 +276,11 @@ function setNewMarkerMap(map,newMarker){
              Getting data from user - DOM manipulation *****
 **************************************************************************** */
 
-function newRestaurantContent(data, map, newMarker) {
+function newRestaurantContent(data, map) {
 
   //loop through restaurants global
   for (let i = 0; i < restaurants.length; i++) {
-if (restaurants[i].position === newMarker.position) {
+//if (restaurants[i].position === newMarker.position) {
 
     let newRestaurantContent = restaurants[i]
 
@@ -310,12 +309,14 @@ if (restaurants[i].position === newMarker.position) {
               newRestaurantContent.userName = userName;
               newRestaurantContent.userReview = userReview;
 
-              newMarker.rating = ratingNumberNewRestaurant;
-              newMarker.icon.scale = 10;
+
+              //newMarker.rating = ratingNumberNewRestaurant;
+              //newMarker.icon.scale = 10;
                
                //newMarker.animation=google.maps.Animation.DROP;
               
               displaySurroundingPlaceList(sortRestByRating(restaurants));
+              newMarker(map,data,ratingNumberNewRestaurant);
             }
 
 
@@ -346,11 +347,11 @@ if (restaurants[i].position === newMarker.position) {
       //hide form
       document.getElementById("form-add-restaurant").style.display = "none";
 
-      console.log(restaurants);
+      //console.log(restaurants);
 
     });
   }
-  }
+  //}
 };
 
 
