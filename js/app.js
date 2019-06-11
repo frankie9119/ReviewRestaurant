@@ -591,27 +591,28 @@ function createPopUpInfoWindow() {
 function getReviewFromGoogle(restaurants, map) {
 
   let serviceNew = new google.maps.places.PlacesService(map);
-let restLoop=[];
+let restLoop;
 
 for (let i = 0; i < restaurants.length; i ++){
-  restLoop = restaurants[i].review;
+  //restLoop = restaurants[i];
   
-  //console.log(restaurants[i].placeId)
+  
   serviceNew.getDetails({
     placeId: restaurants[i].placeId
 
-  }, function(restaurants, status) {
+  }, function(restaurants, status, restLoop) {
 
     if (status === google.maps.places.PlacesServiceStatus.OK) {
 
-      let displayReview = restaurants.reviews;
+      let displayReview = restaurants.rating;
+
 //restaurants[i].review = restaurants.reviews.text
   for (let i = 0; i < displayReview.length; i++) {
 
-    console.log(displayReview[i])
+    restLoop = displayReview[i]
     console.log(restLoop)
     //restLoop.review = displayReview[i]
-    restLoop.push(displayReview[i])
+    //restLoop.push(displayReview[i])
   }
 //console.log()
 
@@ -628,6 +629,10 @@ for (let i = 0; i < restaurants.length; i ++){
 
     };
   });
+
+  //console.log(restLoop)
+  
+
   
 }
 
