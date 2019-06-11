@@ -1,9 +1,10 @@
 "use strict";
 
-//_______ globals ________
+//_______ globals
 let restaurants = [];
 let allMarkers = [];
 let map;
+let newRestaurant = [];
 
 
 //_________________________________________BEGIN createMap
@@ -107,7 +108,6 @@ function displayReviewList(displayReview) {
 /* ===========================================================================
   
     THE FOLLOWING CODE IS WORKING WITH THE RESTAURANTS FROM GOOGLE API
-
 =========================================================================== */
 
 
@@ -200,7 +200,6 @@ function clickOnMarkerInfo(marker, map) {
 /* ===========================================================================
   
     THE FOLLOWING CODE IS WORKING WITH THE NEW RESTAURANTS ADDED
-
 =========================================================================== */
 
 
@@ -226,19 +225,8 @@ function createNewDataStructureForNewRestaurants(data, map) {
 
   //default name for new restaurant is "A"
 
-  restaurants.push({
-    name: 'A',
-    position: data.latLng,
-    lat: data.latLng.lat(),
-    lng: data.latLng.lng(),
-    userName: '',
-    userReview: '',
-    placeId: 0,
-  })
 
-  console.log(restaurants)
-
-  newRestaurantContent(data, map)
+  newRestaurantContent(data, map);
 
 }
 //______________________________________________END
@@ -251,49 +239,56 @@ function createNewDataStructureForNewRestaurants(data, map) {
 **************************************************************************** */
 
 function newRestaurantContent(data, map) {
-
-  //loop through restaurants global
-  for (let i = 0; i < restaurants.length; i++) {
-
-    let newRestaurantContent = restaurants[i]
-
-
-    //display form
-    document.getElementById("form-add-restaurant").style.display = "block";
-
-    $('#add-restaurant').on('click', function() {
       let newName = document.getElementById('res-name').value
       let ratingNewRestaurant = document.getElementById('ratingNewRestaurant').value
-
-
-
       let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);// <---------- HERE !
-
-
-
       let userName = document.getElementById('user-name').value;
       let userReview = document.getElementById('user-review').value;
+      
+  
 
-      createNewPlaceMarker(data, map, newRestaurantContent, ratingNumberNewRestaurant);
+  newRestaurant = {
+    name: '',
+    position: data.latLng,
+    lat: data.latLng.lat(),
+    lng: data.latLng.lng(),
+    rating: 0,
+    userName: '',
+    userReview: '',
+    //placeId: 0,
+}
+//document.getElementById("form-add-restaurant").style.display = "block";
+  //loop through restaurants global
+  $('#add-restaurant').on('click', function() {
 
-      //when you create a new restaurant the default name is "A"
-      //if the default name is A change it with new user input
-      if (newRestaurantContent.name === 'A') {
-        newRestaurantContent.name = newName;
-        newRestaurantContent.rating = ratingNumberNewRestaurant;
+for (let i = 0; i<newRestaurant.length; i++){
+let newRestaurantContent = newRestaurant[i];
 
-        newRestaurantContent.userName = userName;
-        newRestaurantContent.userReview = userReview;
+  newRestaurantContent.name = newName;
+  newRestaurantContent.rating = ratingNumberNewRestaurant;
+  newRestaurantContent.userName = userName;
+  newRestaurantContent.userReview = userReview;
 
+restaurants.push(newRestaurant);
+console.log(restaurants);
+}
+
+
+
+  
+  
+
+document.getElementById("form-add-restaurant").style.display = "none";
+createNewPlaceMarker(data, map,newRestaurant);
         //display on right pannel list
         displaySurroundingPlaceList(sortRestByRating(restaurants));
-      }
-      //hide form
-      document.getElementById("form-add-restaurant").style.display = "none";
+});
 
-    });
+
+        
+     
   }
-};
+
 
 
 //______________________________________________END
@@ -302,20 +297,27 @@ function newRestaurantContent(data, map) {
 
 //_________________________________________BEGIN create new restaurant marker
 
-function createNewPlaceMarker(data, map, newRestaurantContent, ratingNumberNewRestaurant) {
+function createNewPlaceMarker(data, map,newRestaurant) {
 
-  alert(ratingNumberNewRestaurant) // <----------- HERE !
+  //alert(ratingNumberNewRestaurant) // <----------- HERE !
+
+
 
   let newMarker = new google.maps.Marker({
-    position: data.latLng,
+    position: newRestaurant.position,
     map: map,
-    lat: data.latLng.lat(), //more readable
-    lng: data.latLng.lng(), //more readable
-    rating: ratingNumberNewRestaurant,
+    //lat: data.latLng.lat(), //more readable
+    //lng: data.latLng.lng(), //more readable
+    rating: newRestaurant.rating,
   });
-  allMarkers.push(newMarker);
-  clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
 
+  //alert(newMarker.rating)
+  allMarkers.push(newMarker);
+
+  //clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
+
+
+  
 }
 
 //___________________________________________END

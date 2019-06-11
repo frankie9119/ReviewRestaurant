@@ -377,3 +377,144 @@ function newRestaurantContent(newMarker) {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    let marker = new google.maps.Marker({
+      map: map,
+      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+      position: restaurantsArray[i].position,
+      name: restaurantsArray[i].name,
+      rating: restaurantsArray[i].rating,
+      placeId: restaurantsArray[i].placeId,
+      id: restaurantsArray[i].id
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function newRestaurantContent(newMarker) {
+  //loop through restaurants global
+  for (let i = 0; i < restaurants.length; i++) {
+    //looking for restaurant with same position of marker
+    
+      let newRestaurantContent = restaurants[i]
+
+          $('#add-restaurant').on('click', function() {
+            let newName = document.getElementById('res-name').value
+            let ratingNewRestaurant = document.getElementById('ratingNewRestaurant').value
+            let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
+            let userName = document.getElementById('user-name').value;
+            let userReview = document.getElementById('user-review').value;
+
+
+              restaurants.push({
+                name: newName,
+                position: data.latLng,
+                lat: data.latLng.lat(),
+                lng: data.latLng.lng(),
+                rating: ratingNumberNewRestaurant,
+                userName: userName,
+                userReview: userReview,
+                placeId: 0,
+              })
+
+
+              displaySurroundingPlaceList(sortRestByRating(restaurants));
+            
+            //hide form
+            document.getElementById("form-add-restaurant").style.display = "none";
+          })
+        } 
+}
+
+
+       // END when click new marker DisplayForm - set newName
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+function createSurroundingPlaceMarkers(map, restaurantsArray) {
+
+  // ==============  Fran code  =========================================
+  for (let i = 0; i < restaurantsArray.length; i++) {
+
+    let marker = new google.maps.Marker({
+      map: map,
+      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+      position: restaurantsArray[i].position,
+      name: restaurantsArray[i].name,
+      rating: restaurantsArray[i].rating,
+      placeId: restaurantsArray[i].placeId,
+      id: restaurantsArray[i].id
+    });
+
+    allMarkers.push(marker);
+    // DISPLAY INFO
+    clickOnMarkerInfo(marker, map)
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
