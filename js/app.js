@@ -249,7 +249,7 @@ function addMarker(data, map) {
     lat: data.latLng.lat(),
     lng: data.latLng.lng(),
     userCreated: true,
-    placeId: 0,
+    rating: 0,
     newPlaceId: true,
   })
 
@@ -260,6 +260,7 @@ function addMarker(data, map) {
     map: map,
     lat: data.latLng.lat(), //more readable
     lng: data.latLng.lng(), //more readable 
+    rating: 1,
   });
   newRestaurantContent(newMarker)
   markers.push(newMarker)
@@ -304,6 +305,9 @@ function newRestaurantContent(newMarker) {
 
               newRestaurantContent.userName = userName;
               newRestaurantContent.userReview = userReview;
+
+              newMarker.rating = ratingNumberNewRestaurant;
+              
               displaySurroundingPlaceList(sortRestByRating(restaurants));
             }
             //hide form
