@@ -245,11 +245,13 @@ function createNewDataStructureForNewRestaurants(data, map) {
     userCreated: true,
     rating: 0,
     newPlaceId: true,
+    placeId: restaurants.length,
+    id: restaurants.length,
+    review: '',
+    userReview: '',
   });
 
   newRestaurantContent(data, map);
-
-
 
 }
 //______________________________________________END
@@ -288,7 +290,7 @@ function newRestaurantContent(data, map) {
         newRestaurantContent.name = newName;
         newRestaurantContent.rating = ratingNumberNewRestaurant;
 
-        newRestaurantContent.userName = userName;
+        newRestaurantContent.review = userName;
         newRestaurantContent.userReview = userReview;
 
         displaySurroundingPlaceList(sortRestByRating(restaurants));
@@ -315,6 +317,7 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
   var newMarker = new google.maps.Marker({
 
     position: data.latLng,
+    name: newRestaurantContent.name,
     map: map,
     lat: data.latLng.lat(), //more readable
     lng: data.latLng.lng(), //more readable 
@@ -326,12 +329,14 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
       strokeColor: "#B40404"
     },
     animation: google.maps.Animation.DROP,
+    userReview: newRestaurantContent.userReview,
+    review: newRestaurantContent.review,
 
   });
 
   allMarkers.push(newMarker);
 
-  clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
+  clickOnNewMarkerInfo(newMarker, map,newRestaurantContent)
 }
 
 //___________________________________________END
@@ -341,11 +346,13 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
 //___________________________________________BEGIN display New Restaurant Content
 
 // ================ Fran code ===================
-function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
+function clickOnNewMarkerInfo(newMarker, map,newRestaurantContent) {
   newMarker.addListener('click', function() {
     $("#title").html(newRestaurantContent.name);
     $("#rating-stars").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
-    $("#review").append("<li>" +'<b>Author:</b> ' + newRestaurantContent.userName +'<br>' +'<b>Review:</b> '+newRestaurantContent.userReview + "</li>")
+
+    $("#review").empty();
+    $("#review").append("<li>" +'<b>Author:</b> ' + newRestaurantContent.review +'<br>' +'<b>Review:</b> '+ newRestaurantContent.userReview + "</li>");
 
     // Modal
     $("#myModal").modal();
@@ -360,7 +367,6 @@ function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
 
 
 //___________________________________________END
-
 
 
 
