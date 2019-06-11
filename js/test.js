@@ -632,3 +632,75 @@ function displayReviewList(displayReview) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getReviewFromGoogle(marker, restaurants, map) {
+
+  let serviceNew = new google.maps.places.PlacesService(map);
+
+  serviceNew.getDetails({
+    placeId: marker.placeId
+  }, function(restaurants, status) {
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+      let displayReview = restaurants.reviews;
+      
+      displayReviewList(displayReview);
+
+    };
+  });
+}
+
+
+
+function displayReviewList(displayReview) {
+  $("#review").empty();
+  let reviewDisplayList = $("#review");
+
+  for (let i = 0; i < displayReview.length; i++) {
+    reviewDisplayList.append("<li>" + displayReview[i].text + "</li>")
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -450,14 +450,16 @@ function getSurroundingPlaces(map, userGeoLocation) {
       }
 
       console.log(restaurants)
-let displayReview = restaurants.reviews;
-      getReviewFromGoogle(restaurants, map,displayReview)
+        let displayReview = restaurants.reviews;
+        getReviewFromGoogle(restaurants, map)
+      
       // ==============  Fran code  =========================================
       createSurroundingPlaceMarkers(map, restaurants);
 
       displaySurroundingPlaceList(sortRestByRating(restaurants));
 
     });
+  
 }
 
 //___________________________________________END 
@@ -586,12 +588,14 @@ function createPopUpInfoWindow() {
 
 //____________________________________________END 
 
-function getReviewFromGoogle(restaurants, map,displayReview) {
+function getReviewFromGoogle(restaurants, map) {
 
   let serviceNew = new google.maps.places.PlacesService(map);
+let restLoop=[];
 
-let placeIdToUse = restaurants.placeId
 for (let i = 0; i < restaurants.length; i ++){
+  restLoop = restaurants[i].review;
+  
   //console.log(restaurants[i].placeId)
   serviceNew.getDetails({
     placeId: restaurants[i].placeId
@@ -600,11 +604,17 @@ for (let i = 0; i < restaurants.length; i ++){
 
     if (status === google.maps.places.PlacesServiceStatus.OK) {
 
-      //let displayReview = restaurants.reviews;
+      let displayReview = restaurants.reviews;
+//restaurants[i].review = restaurants.reviews.text
   for (let i = 0; i < displayReview.length; i++) {
 
-      displayReview[i].text = restaurants.review
-      console.log(displayReview[i].text)
+    console.log(displayReview[i])
+    console.log(restLoop)
+    //restLoop.review = displayReview[i]
+    restLoop.push(displayReview[i])
+  }
+//console.log()
+
     /*restaurants
     restaurants.push({
 
@@ -612,7 +622,7 @@ for (let i = 0; i < restaurants.length; i ++){
     userReview: displayReview[i].author_name,
   });*/
 
-  }
+  
 
       //displayReviewList(displayReview);
 
@@ -620,6 +630,7 @@ for (let i = 0; i < restaurants.length; i ++){
   });
   
 }
+
 }
 
 //___________________________________________BEGIN MAIN application
