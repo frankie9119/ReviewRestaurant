@@ -233,7 +233,7 @@ function createNewDataStructureForNewRestaurants(data, map) {
     lng: data.latLng.lng(),
     userName: '',
     userReview: '',
-    placeId: 0,
+    rating: 0,
   })
 
   console.log(restaurants)
