@@ -94,7 +94,6 @@ function displayReviewList(displayReview) {
   let reviewDisplayList = $("#review");
 
   for (let i = 0; i < displayReview.length; i++) {
-    console.log(displayReview[i])
     reviewDisplayList.append("<li>" + displayReview[i].text + "</li>")
   }
 }
@@ -195,6 +194,15 @@ function clickOnMarkerInfo(marker, map) {
 
 //___________________________________________END
 
+/* =====================================================================================
+  
+   end---- THE FOLLOWING CODE IS WORKING WITH THE RESTAURANTS FROM GOOGLE API ---- end
+
+========================================================================================= */
+
+
+
+
 
 
 /* ===========================================================================
@@ -234,41 +242,16 @@ function createNewDataStructureForNewRestaurants(data, map) {
     userCreated: true,
     rating: 0,
     newPlaceId: true,
-  })
-
-  console.log(restaurants)
-
-
-  
-//setNewMarkerMap(null,newMarker);
-  
+  });
 
   newRestaurantContent(data, map);
-  
-  
+
+
 
 }
 //______________________________________________END
 
-function newMarker(map,data,ratingNumberNewRestaurant){
-  var newMarker = new google.maps.Marker({
-    position: data.latLng,
-    map: map,
-    lat: data.latLng.lat(), //more readable
-    lng: data.latLng.lng(), //more readable 
-    rating: ratingNumberNewRestaurant,
-               icon: {
-                  path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                  scale: 5,
-                  strokeWeight:2,
-                  strokeColor:"#B40404"
-               },
-               
-               animation:google.maps.Animation.DROP,
-  });
-allMarkers.push(newMarker);
-console.log(newMarker);
-}
+
 
 //______________________________________________BEGIN new restaurant content
 
@@ -280,7 +263,6 @@ function newRestaurantContent(data, map) {
 
   //loop through restaurants global
   for (let i = 0; i < restaurants.length; i++) {
-//if (restaurants[i].position === newMarker.position) {
 
     let newRestaurantContent = restaurants[i]
 
@@ -292,45 +274,12 @@ function newRestaurantContent(data, map) {
       let newName = document.getElementById('res-name').value
       let ratingNewRestaurant = document.getElementById('ratingNewRestaurant').value
 
-
-
-      let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);// <---------- HERE !
-
-
+      let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
 
       let userName = document.getElementById('user-name').value;
       let userReview = document.getElementById('user-review').value;
 
-      
- if (newRestaurantContent.name === 'A') {
-              newRestaurantContent.name = newName;
-              newRestaurantContent.rating = ratingNumberNewRestaurant;
 
-              newRestaurantContent.userName = userName;
-              newRestaurantContent.userReview = userReview;
-
-
-              //newMarker.rating = ratingNumberNewRestaurant;
-              //newMarker.icon.scale = 10;
-               
-               //newMarker.animation=google.maps.Animation.DROP;
-              
-              displaySurroundingPlaceList(sortRestByRating(restaurants));
-              newMarker(map,data,ratingNumberNewRestaurant);
-            }
-
-
-
-
-
-
-//displaySurroundingPlaceList(sortRestByRating(restaurants));
-//createNewPlaceMarker(data, map, ratingNumberNewRestaurant);
-
-/*    // LET'S TRY TO DO IN THIS WAY..
-
-      //when you create a new restaurant the default name is "A"
-      //if the default name is A change it with new user input
       if (newRestaurantContent.name === 'A') {
         newRestaurantContent.name = newName;
         newRestaurantContent.rating = ratingNumberNewRestaurant;
@@ -338,20 +287,16 @@ function newRestaurantContent(data, map) {
         newRestaurantContent.userName = userName;
         newRestaurantContent.userReview = userReview;
 
-        //display on right pannel list
         displaySurroundingPlaceList(sortRestByRating(restaurants));
+        createNewPlaceMarker(map, data, ratingNumberNewRestaurant);
       }
-*/
-
 
       //hide form
       document.getElementById("form-add-restaurant").style.display = "none";
 
-      //console.log(restaurants);
-
     });
   }
-  //}
+
 };
 
 
@@ -361,20 +306,26 @@ function newRestaurantContent(data, map) {
 
 //_________________________________________BEGIN create new restaurant marker
 
-function createNewPlaceMarker(data, map, ratingNumberNewRestaurant) {
+function createNewPlaceMarker(map, data, ratingNumberNewRestaurant) {
 
-  alert(ratingNumberNewRestaurant) // <----------- HERE !
+  var newMarker = new google.maps.Marker({
 
-  let newMarker = new google.maps.Marker({
     position: data.latLng,
     map: map,
     lat: data.latLng.lat(), //more readable
-    lng: data.latLng.lng(), //more readable
+    lng: data.latLng.lng(), //more readable 
     rating: ratingNumberNewRestaurant,
-  });
-  allMarkers.push(newMarker);
-  clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
+    icon: {
+      path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+      scale: 5,
+      strokeWeight: 2,
+      strokeColor: "#B40404"
+    },
+    animation: google.maps.Animation.DROP,
 
+  });
+
+  allMarkers.push(newMarker);
 }
 
 //___________________________________________END
@@ -404,7 +355,11 @@ function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
 //___________________________________________END
 
 
+/* =================================================================================
+  
+   end----- THE FOLLOWING CODE IS WORKING WITH THE NEW RESTAURANTS ADDED --- end
 
+==================================================================================== */
 
 
 
@@ -443,7 +398,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
 
       // ==============  Fran code  =========================================
-      createSurroundingPlaceMarkers(map, restaurants); 
+      createSurroundingPlaceMarkers(map, restaurants);
 
       displaySurroundingPlaceList(sortRestByRating(restaurants));
 
@@ -471,7 +426,6 @@ $('#rating-control').on('change', function(e) {
     let ratingNumberFromUser = parseInt(ratingFromUser);
 
     let specificRating = getSpecificRating(restaurants, ratingNumberFromUser);
-    console.log(restaurants)
 
     displaySurroundingPlaceList(specificRating);
     setMapOnAll(null);
