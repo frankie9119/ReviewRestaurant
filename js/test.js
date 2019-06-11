@@ -232,7 +232,7 @@ function displaySurroundingPlaceList(restaurantsArray) {
         clearMarkers();
         markers = [];
       }
-      
+
 function setMapOnSome(ratingNumberFromUser) {
   //setMapOnAll(null);
   for (var i = 0; i < allMarkers.length; i++) {
@@ -522,15 +522,62 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
 
 
 
+clickOnMarkerInfo(marker, map)
 
 
 
 
 
 
+function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
+  newMarker.addListener('click', function() {
+    $("#title").html(newRestaurantContent.name);
+    $("#rating-small").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
+    $("review").html(newRestaurantContent.userReview);
+    // Modal
+    $("#myModal").modal();
+    // ======== STREET VIEW ============
+    var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('street-view'), {
+        position: newMarker.position,
+
+      });
+  });
+}
 
 
 
 
+function clickOnMarkerInfo(marker, map) {
+
+  marker.addListener('click', function() {
+
+    $("#title").html(marker.name);
+    $("#rating-small").html(buildRatingStarDisplayValue(marker.rating));
+    $("#review").html(marker.placeId);
+    alert(marker.placeId)
+    getReviewFromGoogle(marker, restaurants, map)
+
+    // Modal
+    $("#myModal").modal();
+    //getReviewFromGoogle(marker);
+
+    // ======== STREET VIEW ============
+    var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('street-view'), {
+        position: marker.position,
+
+      });
+
+  })
+}
 
 
+function displayReviewList(displayReview) {
+  $("#review").empty();
+  let reviewDisplayList = $("#review");
+
+  for (let i = 0; i < displayReview.length; i++) {
+    reviewDisplayList.append("<li>" + displayReview[i].text + "</li>")
+  }
+}

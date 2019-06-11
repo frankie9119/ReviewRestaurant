@@ -155,9 +155,10 @@ function getReviewFromGoogle(marker, restaurants, map) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
 
       let displayReview = restaurants.reviews;
-
+      
       displayReviewList(displayReview);
-    }
+
+    };
   });
 }
 //__________________________________________END
@@ -174,7 +175,7 @@ function clickOnMarkerInfo(marker, map) {
     $("#title").html(marker.name);
     $("#rating-small").html(buildRatingStarDisplayValue(marker.rating));
     $("#review").html(marker.placeId);
-    alert(marker.placeId)
+    //alert(marker.placeId)
     getReviewFromGoogle(marker, restaurants, map)
 
     // Modal
@@ -277,6 +278,7 @@ function newRestaurantContent(data, map) {
       let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
 
       let userName = document.getElementById('user-name').value;
+
       let userReview = document.getElementById('user-review').value;
 
 
@@ -288,7 +290,7 @@ function newRestaurantContent(data, map) {
         newRestaurantContent.userReview = userReview;
 
         displaySurroundingPlaceList(sortRestByRating(restaurants));
-        createNewPlaceMarker(map, data, ratingNumberNewRestaurant);
+        createNewPlaceMarker(map, data, newRestaurantContent);
       }
 
       //hide form
@@ -306,7 +308,7 @@ function newRestaurantContent(data, map) {
 
 //_________________________________________BEGIN create new restaurant marker
 
-function createNewPlaceMarker(map, data, ratingNumberNewRestaurant) {
+function createNewPlaceMarker(map, data, newRestaurantContent) {
 
   var newMarker = new google.maps.Marker({
 
@@ -314,7 +316,7 @@ function createNewPlaceMarker(map, data, ratingNumberNewRestaurant) {
     map: map,
     lat: data.latLng.lat(), //more readable
     lng: data.latLng.lng(), //more readable 
-    rating: ratingNumberNewRestaurant,
+    rating: newRestaurantContent.rating,
     icon: {
       path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
       scale: 5,
@@ -326,6 +328,8 @@ function createNewPlaceMarker(map, data, ratingNumberNewRestaurant) {
   });
 
   allMarkers.push(newMarker);
+
+  clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
 }
 
 //___________________________________________END
@@ -337,14 +341,16 @@ function createNewPlaceMarker(map, data, ratingNumberNewRestaurant) {
 // ================ Fran code ===================
 function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
   newMarker.addListener('click', function() {
-    $("#title").html(newRestaurantContent.name);
-    $("#rating-small").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
-    $("review").html(newRestaurantContent.userReview);
+    $("#title-n").html('newRestaurantContent.name');
+    $("#rating-small-n").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
+
+    $("#rev-n").html(newRestaurantContent.userReview);
+//displayNewReviewList(newRestaurantContent)
     // Modal
-    $("#myModal").modal();
+    $("#newModal").modal();
     // ======== STREET VIEW ============
-    var panorama = new google.maps.StreetViewPanorama(
-      document.getElementById('street-view'), {
+    let panoramaN = new google.maps.StreetViewPanorama(
+      document.getElementById('street-view-n'), {
         position: newMarker.position,
 
       });
@@ -354,7 +360,13 @@ function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
 
 //___________________________________________END
 
+function displayNewReviewList(newRestaurantContent) {
+  $("#review-n").empty();
+  let reviewDisplayList = $("#review");
 
+  //$("review-n").html('newRestaurantContent.userReview)');
+  $("review-n").append("<li>" + 'displayReview[i].text' + "</li>")
+}
 /* =================================================================================
   
    end----- THE FOLLOWING CODE IS WORKING WITH THE NEW RESTAURANTS ADDED --- end

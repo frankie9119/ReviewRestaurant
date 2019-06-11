@@ -20,7 +20,7 @@ body {
 	width: 70%;
 	float: left;
 }
-#street-view{
+#street-view, #street-view-n {
   width:400px;
   height:400px;
   background-color:orange;
