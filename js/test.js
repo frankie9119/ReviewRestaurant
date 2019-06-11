@@ -232,7 +232,15 @@ function displaySurroundingPlaceList(restaurantsArray) {
         clearMarkers();
         markers = [];
       }
-
+      
+function setMapOnSome(ratingNumberFromUser) {
+  //setMapOnAll(null);
+  for (var i = 0; i < allMarkers.length; i++) {
+    if (allMarkers[i].rating === ratingNumberFromUser) {
+      allMarkers[i].setMap(map);
+    }
+  }
+}
 
 
 
@@ -499,6 +507,14 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
 
   }
 }
+
+
+
+
+
+
+
+
 
 
 

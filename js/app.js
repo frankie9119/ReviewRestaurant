@@ -225,16 +225,51 @@ function addRestaurant(map) {
 function createNewDataStructureForNewRestaurants(data, map) {
 
   //default name for new restaurant is "A"
+  restaurants.push({
 
-
+    name: "A",
+    position: data.latLng,
+    lat: data.latLng.lat(),
+    lng: data.latLng.lng(),
+    userCreated: true,
+    rating: 0,
+    newPlaceId: true,
+  })
 
   console.log(restaurants)
 
-  newRestaurantContent(data, map)
+
+  var newMarker = new google.maps.Marker({
+    position: data.latLng,
+    map: map,
+    lat: data.latLng.lat(), //more readable
+    lng: data.latLng.lng(), //more readable 
+    rating: 1,
+               icon: {
+                  path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                  scale: 5,
+                  strokeWeight:2,
+                  strokeColor:"#B40404"
+               },
+               
+               animation:google.maps.Animation.DROP,
+  });
+
+//setNewMarkerMap(null,newMarker);
+  
+
+  newRestaurantContent(data, map,newMarker);
+  allMarkers.push(newMarker);
+  console.log(newMarker);
 
 }
 //______________________________________________END
 
+function setNewMarkerMap(map,newMarker){
+  for (let i=0; i<newMarker.length;i++){
+    newMarker[i].setMap(map);
+  }
+}
 
 //______________________________________________BEGIN new restaurant content
 
@@ -242,12 +277,13 @@ function createNewDataStructureForNewRestaurants(data, map) {
              Getting data from user - DOM manipulation *****
 **************************************************************************** */
 
-function newRestaurantContent(data, map) {
+function newRestaurantContent(data, map, newMarker) {
 
   //loop through restaurants global
-//  for (let i = 0; i < restaurants.length; i++) {
+  for (let i = 0; i < restaurants.length; i++) {
+if (restaurants[i].position === newMarker.position) {
 
-  //  let newRestaurantContent = restaurants[i]
+    let newRestaurantContent = restaurants[i]
 
 
     //display form
@@ -267,23 +303,28 @@ function newRestaurantContent(data, map) {
       let userReview = document.getElementById('user-review').value;
 
       
+ if (newRestaurantContent.name === 'A') {
+              newRestaurantContent.name = newName;
+              newRestaurantContent.rating = ratingNumberNewRestaurant;
+
+              newRestaurantContent.userName = userName;
+              newRestaurantContent.userReview = userReview;
+
+              newMarker.rating = ratingNumberNewRestaurant;
+              newMarker.icon.scale = 10;
+               
+               //newMarker.animation=google.maps.Animation.DROP;
+              
+              displaySurroundingPlaceList(sortRestByRating(restaurants));
+            }
 
 
-  restaurants.push({
-    name: newName,
-    position: data.latLng,
-    lat: data.latLng.lat(),
-    lng: data.latLng.lng(),
-    userName: userName,
-    userReview: userReview,
-    rating: ratingNumberNewRestaurant,
-  })
 
 
 
 
-displaySurroundingPlaceList(sortRestByRating(restaurants));
-createNewPlaceMarker(data, map, ratingNumberNewRestaurant);
+//displaySurroundingPlaceList(sortRestByRating(restaurants));
+//createNewPlaceMarker(data, map, ratingNumberNewRestaurant);
 
 /*    // LET'S TRY TO DO IN THIS WAY..
 
@@ -308,7 +349,8 @@ createNewPlaceMarker(data, map, ratingNumberNewRestaurant);
       console.log(restaurants);
 
     });
- // }
+  }
+  }
 };
 
 
