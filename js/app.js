@@ -223,6 +223,7 @@ function addRestaurant(map) {
   map.addListener('rightclick', function(e) {
 
     document.getElementById("form-add-restaurant").style.display = "block";
+    
     createNewDataStructureForNewRestaurants(e, map);
   });
 }
@@ -248,7 +249,7 @@ function createNewDataStructureForNewRestaurants(data, map) {
     placeId: restaurants.length,
     id: restaurants.length,
     review: '',
-    userReview: '',
+    author_name: '',
   });
 
   newRestaurantContent(data, map);
@@ -274,6 +275,7 @@ function newRestaurantContent(data, map) {
 
     //display form
     document.getElementById("form-add-restaurant").style.display = "block";
+  
 
     $('#add-restaurant').on('click', function() {
       let newName = document.getElementById('res-name').value
@@ -281,17 +283,17 @@ function newRestaurantContent(data, map) {
 
       let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
 
-      let userName = document.getElementById('user-name').value;
+      let author_name = document.getElementById('user-name').value;
 
-      let userReview = document.getElementById('user-review').value;
+      let review = document.getElementById('user-review').value;
 
 
       if (newRestaurantContent.name === 'A') {
         newRestaurantContent.name = newName;
         newRestaurantContent.rating = ratingNumberNewRestaurant;
 
-        newRestaurantContent.review = userName;
-        newRestaurantContent.userReview = userReview;
+        newRestaurantContent.author_name = author_name;
+        newRestaurantContent.review = review;
 
         displaySurroundingPlaceList(sortRestByRating(restaurants));
         createNewPlaceMarker(map, data, newRestaurantContent);
@@ -299,6 +301,7 @@ function newRestaurantContent(data, map) {
 
       //hide form
       document.getElementById("form-add-restaurant").style.display = "none";
+     
 
     });
   }
@@ -329,8 +332,8 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
       strokeColor: "#B40404"
     },
     animation: google.maps.Animation.DROP,
-    userReview: newRestaurantContent.userReview,
     review: newRestaurantContent.review,
+    author_name: newRestaurantContent.author_name,
 
   });
 
@@ -352,7 +355,7 @@ function clickOnNewMarkerInfo(newMarker, map,newRestaurantContent) {
     $("#rating-stars").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
 
     $("#review").empty();
-    $("#review").append("<li>" +'<b>Author:</b> ' + newRestaurantContent.review +'<br>' +'<b>Review:</b> '+ newRestaurantContent.userReview + "</li>");
+    $("#review").append("<li>" +'<b>Author:</b> ' + newRestaurantContent.author_name +'<br>' +'<b>Review:</b> '+ newRestaurantContent.review + "</li>");
 
     // Modal
     $("#myModal").modal();
@@ -388,18 +391,18 @@ $('#btn-add-review').on('click', function() {
 
 
 
-
-
+//document.getElementById("add-new-review").style.display = "block";
 
     $('#add-new-review').on('click', function() {
-      
+     
+
       let ratingReview = document.getElementById('new-rating').value
       let ratingReviewNumber = parseInt(ratingReview);
       let userNameReview = document.getElementById('new-user-name').value;
       let newReview = document.getElementById('new-user-review').value;
 
 
-document.getElementById("add-new-review").style.display = "none";
+//document.getElementById("add-new-review").style.display = "none";
     });
 
 
@@ -458,7 +461,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
           placeId: results[i].place_id,
           id: results[i].id,
           review: '',
-          userReview: '',
+          author_name: '',
         }
 
         restaurants.push(allRestaurant)

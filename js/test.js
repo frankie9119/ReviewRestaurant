@@ -615,12 +615,35 @@ function displayReviewList(displayReview) {
 
 
 
+<div id="info-content-new-restaurant" >
+
+            <form id="form-add-restaurant" action="post">
+              <h3 class="add-res-heading">Add A Restaurant</h3>
+              <label for="restaurant-name">Please add Restaurant's name</label>
+              <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required/>
+              <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
+              <select id="ratingNewRestaurant" required>
+                    <option value="all">All stars</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+              <label for="your-name">Please add Your Name</label>
+              <input type="text" name="user-name" id="user-name" placeholder="Your Name" required>
+              <label for="your-review">What would you like to say about this restaurant</label>
+              <textarea name="user-review" id="user-review" placeholder="Your Review" required></textarea>
+              <input type="button" id="add-restaurant"  class="button add-restaurant"/>
+            </form>
+
+        </div>
 
 
 
 
-
-
+document.getElementById("add-new-review").style.display = "block";
+});
 
 
 
