@@ -94,7 +94,7 @@ function displayReviewList(displayReview) {
   let reviewDisplayList = $("#review");
 
   for (let i = 0; i < displayReview.length; i++) {
-    console.log(displayReview[i]);
+    //console.log(displayReview[i]);
     reviewDisplayList.append("<li>" +'<b>Author:</b> ' + displayReview[i].author_name +'<br>' +'<b>Review:</b> '+displayReview[i].text + "</li>")
   }
 }
