@@ -157,33 +157,32 @@ function getReviewFromGoogle(marker, restaurants, map) {
 function displayReviewList(displayReview, marker) {
   $("#review").empty();
   let reviewDisplayList = $("#review");
-
+  let ratingsTest;
 
 
   for (let i = 0; i < displayReview.length; i++) {
-    //console.log(displayReview[i]);
 
-    let test = [{
-  restaurantName: "Bronco",
-  position: marker.position,
-  ratings: [{
-    author_name: '',
+  ratingsTest = [{
+    author_name: displayReview[i].author_name,
     review: displayReview[i].text,
+    position: marker.position,
   }, ]
 
-}]
+    console.log(ratingsTest);
 
-
-//test.ratings.author_name = displayReview[i].text
-//test.ratings.push(displayReview[i].author_name)
-
-
-
-
-    //testing.push(test);
-    console.log(test)
     reviewDisplayList.append("<li>" +'<b>Author:</b> ' + displayReview[i].author_name +'<br>' +'<b>Review:</b> '+displayReview[i].text + "</li>")
+
   }
+
+  for (let i = 0; i < restaurants.length; i++){
+    if(marker.position === restaurants[i].position){
+      console.log(restaurants[i].name);
+
+      // NOW I HAVE TO PUSH RATINGSTEST INTO RESTAURANTS[I]
+      restaurants[i].push(ratingsTest)
+    }
+  }
+
 }
 
 
