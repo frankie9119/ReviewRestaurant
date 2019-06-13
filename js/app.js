@@ -489,11 +489,11 @@ function getReviewFromGoogle(allRestaurant, idRestaurants, map) {
   }, function(restaurants, status) {
 
 //console.log(allRestaurant.placeId)
-console.log(allRestaurant)
+//console.log(allRestaurant)
 
     if (status === google.maps.places.PlacesServiceStatus.OK) {
 
-//console.log(restaurants.reviews);
+console.log(restaurants.reviews);
 
 let displayReview = restaurants.reviews;
 
