@@ -488,7 +488,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
       console.log(restaurants)
         let displayReview = restaurants.reviews;
-        //getReviewFromGoogle(restaurants, map)
+        getReviewFromGoogle(restaurants, map)
       
       // ==============  Fran code  =========================================
       createSurroundingPlaceMarkers(map, restaurants);
