@@ -143,26 +143,7 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
 
 
 
-//___________________________________________BEGIN get review from google
-// ================ Fran code ===================
-function getReviewFromGoogle(marker, restaurants, map) {
 
-  let serviceNew = new google.maps.places.PlacesService(map);
-
-  serviceNew.getDetails({
-    placeId: marker.placeId
-  }, function(restaurants, status) {
-
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-
-      let displayReview = restaurants.reviews;
-      
-      displayReviewList(displayReview);
-
-    };
-  });
-}
-//__________________________________________END
 
 
 //___________________________________________BEGIN click on markers info!
@@ -452,6 +433,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
       console.log(results)
 
       for (let i = 0; i < results.length; i++) {
+        let idRestaurants = results[i].place_id;
         // storing all the results restaurants in an array. I am structuring the data
         let allRestaurant = [];
         allRestaurant = {
@@ -460,9 +442,20 @@ function getSurroundingPlaces(map, userGeoLocation) {
           rating: Math.round(results[i].rating),
           placeId: results[i].place_id,
           id: results[i].id,
-          review: '',
-          author_name: '',
+
+          reviews: [{
+            review: '',
+            author_name: '',
+            stars: '',
+          }],
+          
         }
+
+          //console.log(idRestaurants)
+        
+
+// maybe here i should get the reviews
+getReviewFromGoogle(allRestaurant, idRestaurants, map)
 
         restaurants.push(allRestaurant)
       }
@@ -480,6 +473,78 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
 //___________________________________________END 
 
+//___________________________________________BEGIN get review from google
+// ================ Fran code ===================
+function getReviewFromGoogle(allRestaurant, idRestaurants, map) {
+
+  let serviceNew = new google.maps.places.PlacesService(map);
+
+
+  //id = idRestaurants[i]
+//console.log(idRestaurants)
+//console.log(allRestaurant)
+
+  serviceNew.getDetails({
+    placeId: idRestaurants
+  }, function(restaurants, status) {
+
+//console.log(allRestaurant.placeId)
+console.log(allRestaurant)
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+//console.log(restaurants.reviews);
+
+let displayReview = restaurants.reviews;
+
+for (let i = 0; i < displayReview.length; i++) {
+
+  if (allRestaurant.placeId === idRestaurants){
+//console.log(allRestaurant.placeId)
+
+
+    allRestaurant.reviews.review = displayReview[i].text;
+
+    //console.log(displayReview[i].text);
+
+}
+
+
+    
+  }
+
+
+    };
+  });
+
+}
+//__________________________________________END
+/*
+
+
+      OLD GET REVIEW FROM GOOGLE FUNCTION
+
+//___________________________________________BEGIN get review from google
+// ================ Fran code ===================
+function getReviewFromGoogle(marker, restaurants, map) {
+
+  let serviceNew = new google.maps.places.PlacesService(map);
+
+  serviceNew.getDetails({
+    placeId: marker.placeId
+  }, function(restaurants, status) {
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+      let displayReview = restaurants.reviews;
+      
+      displayReviewList(displayReview);
+
+    };
+  });
+}
+//__________________________________________END
+*/
 /* =========================================================================
            HERE I AM GETTING USER DATA FROM SELECT (right pannel)
 =============================================================================*/
