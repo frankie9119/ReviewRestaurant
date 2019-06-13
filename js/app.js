@@ -88,26 +88,12 @@ function displaySurroundingPlaceList(restaurantsArray) {
 //___________________________________________BEGIN display reviewList
 
 
-// ================ Fran code ===================
-function displayReviewList(displayReview) {
-  $("#review").empty();
-  let reviewDisplayList = $("#review");
-
-  for (let i = 0; i < displayReview.length; i++) {
-    //console.log(displayReview[i]);
-    reviewDisplayList.append("<li>" +'<b>Author:</b> ' + displayReview[i].author_name +'<br>' +'<b>Review:</b> '+displayReview[i].text + "</li>")
-  }
-}
-
-
-//__________________________________________END
 
 
 
 /* ===========================================================================
   
     THE FOLLOWING CODE IS WORKING WITH THE RESTAURANTS FROM GOOGLE API
-
 =========================================================================== */
 
 
@@ -143,8 +129,65 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
 
 
 
+//___________________________________________BEGIN get review from google
+// ================ Fran code ===================
+function getReviewFromGoogle(marker, restaurants, map) {
+
+  let serviceNew = new google.maps.places.PlacesService(map);
+
+  serviceNew.getDetails({
+    placeId: marker.placeId
+  }, function(restaurants, status) {
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+      let displayReview = restaurants.reviews;
+        
+      displayReviewList(displayReview, marker);
+
+      //let displayReview = restaurants.reviews;     
+      //displayReviewList(displayReview);
+
+    };
+  });
+}
+//__________________________________________END
+
+// ================ Fran code ===================
+function displayReviewList(displayReview, marker) {
+  $("#review").empty();
+  let reviewDisplayList = $("#review");
 
 
+
+  for (let i = 0; i < displayReview.length; i++) {
+    //console.log(displayReview[i]);
+
+    let test = [{
+  restaurantName: "Bronco",
+  position: marker.position,
+  ratings: [{
+    author_name: '',
+    review: displayReview[i].text,
+  }, ]
+
+}]
+
+
+//test.ratings.author_name = displayReview[i].text
+//test.ratings.push(displayReview[i].author_name)
+
+
+
+
+    //testing.push(test);
+    console.log(test)
+    reviewDisplayList.append("<li>" +'<b>Author:</b> ' + displayReview[i].author_name +'<br>' +'<b>Review:</b> '+displayReview[i].text + "</li>")
+  }
+}
+
+
+//__________________________________________END
 
 //___________________________________________BEGIN click on markers info!
 
@@ -154,11 +197,33 @@ function clickOnMarkerInfo(marker, map) {
 
   marker.addListener('click', function() {
 
-    $("#title").html(marker.name);
-    $("#rating-stars").html(buildRatingStarDisplayValue(marker.rating));
-    $("#review").html(marker.placeId);
-    //alert(marker.placeId)
     getReviewFromGoogle(marker, restaurants, map)
+
+/*====================================================================================================
+                  The idea is this:
+
+                  Because you have to click on a marker in order to add a new review:
+
+                  when click on marker clickOnMarkerInfo() is called;
+                  in clickOnMarkerInfo() first run getReviewFromGoogle();
+                  store the reviews in the global restaurants;
+                  loop through restaurants; 
+                  if restaurants.position === marker.position Display name, rating, reviews, etc..
+
+========================================================================================================*/
+
+for(let i = 0; i < restaurants.length; i ++){
+  if(restaurants[i].position === marker.position){
+    $("#title").html(restaurants[i].name);
+    $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
+    $("#review").html(restaurants[i].placeId);
+  }
+}
+
+    
+
+    //alert(marker.placeId)
+    
 
     // Modal
     $("#myModal").modal();
@@ -172,6 +237,7 @@ function clickOnMarkerInfo(marker, map) {
       });
 
   })
+
 }
 
 
@@ -180,7 +246,6 @@ function clickOnMarkerInfo(marker, map) {
 /* =====================================================================================
   
    end---- THE FOLLOWING CODE IS WORKING WITH THE RESTAURANTS FROM GOOGLE API ---- end
-
 ========================================================================================= */
 
 
@@ -191,7 +256,6 @@ function clickOnMarkerInfo(marker, map) {
 /* ===========================================================================
   
     THE FOLLOWING CODE IS WORKING WITH THE NEW RESTAURANTS ADDED
-
 =========================================================================== */
 
 
@@ -361,7 +425,6 @@ function clickOnNewMarkerInfo(newMarker, map,newRestaurantContent) {
 /* =================================================================================
   
                               WORKING ON ADD A REVIEW
-
 ==================================================================================== */
 
 
@@ -395,7 +458,6 @@ $('#btn-add-review').on('click', function() {
 /* =================================================================================
   
                end--->      WORKING ON ADD A REVIEW     <---end
-
 ==================================================================================== */
 
 
@@ -410,7 +472,6 @@ $('#btn-add-review').on('click', function() {
 /* =================================================================================
   
    end----- THE FOLLOWING CODE IS WORKING WITH THE NEW RESTAURANTS ADDED --- end
-
 ==================================================================================== */
 
 
@@ -433,7 +494,6 @@ function getSurroundingPlaces(map, userGeoLocation) {
       console.log(results)
 
       for (let i = 0; i < results.length; i++) {
-        let idRestaurants = results[i].place_id;
         // storing all the results restaurants in an array. I am structuring the data
         let allRestaurant = [];
         allRestaurant = {
@@ -442,20 +502,9 @@ function getSurroundingPlaces(map, userGeoLocation) {
           rating: Math.round(results[i].rating),
           placeId: results[i].place_id,
           id: results[i].id,
-
-          reviews: [{
-            review: '',
-            author_name: '',
-            stars: '',
-          }],
-          
+          review: '',
+          author_name: '',
         }
-
-          //console.log(idRestaurants)
-        
-
-// maybe here i should get the reviews
-getReviewFromGoogle(allRestaurant, idRestaurants, map)
 
         restaurants.push(allRestaurant)
       }
@@ -473,78 +522,6 @@ getReviewFromGoogle(allRestaurant, idRestaurants, map)
 
 //___________________________________________END 
 
-//___________________________________________BEGIN get review from google
-// ================ Fran code ===================
-function getReviewFromGoogle(allRestaurant, idRestaurants, map) {
-
-  let serviceNew = new google.maps.places.PlacesService(map);
-
-
-  //id = idRestaurants[i]
-//console.log(idRestaurants)
-//console.log(allRestaurant)
-
-  serviceNew.getDetails({
-    placeId: idRestaurants
-  }, function(restaurants, status) {
-
-//console.log(allRestaurant.placeId)
-console.log(allRestaurant)
-
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-
-//console.log(restaurants.reviews);
-
-let displayReview = restaurants.reviews;
-
-for (let i = 0; i < displayReview.length; i++) {
-
-  if (allRestaurant.placeId === idRestaurants){
-//console.log(allRestaurant.placeId)
-
-
-    allRestaurant.reviews.review = displayReview[i].text;
-
-    //console.log(displayReview[i].text);
-
-}
-
-
-    
-  }
-
-
-    };
-  });
-
-}
-//__________________________________________END
-/*
-
-
-      OLD GET REVIEW FROM GOOGLE FUNCTION
-
-//___________________________________________BEGIN get review from google
-// ================ Fran code ===================
-function getReviewFromGoogle(marker, restaurants, map) {
-
-  let serviceNew = new google.maps.places.PlacesService(map);
-
-  serviceNew.getDetails({
-    placeId: marker.placeId
-  }, function(restaurants, status) {
-
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-
-      let displayReview = restaurants.reviews;
-      
-      displayReviewList(displayReview);
-
-    };
-  });
-}
-//__________________________________________END
-*/
 /* =========================================================================
            HERE I AM GETTING USER DATA FROM SELECT (right pannel)
 =============================================================================*/

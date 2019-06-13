@@ -643,7 +643,7 @@ function displayReviewList(displayReview) {
 
 
 document.getElementById("add-new-review").style.display = "block";
-});
+
 
 
 
