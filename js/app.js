@@ -162,32 +162,55 @@ let reviewTest;
 
 
   for (let i = 0; i < displayReview.length; i++) {
-    console.log(displayReview[i])
-    
+    //console.log(displayReview[i])
+
+   //restaurants.review.push(displayReview[i]) 
+   //console.log(restaurants)
+
     reviewTest = {
       author_name: displayReview[i].author_name,
       review: displayReview[i].text,
       position: marker.position,
-  }
-
-    console.log(reviewTest)
-
-
-    reviewDisplayList.append("<li>" +'<b>Author:</b> ' + displayReview[i].author_name +'<br>' +'<b>Review:</b> '+displayReview[i].text + "</li>")
-
-  
-
-  for (let i = 0; i < restaurants.length; i++){
+}
+      for (let i = 0; i < restaurants.length; i++){
     if(marker.position === restaurants[i].position){
       //console.log(restaurants[i].name);
 
       // NOW I HAVE TO PUSH RATINGSTEST INTO RESTAURANTS[I]
       //retaurants[i].review.push(reviewTest)
-      restaurants[i].review = reviewTest
+      restaurants[i].review = displayReview
 
-    }
+    
+  }
+  }
+
+    //console.log(reviewTest)
+
+
+
+    //reviewDisplayList.append("<li>" +'<b>Author:</b> ' + restaurants[i].name +'<br>' +'<b>Review:</b> '+restaurants[i].text + "</li>")
+
+  
+
+  
+}
+console.log(restaurants)
+
+
+for(let i = 0; i < restaurants.length; i++){
+  
+
+  if(marker.position === restaurants[i].position){
+
+    //alert(restaurants[i].rating)
+
+  reviewDisplayList.append("<li>" +'<b>Author:</b> ' + restaurants[i].review.author_name +'<br>' +'<b>Review:</b> '+restaurants[i].text + "</li>")
+
   }
 }
+
+
+
 
 }
 
