@@ -142,7 +142,7 @@ function getReviewFromGoogle(marker, restaurants, map) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
 
       let displayReview = restaurants.reviews;
-        
+
       displayReviewList(displayReview, marker);
 
       //let displayReview = restaurants.reviews;     
@@ -157,60 +157,32 @@ function getReviewFromGoogle(marker, restaurants, map) {
 function displayReviewList(displayReview, marker) {
   $("#review").empty();
   let reviewDisplayList = $("#review");
-  
-let reviewTest;
+
+  let reviewTest;
 
 
   for (let i = 0; i < displayReview.length; i++) {
-    //console.log(displayReview[i])
 
-   //restaurants.review.push(displayReview[i]) 
-   //console.log(restaurants)
+    for (let i = 0; i < restaurants.length; i++) {
+      if (marker.position === restaurants[i].position) {
 
-    reviewTest = {
-      author_name: displayReview[i].author_name,
-      review: displayReview[i].text,
-      position: marker.position,
-}
-      for (let i = 0; i < restaurants.length; i++){
-    if(marker.position === restaurants[i].position){
-      //console.log(restaurants[i].name);
-
-      // NOW I HAVE TO PUSH RATINGSTEST INTO RESTAURANTS[I]
-      //retaurants[i].review.push(reviewTest)
-      restaurants[i].review = displayReview
-
-    
-  }
+        // NOW I HAVE TO PUSH RATINGSTEST INTO RESTAURANTS[I]
+        restaurants[i].review = displayReview
+      }
+    }
   }
 
-    //console.log(reviewTest)
+  for (let i = 0; i < restaurants.length; i++) {
 
+    if (marker.position === restaurants[i].position) {
 
-
-    //reviewDisplayList.append("<li>" +'<b>Author:</b> ' + restaurants[i].name +'<br>' +'<b>Review:</b> '+restaurants[i].text + "</li>")
-
-  
-
-  
-}
-console.log(restaurants)
-
-
-for(let i = 0; i < restaurants.length; i++){
-  
-
-  if(marker.position === restaurants[i].position){
-
-    //alert(restaurants[i].rating)
-
-  reviewDisplayList.append("<li>" +'<b>Author:</b> ' + restaurants[i].review.author_name +'<br>' +'<b>Review:</b> '+restaurants[i].text + "</li>")
-
+      for (let j = 0; j < restaurants[i].review.length; j++) {
+        
+        let reviewToDisplay = restaurants[i].review[j]
+        reviewDisplayList.append("<li>" + '<b>Author:</b> ' + reviewToDisplay.author_name + '<br>' + '<b>Review:</b> ' + reviewToDisplay.text + "</li>")
+      }
+    }
   }
-}
-
-
-
 
 }
 
@@ -229,31 +201,43 @@ function clickOnMarkerInfo(marker, map) {
 
     getReviewFromGoogle(marker, restaurants, map)
 
-/*====================================================================================================
-                  The idea is this:
+    /*====================================================================================================
+                      The idea is this:
 
-                  Because you have to click on a marker in order to add a new review:
+                      Because you have to click on a marker in order to add a new review:
 
-                  when click on marker clickOnMarkerInfo() is called;
-                  in clickOnMarkerInfo() first run getReviewFromGoogle();
-                  store the reviews in the global restaurants;
-                  loop through restaurants; 
-                  if restaurants.position === marker.position Display name, rating, reviews, etc..
+                      when click on marker clickOnMarkerInfo() is called;
+                      in clickOnMarkerInfo() first run getReviewFromGoogle();
+                      store the reviews in the global restaurants;
+                      loop through restaurants; 
+                      if restaurants.position === marker.position Display name, rating, reviews, etc..
 
-========================================================================================================*/
+    ========================================================================================================*/
 
-for(let i = 0; i < restaurants.length; i ++){
-  if(restaurants[i].position === marker.position){
-    $("#title").html(restaurants[i].name);
-    $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
-    $("#review").html(restaurants[i].placeId);
-  }
-}
+    for (let i = 0; i < restaurants.length; i++) {
+      let restLoop = restaurants[i]
+      if (restaurants[i].position === marker.position) {
+        $("#title").html(restaurants[i].name);
+        $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
+      }
 
-    
+
+// _______________ Add a review BTN
+
+$('#btn-add-review').on('click', function() {
+  document.getElementById("add-new-review").style.display = "block";
+  
+});
+addReview(marker,restLoop)
+  
+
+
+    }
+
+
 
     //alert(marker.placeId)
-    
+
 
     // Modal
     $("#myModal").modal();
@@ -298,7 +282,7 @@ function addRestaurant(map) {
   map.addListener('rightclick', function(e) {
 
     document.getElementById("form-add-restaurant").style.display = "block";
-    
+
     createNewDataStructureForNewRestaurants(e, map);
   });
 }
@@ -350,7 +334,7 @@ function newRestaurantContent(data, map) {
 
     //display form
     document.getElementById("form-add-restaurant").style.display = "block";
-  
+
 
     $('#add-restaurant').on('click', function() {
       let newName = document.getElementById('res-name').value
@@ -376,7 +360,7 @@ function newRestaurantContent(data, map) {
 
       //hide form
       document.getElementById("form-add-restaurant").style.display = "none";
-     
+
 
     });
   }
@@ -414,7 +398,7 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
 
   allMarkers.push(newMarker);
 
-  clickOnNewMarkerInfo(newMarker, map,newRestaurantContent)
+  clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
 }
 
 //___________________________________________END
@@ -424,13 +408,13 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
 //___________________________________________BEGIN display New Restaurant Content
 
 // ================ Fran code ===================
-function clickOnNewMarkerInfo(newMarker, map,newRestaurantContent) {
+function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
   newMarker.addListener('click', function() {
     $("#title").html(newRestaurantContent.name);
     $("#rating-stars").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
 
     $("#review").empty();
-    $("#review").append("<li>" +'<b>Author:</b> ' + newRestaurantContent.author_name +'<br>' +'<b>Review:</b> '+ newRestaurantContent.review + "</li>");
+    $("#review").append("<li>" + '<b>Author:</b> ' + newRestaurantContent.author_name + '<br>' + '<b>Review:</b> ' + newRestaurantContent.review + "</li>");
 
     // Modal
     $("#myModal").modal();
@@ -459,30 +443,67 @@ function clickOnNewMarkerInfo(newMarker, map,newRestaurantContent) {
 
 
 
-$('#btn-add-review').on('click', function() {
-  document.getElementById("add-new-review").style.display = "block";
-});
+
 
 
 
 //document.getElementById("add-new-review").style.display = "block";
-
-    $('#add-new-review').on('click', function() {
-     
-
-      let ratingReview = document.getElementById('new-rating').value
-      let ratingReviewNumber = parseInt(ratingReview);
-      let userNameReview = document.getElementById('new-user-name').value;
-      let newReview = document.getElementById('new-user-review').value;
+function addReview(marker,restLoop){
+  let reviews;
+let rI;
+//document.getElementById("add-new-review").style.display = "block";
+$('#add-new-review').on('click', function() {
 
 
+  let ratingReview = document.getElementById('new-rating').value
+  let ratingReviewNumber = parseInt(ratingReview);
+  let userNameReview = document.getElementById('new-user-name').value;
+  let newReview = document.getElementById('new-user-review').value;
+
+      reviews = {
+        author_name: userNameReview,
+        text: newReview,
+      }
+
+  if(marker.position === restLoop.position){
+
+
+      let data = new Array();
+      data.push({
+        author_name: userNameReview,
+        text: newReview,
+      })
+
+
+
+      //rI.review.concat(reviews)
+      
+      //console.log(restaurants[i].newReview)
+
+      //console.log(rI.review.concat(reviews))
+      restLoop.review.push(reviews);
+console.log(restLoop)
+
+  }
+  
+
+
+/*
+        newRestaurantContent.name = newName;
+        newRestaurantContent.rating = ratingNumberNewRestaurant;
+
+        newRestaurantContent.author_name = author_name;
+        newRestaurantContent.review = review;
+*/
 //document.getElementById("add-new-review").style.display = "none";
-    });
+
+  
+});
 
 
 
 
-
+}
 
 
 /* =================================================================================
@@ -533,7 +554,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
           placeId: results[i].place_id,
           id: results[i].id,
           review: '',
-          author_name: '',
+          newReview: '',
         }
 
         restaurants.push(allRestaurant)
