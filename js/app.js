@@ -398,7 +398,9 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
 
   allMarkers.push(newMarker);
 
-  clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
+  
+
+  OnNewMarkerInfo(newMarker, map, newRestaurantContent)
 }
 
 //___________________________________________END
@@ -452,7 +454,7 @@ function addReview(marker,restLoop){
   let reviews;
 let rI;
 //document.getElementById("add-new-review").style.display = "block";
-$('#add-new-review').on('click', function() {
+$('#btn-add-new-review').on('click', function() {
 
 
   let ratingReview = document.getElementById('new-rating').value
@@ -495,7 +497,7 @@ console.log(restLoop)
         newRestaurantContent.author_name = author_name;
         newRestaurantContent.review = review;
 */
-//document.getElementById("add-new-review").style.display = "none";
+document.getElementById("add-new-review").style.display = "none";
 
   
 });
@@ -542,7 +544,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
     function(results, status, pagination) {
       if (status !== 'OK') return;
 
-      console.log(results)
+      //console.log(results)
 
       for (let i = 0; i < results.length; i++) {
         // storing all the results restaurants in an array. I am structuring the data
@@ -560,7 +562,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
         restaurants.push(allRestaurant)
       }
 
-      console.log(restaurants)
+      //console.log(restaurants)
 
 
       // ==============  Fran code  =========================================
