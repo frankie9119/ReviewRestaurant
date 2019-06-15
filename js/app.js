@@ -158,27 +158,31 @@ function displayReviewList(displayReview, marker) {
   $("#review").empty();
   let reviewDisplayList = $("#review");
 
-  let reviewTest;
 
 
   for (let i = 0; i < displayReview.length; i++) {
 
     for (let i = 0; i < restaurants.length; i++) {
+      if(restaurants[i].reviewsFromGoogle === true){
       if (marker.position === restaurants[i].position) {
-
-        // NOW I HAVE TO PUSH RATINGSTEST INTO RESTAURANTS[I]
+        
+        // NOW I HAVE TO PUSH RATINGSTEST INTO RESTAURANTS[I] ONLY IF restaurants[i].reviewsFromGoogle === true
         restaurants[i].review = displayReview
+        restaurants[i].reviewsFromGoogle = false;
+
       }
     }
   }
+}
 
   for (let i = 0; i < restaurants.length; i++) {
-
+    
     if (marker.position === restaurants[i].position) {
 
       for (let j = 0; j < restaurants[i].review.length; j++) {
         
         let reviewToDisplay = restaurants[i].review[j];
+        
 
         $("#title").html(restaurants[i].name);
         $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
@@ -187,6 +191,8 @@ function displayReviewList(displayReview, marker) {
       }
     }
   }
+
+
 
 }
 
@@ -228,15 +234,15 @@ function clickOnMarkerInfo(marker, map) {
         position: marker.position,
 
       });
-
-  })
-
 // _______________ Add a review BTN
 
 $('#btn-add-review').on('click', function() {
   document.getElementById("add-new-review").style.display = "block";
   addReview(marker)
   });
+
+  })
+
 
 }
 
@@ -248,6 +254,7 @@ $('#btn-add-review').on('click', function() {
   
                               WORKING ON ADD A REVIEW
 ==================================================================================== */
+
 
 function addReview(marker){
 
@@ -261,9 +268,8 @@ $('#btn-add-new-review').on('click', function() {
   let userNameReview = document.getElementById('new-user-name').value;
   let newReview = document.getElementById('new-user-review').value;
 
-
-for (let i = 0; i < restaurants.length; i++) {
-  let restLoop = restaurants[i]
+    for (let i = 0; i < restaurants.length; i++) {
+      let restLoop = restaurants[i]
 
   if(marker.position === restLoop.position){
 
@@ -290,7 +296,6 @@ document.getElementById("add-new-review").style.display = "none";
   
                end--->      WORKING ON ADD A REVIEW     <---end
 ==================================================================================== */
-
 
 
 
@@ -476,6 +481,16 @@ function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
 
 
 
+
+
+
+
+
+
+
+
+
+
 /* =================================================================================
   
    end----- THE FOLLOWING CODE IS WORKING WITH THE NEW RESTAURANTS ADDED --- end
@@ -511,6 +526,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
           id: results[i].id,
           review: '',
           newReview: '',
+          reviewsFromGoogle: true,
         }
 
         restaurants.push(allRestaurant)
@@ -665,7 +681,6 @@ function initMap() {
   addRestaurant(map);
 
 
-  //setMapOnAll(map);
 
 
 
