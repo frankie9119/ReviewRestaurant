@@ -178,7 +178,11 @@ function displayReviewList(displayReview, marker) {
 
       for (let j = 0; j < restaurants[i].review.length; j++) {
         
-        let reviewToDisplay = restaurants[i].review[j]
+        let reviewToDisplay = restaurants[i].review[j];
+
+        $("#title").html(restaurants[i].name);
+        $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
+
         reviewDisplayList.append("<li>" + '<b>Author:</b> ' + reviewToDisplay.author_name + '<br>' + '<b>Review:</b> ' + reviewToDisplay.text + "</li>")
       }
     }
@@ -214,31 +218,6 @@ function clickOnMarkerInfo(marker, map) {
 
     ========================================================================================================*/
 
-    for (let i = 0; i < restaurants.length; i++) {
-      let restLoop = restaurants[i]
-      if (restaurants[i].position === marker.position) {
-        $("#title").html(restaurants[i].name);
-        $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
-      }
-
-
-// _______________ Add a review BTN
-
-$('#btn-add-review').on('click', function() {
-  document.getElementById("add-new-review").style.display = "block";
-  
-});
-addReview(marker,restLoop)
-  
-
-
-    }
-
-
-
-    //alert(marker.placeId)
-
-
     // Modal
     $("#myModal").modal();
     //getReviewFromGoogle(marker);
@@ -252,10 +231,68 @@ addReview(marker,restLoop)
 
   })
 
+// _______________ Add a review BTN
+
+$('#btn-add-review').on('click', function() {
+  document.getElementById("add-new-review").style.display = "block";
+  addReview(marker)
+  });
+
 }
 
 
 //___________________________________________END
+
+
+/* =================================================================================
+  
+                              WORKING ON ADD A REVIEW
+==================================================================================== */
+
+function addReview(marker){
+
+  let reviews;
+
+$('#btn-add-new-review').on('click', function() {
+
+
+  let ratingReview = document.getElementById('new-rating').value
+  let ratingReviewNumber = parseInt(ratingReview);
+  let userNameReview = document.getElementById('new-user-name').value;
+  let newReview = document.getElementById('new-user-review').value;
+
+
+for (let i = 0; i < restaurants.length; i++) {
+  let restLoop = restaurants[i]
+
+  if(marker.position === restLoop.position){
+
+
+      reviews = {
+        author_name: userNameReview,
+        text: newReview,
+      }
+
+
+      restLoop.review.push(reviews);
+      console.log(restLoop)
+
+  }
+  }
+document.getElementById("add-new-review").style.display = "none";
+
+});
+
+}
+
+
+/* =================================================================================
+  
+               end--->      WORKING ON ADD A REVIEW     <---end
+==================================================================================== */
+
+
+
 
 /* =====================================================================================
   
@@ -431,89 +468,6 @@ function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
 
 
 //___________________________________________END
-
-
-
-
-
-
-
-/* =================================================================================
-  
-                              WORKING ON ADD A REVIEW
-==================================================================================== */
-
-
-
-
-
-
-
-//document.getElementById("add-new-review").style.display = "block";
-function addReview(marker,restLoop){
-  let reviews;
-let rI;
-//document.getElementById("add-new-review").style.display = "block";
-$('#btn-add-new-review').on('click', function() {
-
-
-  let ratingReview = document.getElementById('new-rating').value
-  let ratingReviewNumber = parseInt(ratingReview);
-  let userNameReview = document.getElementById('new-user-name').value;
-  let newReview = document.getElementById('new-user-review').value;
-
-      reviews = {
-        author_name: userNameReview,
-        text: newReview,
-      }
-
-  if(marker.position === restLoop.position){
-
-
-      let data = new Array();
-      data.push({
-        author_name: userNameReview,
-        text: newReview,
-      })
-
-
-
-      //rI.review.concat(reviews)
-      
-      //console.log(restaurants[i].newReview)
-
-      //console.log(rI.review.concat(reviews))
-      restLoop.review.push(reviews);
-console.log(restLoop)
-
-  }
-  
-
-
-/*
-        newRestaurantContent.name = newName;
-        newRestaurantContent.rating = ratingNumberNewRestaurant;
-
-        newRestaurantContent.author_name = author_name;
-        newRestaurantContent.review = review;
-*/
-document.getElementById("add-new-review").style.display = "none";
-
-  
-});
-
-
-
-
-}
-
-
-/* =================================================================================
-  
-               end--->      WORKING ON ADD A REVIEW     <---end
-==================================================================================== */
-
-
 
 
 
