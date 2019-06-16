@@ -4,6 +4,7 @@
 let restaurants = [];
 let allMarkers = [];
 let map;
+let placeIdOfMarkerClicked;
 
 
 //_________________________________________BEGIN createMap
@@ -207,45 +208,46 @@ function displayReviewList(displayReview, marker) {
 // ================ Fran code ===================
 function clickOnMarkerInfo(marker, map) {
 
-  marker.addListener('click', function() {
+    marker.addListener('click', function() {
 
-    getReviewFromGoogle(marker, restaurants, map)
+        getReviewFromGoogle(marker, restaurants, map)
 
-    /*====================================================================================================
-                      The idea is this:
+        placeIdOfMarkerClicked = marker.placeId;
 
-                      Because you have to click on a marker in order to add a new review:
+        /*====================================================================================================
+                          The idea is this:
 
-                      when click on marker clickOnMarkerInfo() is called;
-                      in clickOnMarkerInfo() first run getReviewFromGoogle();
-                      store the reviews in the global restaurants;
-                      loop through restaurants; 
-                      if restaurants.position === marker.position Display name, rating, reviews, etc..
+                          Because you have to click on a marker in order to add a new review:
 
-    ========================================================================================================*/
+                          when click on marker clickOnMarkerInfo() is called;
+                          in clickOnMarkerInfo() first run getReviewFromGoogle();
+                          store the reviews in the global restaurants;
+                          loop through restaurants; 
+                          if restaurants.position === marker.position Display name, rating, reviews, etc..
 
-    // Modal
-    $("#myModal").modal();
-    //getReviewFromGoogle(marker);
+        ========================================================================================================*/
 
-    // ======== STREET VIEW ============
-    var panorama = new google.maps.StreetViewPanorama(
-      document.getElementById('street-view'), {
-        position: marker.position,
+        // Modal
+        $("#myModal").modal();
+        //getReviewFromGoogle(marker);
 
-      });
-// _______________ Add a review BTN
+        // ======== STREET VIEW ============
+        var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('street-view'), {
+                position: marker.position,
 
-$('#btn-add-review').on('click', function() {
-  document.getElementById("add-new-review").style.display = "block";
-  addReview(marker)
-  });
+            });
+        // _______________ Add a review BTN
 
-  })
+        $('#btn-add-review').on('click', function() {
+            document.getElementById("add-new-review").style.display = "block";
+           
+        });
+
+    })
 
 
 }
-
 
 //___________________________________________END
 
@@ -256,40 +258,51 @@ $('#btn-add-review').on('click', function() {
 ==================================================================================== */
 
 
-function addReview(marker){
 
-  let reviews;
-
-$('#btn-add-new-review').on('click', function() {
+let reviews = {};
 
 
-  let ratingReview = document.getElementById('new-rating').value
-  let ratingReviewNumber = parseInt(ratingReview);
-  let userNameReview = document.getElementById('new-user-name').value;
-  let newReview = document.getElementById('new-user-review').value;
-
-    for (let i = 0; i < restaurants.length; i++) {
-      let restLoop = restaurants[i]
-
-  if(marker.position === restLoop.position){
+    $('#btn-add-new-review').on('click', function() {
 
 
-      reviews = {
-        author_name: userNameReview,
-        text: newReview,
-      }
+        let ratingReview = document.getElementById('new-rating').value
+        let ratingReviewNumber = parseInt(ratingReview);
+        let userNameReview = document.getElementById('new-user-name').value;
+        let newReview = document.getElementById('new-user-review').value;
+
+        for (let i = 0; i < restaurants.length; i++) {
+          
+
+         
+             
+           
+
+                 
+               console.log( Array.isArray(restaurants[i].review))
 
 
-      restLoop.review.push(reviews);
-      console.log(restLoop)
+               if(restaurants[i].placeId === placeIdOfMarkerClicked){
 
-  }
-  }
-document.getElementById("add-new-review").style.display = "none";
+                  restaurants[i].review.push({        
+                     author_name: userNameReview,
+                     text: newReview
+                   })
+                    console.log(restaurants)
 
-});
+                  return                       // Williams Patch/Fix - works but does not address underline problem
+               }
+     
+        }
 
-}
+
+
+   
+    });
+
+      
+
+      //________________________________________________________BEG
+
 
 
 /* =================================================================================
@@ -349,7 +362,7 @@ function createNewDataStructureForNewRestaurants(data, map) {
     newPlaceId: true,
     placeId: restaurants.length,
     id: restaurants.length,
-    review: '',
+    review: [],
     author_name: '',
   });
 
