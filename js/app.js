@@ -241,13 +241,22 @@ function clickOnMarkerInfo(marker, map) {
 
         $('#btn-add-review').on('click', function() {
             document.getElementById("add-new-review").style.display = "block";
-           
+       
         });
 
     })
 
 
 }
+
+
+
+
+
+
+
+
+
 
 //___________________________________________END
 
@@ -259,24 +268,39 @@ function clickOnMarkerInfo(marker, map) {
 
 
 
-let reviews = {};
+
+
+
+
+
+
+
+
+
+
+ //___________________________________________BEGIN WILLIAM  patch
+
+ // Hi Francisco.......
+ // I removed the function the code below was wrapped in 
+ // function addReview(marker) is gone.
+ // I am still not sure what the underline problem is but I assume it is a "closure" issue
+ // that I can't put my finger on.
+ // Try it...it works. Play with it and try to break it!!!
+
+
+
 
 
     $('#btn-add-new-review').on('click', function() {
 
-
+        let reviews = {};
         let ratingReview = document.getElementById('new-rating').value
         let ratingReviewNumber = parseInt(ratingReview);
         let userNameReview = document.getElementById('new-user-name').value;
         let newReview = document.getElementById('new-user-review').value;
 
         for (let i = 0; i < restaurants.length; i++) {
-          
-
-         
-             
-           
-
+    
                  
                console.log( Array.isArray(restaurants[i].review))
 
@@ -287,21 +311,36 @@ let reviews = {};
                      author_name: userNameReview,
                      text: newReview
                    })
-                    console.log(restaurants)
+                 
 
-                  return                       // Williams Patch/Fix - works but does not address underline problem
+                                    
                }
      
         }
 
-
-
+           console.log(restaurants)
    
     });
+    
 
       
+//_________________________________________END WILLIAM patch
 
-      //________________________________________________________BEG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
