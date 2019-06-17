@@ -4,6 +4,9 @@
 let restaurants = [];
 let allMarkers = [];
 let map;
+let placeIdOfMarkerClicked;
+
+
 
 
 //_________________________________________BEGIN createMap
@@ -104,10 +107,13 @@ function displaySurroundingPlaceList(restaurantsArray) {
 
 
 function createSurroundingPlaceMarkers(map, restaurantsArray) {
+//let marker;
 
+//let restArray=[];
   // ==============  Fran code  =========================================
   for (let i = 0; i < restaurantsArray.length; i++) {
-
+    //console.log(restaurantsArray[])
+    let restArray = restaurantsArray[i]
     let marker = new google.maps.Marker({
       map: map,
       icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
@@ -119,13 +125,81 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
     });
 
     allMarkers.push(marker);
+
     // DISPLAY INFO
-    clickOnMarkerInfo(marker, map);
+clickOnMarkerInfo(marker, map);
+      
+
+
+
 
   }
+  
+  
+  
+
+  
+  
 }
 
 //__________________________________________END 
+
+//___________________________________________BEGIN click on markers info!
+
+
+// ================ Fran code ===================
+function clickOnMarkerInfo(marker, map) {
+
+
+  marker.addListener('click', function() {
+    alert()
+console.log(marker.placeId);
+
+    placeIdOfMarkerClicked = marker.placeId;
+    getReviewFromGoogle(marker, restaurants, map)
+
+
+
+    /*====================================================================================================
+                      The idea is this:
+
+                      Because you have to click on a marker in order to add a new review:
+
+                      when click on marker clickOnMarkerInfo() is called;
+                      in clickOnMarkerInfo() first run getReviewFromGoogle();
+                      store the reviews in the global restaurants;
+                      loop through restaurants; 
+                      if restaurants.position === marker.position Display name, rating, reviews, etc..
+
+    ========================================================================================================*/
+
+    // Modal
+    $("#myModal").modal();
+    //getReviewFromGoogle(marker);
+
+
+    // ======== STREET VIEW ============
+    var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('street-view'), {
+        position: marker.position,
+
+      });
+// _______________ Add a review BTN
+
+
+  
+
+
+
+
+  })
+
+
+
+}
+
+
+//___________________________________________END
 
 
 
@@ -144,6 +218,7 @@ function getReviewFromGoogle(marker, restaurants, map) {
       let displayReview = restaurants.reviews;
 
       displayReviewList(displayReview, marker);
+
 
       //let displayReview = restaurants.reviews;     
       //displayReviewList(displayReview);
@@ -201,96 +276,53 @@ function displayReviewList(displayReview, marker) {
 
 //__________________________________________END
 
-//___________________________________________BEGIN click on markers info!
 
-
-// ================ Fran code ===================
-function clickOnMarkerInfo(marker, map) {
-
-  marker.addListener('click', function() {
-
-    getReviewFromGoogle(marker, restaurants, map)
-
-    /*====================================================================================================
-                      The idea is this:
-
-                      Because you have to click on a marker in order to add a new review:
-
-                      when click on marker clickOnMarkerInfo() is called;
-                      in clickOnMarkerInfo() first run getReviewFromGoogle();
-                      store the reviews in the global restaurants;
-                      loop through restaurants; 
-                      if restaurants.position === marker.position Display name, rating, reviews, etc..
-
-    ========================================================================================================*/
-
-    // Modal
-    $("#myModal").modal();
-    //getReviewFromGoogle(marker);
-
-    // ======== STREET VIEW ============
-    var panorama = new google.maps.StreetViewPanorama(
-      document.getElementById('street-view'), {
-        position: marker.position,
-
-      });
-// _______________ Add a review BTN
-
-$('#btn-add-review').on('click', function() {
-  document.getElementById("add-new-review").style.display = "block";
-  addReview(marker)
-  });
-
-  })
-
-
-}
-
-
-//___________________________________________END
 
 
 /* =================================================================================
   
                               WORKING ON ADD A REVIEW
 ==================================================================================== */
+$('#btn-add-review').on('click', function() {
+  document.getElementById("add-new-review").style.display = "block";
+})
 
-let newRreviews;
-function addReview(marker){
-let reviews;
-    
 
+
+//console.log(restArray);
     $('#btn-add-new-review').on('click', function() {
 
-
-      let ratingReview = document.getElementById('new-rating').value
-      let ratingReviewNumber = parseInt(ratingReview);
-      let userNameReview = document.getElementById('new-user-name').value;
-      let newReview = document.getElementById('new-user-review').value;
+        //let reviews = {};
+        let ratingReview = document.getElementById('new-rating').value
+        let ratingReviewNumber = parseInt(ratingReview);
+        let userNameReview = document.getElementById('new-user-name').value;
+        let newReview = document.getElementById('new-user-review').value;
 
         for (let i = 0; i < restaurants.length; i++) {
-          let restLoop = restaurants[i]
+    
+                 
+               console.log( Array.isArray(restaurants[i].review))
 
-            //if(marker.id === restLoop.id){
-            console.log(marker.id)
-            console.log(restLoop.id)
-//console.log(marker)
-                reviews = {
-                  author_name: userNameReview,
-                  text: newReview,
-                }
 
-          newRreviews =reviews;
-          console.log(newRreviews)
+               if(restaurants[i].placeId === placeIdOfMarkerClicked){
 
-            //}
+                  restaurants[i].review.push({        
+                     author_name: userNameReview,
+                     text: newReview
+                   })
+                 
+
+                                    
+               }
+     
         }
 
-        document.getElementById("add-new-review").style.display = "none";
+           console.log(restaurants)
+           document.getElementById("add-new-review").style.display = "none";
+   
+    });
 
-      });
 
-}
 
 
 /* =================================================================================
@@ -348,10 +380,13 @@ function createNewDataStructureForNewRestaurants(data, map) {
     userCreated: true,
     rating: 0,
     newPlaceId: true,
-    placeId: restaurants.length,
+    placeId: '',
     id: restaurants.length,
-    review: '',
-    author_name: '',
+    review: [{
+      author_name: '',
+      text: '',
+    },]
+    
   });
 
   newRestaurantContent(data, map);
@@ -387,15 +422,15 @@ function newRestaurantContent(data, map) {
 
       let author_name = document.getElementById('user-name').value;
 
-      let review = document.getElementById('user-review').value;
+      let text = document.getElementById('user-review').value;
 
 
       if (newRestaurantContent.name === 'A') {
         newRestaurantContent.name = newName;
         newRestaurantContent.rating = ratingNumberNewRestaurant;
-
-        newRestaurantContent.author_name = author_name;
-        newRestaurantContent.review = review;
+        newRestaurantContent.placeId = 'test';
+        newRestaurantContent.review.author_name = author_name;
+        newRestaurantContent.review.text = text;
 
         displaySurroundingPlaceList(sortRestByRating(restaurants));
         createNewPlaceMarker(map, data, newRestaurantContent);
@@ -436,6 +471,7 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
     animation: google.maps.Animation.DROP,
     review: newRestaurantContent.review,
     author_name: newRestaurantContent.author_name,
+    placeId: newRestaurantContent.placeId,
 
   });
 
@@ -443,7 +479,7 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
 
   
 
-  OnNewMarkerInfo(newMarker, map, newRestaurantContent)
+  clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
 }
 
 //___________________________________________END
@@ -455,6 +491,8 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
 // ================ Fran code ===================
 function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
   newMarker.addListener('click', function() {
+
+    placeIdOfMarkerClicked = newMarker.placeId;
     $("#title").html(newRestaurantContent.name);
     $("#rating-stars").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
 

@@ -647,11 +647,13 @@ document.getElementById("add-new-review").style.display = "block";
 
 
 
+    let placeIdOfMarkerClicked = marker.placeId;
+    addReview(placeIdOfMarkerClicked);
 
 
+document.getElementById("add-new-review").style.display = "block";
 
-
-
-
+placeIdOfMarkerClicked = marker.placeId;
+placeId: restaurants.length,
 
 
