@@ -217,7 +217,7 @@ function getReviewFromGoogle(marker, restaurants, map) {
 
       let displayReview = restaurants.reviews;
 
-      displayReviewList(displayReview, marker);
+      displayReviewList(displayReview);
 
 
       //let displayReview = restaurants.reviews;     
@@ -229,9 +229,8 @@ function getReviewFromGoogle(marker, restaurants, map) {
 //__________________________________________END
 
 // ================ Fran code ===================
-function displayReviewList(displayReview, marker) {
-  $("#review").empty();
-  let reviewDisplayList = $("#review");
+function displayReviewList(displayReview) {
+
 
 
 
@@ -239,7 +238,8 @@ function displayReviewList(displayReview, marker) {
 
     for (let i = 0; i < restaurants.length; i++) {
       if(restaurants[i].reviewsFromGoogle === true){
-      if (marker.position === restaurants[i].position) {
+      //if (marker.position === restaurants[i].position) {
+        if(restaurants[i].placeId === placeIdOfMarkerClicked){
         
         // NOW I HAVE TO PUSH RATINGSTEST INTO RESTAURANTS[I] ONLY IF restaurants[i].reviewsFromGoogle === true
         restaurants[i].review = displayReview
@@ -250,9 +250,20 @@ function displayReviewList(displayReview, marker) {
   }
 }
 
-  for (let i = 0; i < restaurants.length; i++) {
+
+displayReviewListDOM();
+
+
+}
+
+
+function displayReviewListDOM(){
+    $("#review").empty();
+  let reviewDisplayList = $("#review");
+    for (let i = 0; i < restaurants.length; i++) {
     
-    if (marker.position === restaurants[i].position) {
+    //if (marker.position === restaurants[i].position) {
+      if(restaurants[i].placeId === placeIdOfMarkerClicked){
 
       for (let j = 0; j < restaurants[i].review.length; j++) {
         
@@ -266,13 +277,7 @@ function displayReviewList(displayReview, marker) {
       }
     }
   }
-
-
-
 }
-
-
-
 
 //__________________________________________END
 
@@ -495,11 +500,14 @@ function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
   newMarker.addListener('click', function() {
 
     placeIdOfMarkerClicked = newMarker.placeId;
-    $("#title").html(newRestaurantContent.name);
+    /*$("#title").html(newRestaurantContent.name);
     $("#rating-stars").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
 
     $("#review").empty();
     $("#review").append("<li>" + '<b>Author:</b> ' + newRestaurantContent.author_name + '<br>' + '<b>Review:</b> ' + newRestaurantContent.review + "</li>");
+*/
+
+displayReviewListDOM();
 
     // Modal
     $("#myModal").modal();
