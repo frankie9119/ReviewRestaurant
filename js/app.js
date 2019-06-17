@@ -382,11 +382,8 @@ function createNewDataStructureForNewRestaurants(data, map) {
     newPlaceId: true,
     placeId: '',
     id: restaurants.length,
-    review: [{
-      author_name: '',
-      text: '',
-    },]
-    
+    review: '',
+    author_name: '',
   });
 
   newRestaurantContent(data, map);
@@ -422,15 +419,15 @@ function newRestaurantContent(data, map) {
 
       let author_name = document.getElementById('user-name').value;
 
-      let text = document.getElementById('user-review').value;
+      let review = document.getElementById('user-review').value;
 
 
       if (newRestaurantContent.name === 'A') {
         newRestaurantContent.name = newName;
         newRestaurantContent.rating = ratingNumberNewRestaurant;
         newRestaurantContent.placeId = 'test';
-        newRestaurantContent.review.author_name = author_name;
-        newRestaurantContent.review.text = text;
+        newRestaurantContent.author_name = author_name;
+        newRestaurantContent.review = review;
 
         displaySurroundingPlaceList(sortRestByRating(restaurants));
         createNewPlaceMarker(map, data, newRestaurantContent);
