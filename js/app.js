@@ -293,7 +293,7 @@ function clickOnMarkerInfo(marker, map) {
 
     $('#btn-add-new-review').on('click', function() {
 
-        let reviews = {};
+        //let reviews = {};
         let ratingReview = document.getElementById('new-rating').value
         let ratingReviewNumber = parseInt(ratingReview);
         let userNameReview = document.getElementById('new-user-name').value;
