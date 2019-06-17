@@ -152,7 +152,7 @@ function clickOnMarkerInfo(marker, map) {
 
 
   marker.addListener('click', function() {
-    alert()
+    
 console.log(marker.placeId);
 
     placeIdOfMarkerClicked = marker.placeId;
@@ -382,8 +382,11 @@ function createNewDataStructureForNewRestaurants(data, map) {
     newPlaceId: true,
     placeId: '',
     id: restaurants.length,
-    review: '',
-    author_name: '',
+    review: [{
+      text: '',
+      author_name: '',
+    },]
+    //author_name: '',
   });
 
   newRestaurantContent(data, map);
@@ -400,7 +403,7 @@ function createNewDataStructureForNewRestaurants(data, map) {
 **************************************************************************** */
 
 function newRestaurantContent(data, map) {
-
+let restaurantIndex = 0;
   //loop through restaurants global
   for (let i = 0; i < restaurants.length; i++) {
 
@@ -412,6 +415,8 @@ function newRestaurantContent(data, map) {
 
 
     $('#add-restaurant').on('click', function() {
+      restaurantIndex = restaurantIndex + 1;
+      
       let newName = document.getElementById('res-name').value
       let ratingNewRestaurant = document.getElementById('ratingNewRestaurant').value
 
@@ -419,15 +424,15 @@ function newRestaurantContent(data, map) {
 
       let author_name = document.getElementById('user-name').value;
 
-      let review = document.getElementById('user-review').value;
+      let text = document.getElementById('user-review').value;
 
 
       if (newRestaurantContent.name === 'A') {
         newRestaurantContent.name = newName;
         newRestaurantContent.rating = ratingNumberNewRestaurant;
-        newRestaurantContent.placeId = 'test';
-        newRestaurantContent.author_name = author_name;
-        newRestaurantContent.review = review;
+        newRestaurantContent.placeId = restaurantIndex;
+        newRestaurantContent.review.author_name = author_name;
+        newRestaurantContent.review.text = text;
 
         displaySurroundingPlaceList(sortRestByRating(restaurants));
         createNewPlaceMarker(map, data, newRestaurantContent);
