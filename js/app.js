@@ -120,7 +120,7 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
 
     allMarkers.push(marker);
     // DISPLAY INFO
-    clickOnMarkerInfo(marker, map)
+    clickOnMarkerInfo(marker, map);
 
   }
 }
@@ -255,39 +255,40 @@ $('#btn-add-review').on('click', function() {
                               WORKING ON ADD A REVIEW
 ==================================================================================== */
 
-
+let newRreviews;
 function addReview(marker){
+let reviews;
+    
 
-  let reviews;
-
-$('#btn-add-new-review').on('click', function() {
-
-
-  let ratingReview = document.getElementById('new-rating').value
-  let ratingReviewNumber = parseInt(ratingReview);
-  let userNameReview = document.getElementById('new-user-name').value;
-  let newReview = document.getElementById('new-user-review').value;
-
-    for (let i = 0; i < restaurants.length; i++) {
-      let restLoop = restaurants[i]
-
-  if(marker.position === restLoop.position){
+    $('#btn-add-new-review').on('click', function() {
 
 
-      reviews = {
-        author_name: userNameReview,
-        text: newReview,
-      }
+      let ratingReview = document.getElementById('new-rating').value
+      let ratingReviewNumber = parseInt(ratingReview);
+      let userNameReview = document.getElementById('new-user-name').value;
+      let newReview = document.getElementById('new-user-review').value;
 
+        for (let i = 0; i < restaurants.length; i++) {
+          let restLoop = restaurants[i]
 
-      restLoop.review.push(reviews);
-      console.log(restLoop)
+            //if(marker.id === restLoop.id){
+            console.log(marker.id)
+            console.log(restLoop.id)
+//console.log(marker)
+                reviews = {
+                  author_name: userNameReview,
+                  text: newReview,
+                }
 
-  }
-  }
-document.getElementById("add-new-review").style.display = "none";
+          newRreviews =reviews;
+          console.log(newRreviews)
 
-});
+            //}
+        }
+
+        document.getElementById("add-new-review").style.display = "none";
+
+      });
 
 }
 
