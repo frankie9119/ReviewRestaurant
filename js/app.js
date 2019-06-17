@@ -1,9 +1,9 @@
 "use strict";
 
 //_______ globals
+let map;
 let restaurants = [];
 let allMarkers = [];
-let map;
 let placeIdOfMarkerClicked;
 
 
