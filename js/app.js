@@ -75,11 +75,15 @@ function getSpecificRating(restaurantsArraySpecific, ratingValue) {
 
 
 function displaySurroundingPlaceList(restaurantsArray) {
-    let restaurantsList = $("#restaurantsList");
+    let restaurantsList = $(".restaurantsList");
+    let restaurantsListCollapse = $(".restaurantsListCollapse");
     restaurantsList.empty();
+    restaurantsListCollapse.empty();
+
 
     for (let i = 0; i < restaurantsArray.length; i++) {
-        restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating + ' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>")
+        restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + ' ' + restaurantsArray[i].rating + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
+        restaurantsListCollapse.append("<li>" + restaurantsArray[i].name + ' ' + ' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
     }
 }
 
@@ -148,6 +152,8 @@ function clickOnMarkerInfo(marker, map) {
                 position: marker.position,
 
             });
+
+
     });
 }
 
@@ -217,7 +223,15 @@ function displayReviewListDOM() {
                 $("#title").html(restaurants[i].name);
                 $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
 
-                reviewDisplayList.append("<li>" + '<b>Author:</b> ' + reviewToDisplay.author_name + '<br>' + '<b>Review:</b> ' + reviewToDisplay.text + "</li>")
+                reviewDisplayList.append("<li>" + '<b>Author:</b> ' + reviewToDisplay.author_name + '<br>' + '<b>Review:</b> ' + reviewToDisplay.text + '<br>' + '<b>Rating:</b> ' + buildRatingStarDisplayValue(reviewToDisplay.rating) + "</li>");
+                /*
+
+                              HERE I AM TRYING TO SUM ALL THE RESTAURANTS.REVIEW.RATING VALUE & DIVIDE THE LENGTH TO GET THE MEDIAN VAL
+
+                                restaurants[i].rating = reviewToDisplay.rating.reduce((a, b) => a + b, 0);
+                                displaySurroundingPlaceList(sortRestByRating(restaurants));
+
+                */
             }
         }
     }
@@ -234,14 +248,14 @@ function displayReviewListDOM() {
 
 ==================================================================================== */
 $('#btn-add-review').on('click', function() {
-    $("#add-new-review").show();
+    $("#div-add-new-review").show();
 })
 
 
 $('#btn-add-new-review').on('click', function() {
 
-    let ratingReview = $('#new-rating').val();
-    let ratingReviewNumber = parseInt(ratingReview);
+    let ratingReviewNumber = $('#new-rating').val();
+    //let ratingReviewNumber = parseInt(ratingReview);
     let userNameReview = $('#new-user-name').val();
     let newReview = $('#new-user-review').val();
 
@@ -253,12 +267,14 @@ $('#btn-add-new-review').on('click', function() {
 
             restaurants[i].review.push({
                 author_name: userNameReview,
-                text: newReview
+                text: newReview,
+                rating: ratingReviewNumber,
             })
         }
     }
     console.log(restaurants);
-    $("#add-new-review").hide();
+    $("#div-add-new-review").hide();
+    $(this).closest('form').find("input[type=text], textarea").val("");
 });
 
 
@@ -290,7 +306,7 @@ $('#btn-add-new-review').on('click', function() {
 function addRestaurant(map) {
 
     map.addListener('rightclick', function(e) {
-        $("#form-add-restaurant").show();
+        $("#info-content-new-restaurant").show();
         createNewDataStructureForNewRestaurants(e, map);
     });
 }
@@ -342,7 +358,7 @@ function newRestaurantContent(data, map) {
         let newRestaurantContent = restaurants[i]
 
         //display form add restaurant
-        $("#form-add-restaurant").show();
+        //$("#form-add-restaurant").show();
 
         $('#add-restaurant').on('click', function() {
             restaurantIndex = restaurantIndex + 1; // in this way every restaurant added has a different number
@@ -361,7 +377,8 @@ function newRestaurantContent(data, map) {
 
                 newRestaurantContent.review.push({
                     author_name: author_name,
-                    text: text
+                    text: text,
+                    rating: ratingNumberNewRestaurant,
                 })
 
 
@@ -370,9 +387,12 @@ function newRestaurantContent(data, map) {
             }
 
             //hide form add restaurant
-            $("#form-add-restaurant").hide();
+            $("#info-content-new-restaurant").hide();
+            //$(this).closest('form').find("input[type=text], textarea").val("");
         });
+
     };
+
 };
 
 
