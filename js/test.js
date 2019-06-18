@@ -657,3 +657,60 @@ placeIdOfMarkerClicked = marker.placeId;
 placeId: restaurants.length,
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getReviewFromGoogle(marker, restaurants, map) {
+
+    let serviceNew = new google.maps.places.PlacesService(map);
+
+    serviceNew.getDetails({
+        placeId: marker.placeId
+    }, function(restaurants, status) {
+
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+            let displayReview = restaurants.reviews;
+
+            displayReviewList(displayReview);
+        };
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

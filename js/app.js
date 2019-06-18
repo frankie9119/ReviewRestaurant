@@ -82,10 +82,31 @@ function displaySurroundingPlaceList(restaurantsArray) {
 
 
     for (let i = 0; i < restaurantsArray.length; i++) {
+      let photo = restaurantsArray[i].placeId;
+      getPhoto(photo,restaurants,map)
+      console.log(restaurantsArray[i].placeId)
         restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + ' ' + restaurantsArray[i].rating + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
         restaurantsListCollapse.append("<li>" + restaurantsArray[i].name + ' ' + ' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
     }
 }
+function getPhoto(photo,restaurants, map) {
+
+    let serviceNew = new google.maps.places.PlacesService(map);
+
+    serviceNew.getDetails({
+            placeId: photo
+        }, function(restaurants, status) {
+
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+                let photos = restaurants.photos
+console.log(photos)
+
+                        
+                    };
+            });
+    }
+
 
 
 //__________________________________________END
@@ -141,7 +162,7 @@ function clickOnMarkerInfo(marker, map) {
     marker.addListener('click', function() {
 
         placeIdOfMarkerClicked = marker.placeId;
-        getReviewFromGoogle(marker, restaurants, map)
+        //getReviewFromGoogle(marker, restaurants, map)
 
         // Modal
         $("#myModal").modal();
@@ -164,22 +185,7 @@ function clickOnMarkerInfo(marker, map) {
 
 //___________________________________________BEGIN get review from google
 
-function getReviewFromGoogle(marker, restaurants, map) {
 
-    let serviceNew = new google.maps.places.PlacesService(map);
-
-    serviceNew.getDetails({
-        placeId: marker.placeId
-    }, function(restaurants, status) {
-
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-
-            let displayReview = restaurants.reviews;
-
-            displayReviewList(displayReview);
-        };
-    });
-}
 //__________________________________________END
 
 
