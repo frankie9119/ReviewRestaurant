@@ -219,6 +219,7 @@ function displayReviewListDOM() {
             for (let j = 0; j < restaurants[i].review.length; j++) {
 
                 let reviewToDisplay = restaurants[i].review[j];
+                console.log(restaurants[i])
 
                 $("#title").html(restaurants[i].name);
                 $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
@@ -260,7 +261,7 @@ $('#btn-add-new-review').on('click', function() {
     let newReview = $('#new-user-review').val();
 
     for (let i = 0; i < restaurants.length; i++) {
-
+//console.log(restaurants[i].review)
         console.log(Array.isArray(restaurants[i].review))
 
         if (restaurants[i].placeId === placeIdOfMarkerClicked) {
@@ -272,7 +273,7 @@ $('#btn-add-new-review').on('click', function() {
             })
         }
     }
-    console.log(restaurants);
+    //console.log(restaurants);
     $("#div-add-new-review").hide();
     $(this).closest('form').find("input[type=text], textarea").val("");
 });
@@ -486,7 +487,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
         function(results, status, pagination) {
             if (status !== 'OK') return;
 
-            //console.log(results)
+            console.log(results)
 
             for (let i = 0; i < results.length; i++) {
                 // storing all the results restaurants in an array. I am structuring the data
