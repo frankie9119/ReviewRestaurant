@@ -116,7 +116,6 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
         let restArray = restaurantsArray[i]
         let marker = new google.maps.Marker({
             map: map,
-            //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
             icon: 'restaurant.png',
             position: restaurantsArray[i].position,
             name: restaurantsArray[i].name,
@@ -227,12 +226,9 @@ function displayReviewListDOM() {
 
                 reviewDisplayList.append("<li>" + '<b>Author:</b> ' + reviewToDisplay.author_name + '<br>' + '<b>Review:</b> ' + reviewToDisplay.text + '<br>' + '<b>Rating:</b> ' + buildRatingStarDisplayValue(reviewToDisplay.rating) + "</li>");
                 /*
-
                               HERE I AM TRYING TO SUM ALL THE RESTAURANTS.REVIEW.RATING VALUE & DIVIDE THE LENGTH TO GET THE MEDIAN VAL
-
                                 restaurants[i].rating = reviewToDisplay.rating.reduce((a, b) => a + b, 0);
                                 displaySurroundingPlaceList(sortRestByRating(restaurants));
-
                 */
             }
         }
@@ -247,7 +243,6 @@ function displayReviewListDOM() {
 /* =================================================================================
   
               begin       ADD A REVIEW                     
-
 ==================================================================================== */
 $('#btn-add-review').on('click', function() {
     $("#div-add-new-review").show();
@@ -304,13 +299,12 @@ $('#btn-add-new-review').on('click', function() {
 
 
 //___________________________________________BEGIN right click add restaurant
-
+let counter = 0;
 function addRestaurant(map) {
 
     map.addListener('rightclick', function(e) {
         //$("#info-content-new-restaurant").show();
-        $("#modalTest").modal();
-
+        counter = counter + 1
         createNewDataStructureForNewRestaurants(e, map);
     });
 }
@@ -322,104 +316,45 @@ function addRestaurant(map) {
 //_________________________________________BEGIN add marker for new restaurant to the map.
 
 function createNewDataStructureForNewRestaurants(data, map) {
-
+  createNewPlaceMarker(data,map)
+//console.log(data.latLng)
     //default name for new restaurant is "A"
-
-
-    newRestaurantContent(data, map);
-}
-
-//______________________________________________END
-
-
-
-//______________________________________________BEGIN new restaurant content
-
-/****************************************************************************
-             Getting data from user - DOM manipulation *****
-**************************************************************************** */
-
-function newRestaurantContent(data, map) {
-    let restaurantIndex = 0;
-    //loop through restaurants global
-
-
-        //display form add restaurant
-        //$("#form-add-restaurant").show();
-
-        $('#add-restaurant').on('click', function() {
-
+    
     restaurants.push({
 
-        name: "A",
+        name: '',
         position: data.latLng,
         lat: data.latLng.lat(),
         lng: data.latLng.lng(),
         userCreated: true,
-        rating: 0,
+        rating: '',
         newPlaceId: true,
         placeId: '',
         id: restaurants.length,
+        number: counter,
         review: [{
             text: '',
             author_name: '',
         }, ]
     });
-        for (let i = 0; i < restaurants.length; i++) {
 
-        let newRestaurantContent = restaurants[i]
-
-            restaurantIndex = restaurantIndex + 1; // in this way every restaurant added has a different number
-
-            let newName = $('#res-name').val();
-            let ratingNewRestaurant = $('#ratingNewRestaurant').val();
-            let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
-            let author_name = $('#user-name').val();
-            let text = $('#user-review').val();
-
-
-            if (newRestaurantContent.name === 'A') {
-                newRestaurantContent.name = newName;
-                newRestaurantContent.rating = ratingNumberNewRestaurant;
-                newRestaurantContent.placeId = restaurantIndex;
-
-                newRestaurantContent.review.push({
-                    author_name: author_name,
-                    text: text,
-                    rating: ratingNumberNewRestaurant,
-                })
-
-
-                displaySurroundingPlaceList(sortRestByRating(restaurants));
-                createNewPlaceMarker(map, data, newRestaurantContent);
-            }
-          }
-
-            //hide form add restaurant
-            //$("#info-content-new-restaurant").hide();
-            //$(this).closest('form').find("input[type=text], textarea").val("");
-            console.log(restaurants)
-        });
-
-    //};
-
-};
-
+    
+    
+}
 
 //______________________________________________END
 
-
-
 //_________________________________________BEGIN create new restaurant marker
 
-function createNewPlaceMarker(map, data, newRestaurantContent) {
+function createNewPlaceMarker(data, map) {
+//console.log(data.latLng)
 
-    var newMarker = new google.maps.Marker({
+    let newMarker = new google.maps.Marker({
 
         position: data.latLng,
-        name: newRestaurantContent.name,
+        //name: newRestaurantContent.name,
         map: map,
-        rating: newRestaurantContent.rating,
+        //rating: newRestaurantContent.rating,
         icon: {
             path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
             scale: 5,
@@ -427,25 +362,39 @@ function createNewPlaceMarker(map, data, newRestaurantContent) {
             strokeColor: "#B40404"
         },
         animation: google.maps.Animation.DROP,
-        placeId: newRestaurantContent.placeId,
+        number: counter,
+        new: true,
+        //placeId: newRestaurantContent.placeId,
 
     });
 
     allMarkers.push(newMarker);
 
-    clickOnNewMarkerInfo(newMarker, map, newRestaurantContent)
+    clickOnNewMarkerInfo(data,map,newMarker)
 }
 
 //___________________________________________END
-
-
-
 //___________________________________________BEGIN display New Restaurant Content
 
 // ================ Fran code ===================
-function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
+function clickOnNewMarkerInfo(data,map,newMarker) {
     newMarker.addListener('click', function() {
 
+console.log(newMarker.new)
+  if(newMarker.new === true){
+        $("#myModalX").modal();
+    newRestaurantContent(data, map, newMarker);
+  }else{
+    alert('not new')
+  }
+
+
+
+//$("#modalTest").modal();
+
+//alert(newMarker.number)
+
+/*
         placeIdOfMarkerClicked = newMarker.placeId;
 
         displayReviewListDOM();
@@ -458,11 +407,86 @@ function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
                 position: newMarker.position,
 
             });
+*/
     });
 }
 
 
 //___________________________________________END
+
+//______________________________________________BEGIN new restaurant content
+
+/****************************************************************************
+             Getting data from user - DOM manipulation *****
+**************************************************************************** */
+
+function newRestaurantContent(data, map, newMarker) {
+    let restaurantIndex = 0;
+    //loop through restaurants global
+    
+    for (let i = 0; i < restaurants.length; i++) {
+
+        let newRestaurantContent = restaurants[i];
+
+        //display form add restaurant
+        //$("#form-add-restaurant").show();
+
+        $('#add-restaurant').on('click', function() {
+          //for(let j = 0; j < newMarker.length; j++){
+            //console.log(newMarker[j])
+            if(newRestaurantContent.number === newMarker.number) {
+          
+          
+            restaurantIndex = restaurantIndex + 1; // in this way every restaurant added has a different number
+
+            let newName = $('#res-name').val();
+            let ratingNewRestaurant = $('#ratingNewRestaurant').val();
+            let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
+            let author_name = $('#user-name').val();
+            let text = $('#user-review').val();
+
+
+           
+              console.log(newMarker.number)
+              console.log(newRestaurantContent.number)
+              console.log(newRestaurantContent)
+
+                newRestaurantContent.name = newName;
+                newRestaurantContent.rating = ratingNumberNewRestaurant;
+                newRestaurantContent.placeId = restaurantIndex;
+
+                newRestaurantContent.review.push({
+                    author_name: author_name,
+                    text: text,
+                    rating: ratingNumberNewRestaurant,
+                })
+
+                newMarker.new = false,
+
+                displaySurroundingPlaceList(sortRestByRating(restaurants));
+                createNewPlaceMarker(map, data, newRestaurantContent);
+            }
+          //}
+
+            //hide form add restaurant
+            $("#info-content-new-restaurant").hide();
+            //$(this).closest('form').find("input[type=text], textarea").val("");
+        });
+
+    };
+
+};
+
+
+//______________________________________________END
+
+
+
+
+
+
+
+
 
 
 

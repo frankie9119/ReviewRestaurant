@@ -120,19 +120,43 @@
 =================================================================== -->
 
 
+    <!-- Modal -->
+    <div class="modal fade" id="myModalX" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+                    <form id="form-add-restaurant" action="post">
 
+            <label for="restaurant-name">Please add Restaurant's name</label>
+            <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required />
+            <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
+            <select id="ratingNewRestaurant" required>
+                <option value="all">All stars</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="your-name">Please add Your Name</label>
+            <input type="text" name="user-name" id="user-name" placeholder="Your Name" required>
+            <label for="your-review">What would you like to say about this restaurant</label>
+            <textarea name="user-review" id="user-review" placeholder="Your Review" required></textarea>
+      <div class="modal-footer">
+            <button type="button" id="add-restaurant" class="btn button add-restaurant" data-dismiss="modal">ADD REVIEW</button>
+      </div>
+        </form>
+        </div>
+    </div>
 
+<!--data-backdrop="static"-->
 
-
-    <div class="modal" id="modalTest"tabindex="-1" role="dialog">
+    <div class="modal"  id="modalTest"tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
             <h3 class="add-res-heading">Add A Restaurant</h3>
 
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        
       </div>
       <div class="modal-body">
 
@@ -164,6 +188,32 @@
       </div>
       <div class="modal-footer">
             <button type="button" id="add-restaurant" class="btn button add-restaurant" data-dismiss="modal">ADD REVIEW</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<div class="modal" id="sure" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="yes" class="btn btn-primary" data-dismiss="modal">YES</button>
+        <button type="button" id="no" class="btn btn-secondary" data-dismiss="modal">NO</button>
       </div>
     </div>
   </div>
