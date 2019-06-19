@@ -90,7 +90,12 @@
     <div class="modal fade" id="myModalTest" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
-
+                <div class="modal-header-add-restaur">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="title-modal">
+                        <h4 class="modal-title" id="">ADD A RESTAURANT</h4>
+                    </div>
+                  </div>
             <form id="form-add-restaurant" action="post">
                 <label for="restaurant-name">Please add Restaurant's name</label>
                 <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required />
@@ -108,11 +113,9 @@
                 <label for="your-review">What would you like to say about this restaurant</label>
                 <textarea name="user-review" id="user-review" placeholder="Your Review" required></textarea>
                 <div class="modal-footer">
-                    <button type="button" id="add-restaurant" class="btn button add-restaurant" data-dismiss="modal">ADD REVIEW</button>
+                    <button type="button" id="add-restaurant" class="btn button add-restaurant" data-dismiss="modal">Add Restaurant</button>
                 </div>
             </form>
-
-
         </div>
     </div>
     <!-- ===================================================================
@@ -124,38 +127,24 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="closex" data-dismiss="modal">&times;</button>
                     <div class="title-modal">
-                        <h4 class="modal-title" id="">LALALA</h4>
+                        <h4 class="modal-title" id="title"></h4>
+                    </div>
+                    <div class="rating-stars">
+                        <h4 id="rating-stars"></h4>
                     </div>
                 </div>
-
-            <form id="form-add-restaurant" action="post">
-                <label for="restaurant-name">Please add Restaurant's name</label>
-                <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required />
-                <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
-                <select id="ratingNewRestaurant" required>
-                    <option value="all">All stars</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <label for="your-name">Please add Your Name</label>
-                <input type="text" name="user-name" id="user-name" placeholder="Your Name" required>
-                <label for="your-review">What would you like to say about this restaurant</label>
-                <textarea name="user-review" id="user-review" placeholder="Your Review" required></textarea>
-                
-            </form>
-                
-
+                <div id="street-view"></div>
+                <p id="review-text">Reviews:</p>
+                <div class="modal-body" id="review">
+                </div>
                 <div class="modal-footer">
                     <div class="btn-add-review">
                         <button type="button" class="btn btn-default " data-dismiss="modal" id="btn-add-review">Add Review</button>
                     </div>
                     <div>
-                 <button type="button" id="add-restaurant" class="btn button add-restaurant" data-dismiss="modal">ADD REVIEW</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
