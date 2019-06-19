@@ -130,6 +130,7 @@ h4,
 }
 
 /* add new restaurant form info window */
+/*
 #info-content-new-restaurant {
     display: none;
     position: absolute;
@@ -140,7 +141,7 @@ h4,
     background-color: white;
     text-align: center;
 
-}
+}*/
 
 #form-add-restaurant {
     /* display: none;

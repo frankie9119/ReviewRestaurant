@@ -1,659 +1,251 @@
-
-
-
-/*
-
-=================================================
-
-     !!! THIS FILE IS JUST FOR NOTES !!!
-
-==================================================
-
-*/
-
-
-
-
-
-
-
-      // ==========_______ Clear Results and Markers _______===================
-      function clearResults() {
-        let results = document.getElementById('closeRestaurants');
-        while (results.childNodes[0]) {
-          results.removeChild(results.childNodes[0]);
-        }
-        for (let i = 0; i < delMarker.length; i++) {
-          if (delMarker[i].getMap() != null) delMarker[i].setMap(null);
-        }
-        for (let j = 0; j < markerRestaurantSelected.length; j++) {
-          //alert('dmt+redmarkers')
-          if (markerRestaurantSelected[j].getMap() != null) markerRestaurantSelected[j].setMap(null);
-        }
-        placesResults.push(newRestPlace);
-      }
-
-
-
-let service = new google.maps.places.PlacesService(map);
-  service.nearbySearch({
-      location: userGeoLocation,
-    },
-    function(results, status) {
-      if (status !== 'OK') return;
-      for (let i = 0; i < results.length; i++) {
-        let storage = [];
-        storage = {
-          position: results[i].geometry.location,
-          placeId: results[i].id,
-        }
-      }
-    });
-
-
-
-
-
-
-
-
-
-
-
-function getReviewFromGoogle (marker){
-
-let serviceNew = new google.maps.places.PlacesService(map);
-
-  serviceNew.getDetails({
-    placeId: marker.placeId
-  }, function(restaurants, status) {
-
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-
-      for(let i = 0; i <= restaurants.reviews.length; i++) {
-
-        console.log(restaurants.reviews[i]);
-      }
-    }
-  });
-}
-
-var service = new google.maps.places.PlacesService(map);
-  service.getDetails({
-    placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'
-  }, function(place, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for(var i=0; i <= place.reviews.length; i++) {
-        console.log(place.reviews[i]);
-      }
-    }
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function getReviewFromGoogle(marker,restaurants,map) {
-let serviceNew = new google.maps.places.PlacesService(map);
-for(let i = 0; i < restaurants.placeId.length; i++){
-  let restaurantsPlaceId = restaurants.placeId[i]
-  console.log(restaurantsPlaceId)
-}
-  serviceNew.getDetails({
-    placeId: marker.placeId
-  }, function(restaurants, status) {
-
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      
-      
-      for(let i = 0; i <= restaurants.reviews.length; i++) {
-        console.log(restaurants.reviews[i]);
-        let review = restaurants.reviews[i];
-        //reviews.push(review);
-        console.log(restaurants);
-        //console.log(displayReview.author_name);
-        
-
-      }
-    }
-  });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function displaySurroundingPlaceList(restaurantsArray) {
-  $("#restaurantsList").empty();
-  let restaurantsList = $("#restaurantsList");
-  for (let i = 0; i < restaurantsArray.length; i++) {
-    restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating +' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) +"</li>")
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// In the following example, markers appear when the user clicks on the map.
-      // The markers are stored in an array.
-      // The user can then click an option to hide, show or delete the markers.
-      var map;
-      var markers = [];
-
-      function initMap() {
-        var haightAshbury = {lat: 37.769, lng: -122.446};
-
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
-          center: haightAshbury,
-          mapTypeId: 'terrain'
-        });
-
-        // This event listener will call addMarker() when the map is clicked.
-        map.addListener('click', function(event) {
-          addMarker(event.latLng);
-        });
-
-        // Adds a marker at the center of the map.
-        addMarker(haightAshbury);
-      }// ======= END INIT MAP ============
-//*******************************************************************
-
-      // Adds a marker to the map and push to the array.
-      function addMarker(location) {
-        var marker = new google.maps.Marker({
-          position: location,
-          map: map
-        });
-        markers.push(marker);
-      }
-
-      // Sets the map on all markers in the array.
-      function setMapOnAll(map) {
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(map);
-        }
-      }
-
-      // Removes the markers from the map, but keeps them in the array.
-      function clearMarkers() {
-        setMapOnAll(null);
-      }
-
-      // Shows any markers currently in the array.
-      function showMarkers() {
-        setMapOnAll(map);
-      }
-
-      // Deletes all markers in the array by removing references to them.
-      function deleteMarkers() {
-        clearMarkers();
-        markers = [];
-      }
-
-function setMapOnSome(ratingNumberFromUser) {
-  //setMapOnAll(null);
-  for (var i = 0; i < allMarkers.length; i++) {
-    if (allMarkers[i].rating === ratingNumberFromUser) {
-      allMarkers[i].setMap(map);
-    }
-  }
-}
-
-
-
-
-
-
-
-
-$('#some_markers').on('click', function(map) {
-      
-        alert('display')
-        for (var i = 0; i < allMarkers.length; i++) {
-          allMarkers[i].setMap(map);
-        }
-      })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      $('#some_markers').on('click', function() {
-        alert('display')
-        setMapOnSome(map);
-      })
-      function setMapOnSome(map){
-        setMapOnAll(null);
-        for (var i = 0; i < allMarkers.length; i++) {
-          if(allMarkers[i].rating === 4){
-            //alert('found 4 rating');
-            allMarkers[i].setMap(map);
-
-          }
-          //allMarkers[i].setMap(map);
-        }
-      }
-
-
-function displaySurroundingPlaceList(restaurantsArray) {
-  $("#restaurantsList").empty();
-  let restaurantsList = $("#restaurantsList");
-  for (let i = 0; i < restaurantsArray.length; i++) {
-    restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + restaurantsArray[i].rating + ' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>")
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function newRestaurantContent(newMarker) {
-  //loop through restaurants global
-  for (let i = 0; i < restaurants.length; i++) {
-    //looking for restaurant with same position of marker
-    if (restaurants[i].position === newMarker.position) {
-      let newRestaurantContent = restaurants[i]
-
-      //when click new marker DisplayForm - set newName
-      newMarker.addListener('click', function() {
-        //check if it is a new restaurant
-        if (newRestaurantContent.userCreated === true) {
-          //display form
-          document.getElementById("form-add-restaurant").style.display = "block";
-
-          $('#add-restaurant').on('click', function() {
-            let newName = document.getElementById('res-name').value
-            let ratingNewRestaurant = document.getElementById('ratingNewRestaurant').value
-            let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
-            let userName = document.getElementById('user-name').value;
-            let userReview = document.getElementById('user-review').value;
-
-            //when you create a new restaurant the default name is "A"
-            //if the default name is A change it with new user input
-            if (newRestaurantContent.name === 'A') {
-              newRestaurantContent.name = newName;
-              newRestaurantContent.rating = ratingNumberNewRestaurant;
-
-              newRestaurantContent.userName = userName;
-              newRestaurantContent.userReview = userReview;
-              displaySurroundingPlaceList(sortRestByRating(restaurants));
-            }
-            //hide form
-            document.getElementById("form-add-restaurant").style.display = "none";
-          })
-        } else { // If the newRestaurantContent.userCreated is NOT true 
-          displayNewRestaurantContent(newMarker, newRestaurantContent)
-        }
-
-        newRestaurantContent.userCreated = false;
-
-
-      }) // END when click new marker DisplayForm - set newName
-    }
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    let marker = new google.maps.Marker({
-      map: map,
-      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      position: restaurantsArray[i].position,
-      name: restaurantsArray[i].name,
-      rating: restaurantsArray[i].rating,
-      placeId: restaurantsArray[i].placeId,
-      id: restaurantsArray[i].id
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function newRestaurantContent(newMarker) {
-  //loop through restaurants global
-  for (let i = 0; i < restaurants.length; i++) {
-    //looking for restaurant with same position of marker
-    
-      let newRestaurantContent = restaurants[i]
-
-          $('#add-restaurant').on('click', function() {
-            let newName = document.getElementById('res-name').value
-            let ratingNewRestaurant = document.getElementById('ratingNewRestaurant').value
-            let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
-            let userName = document.getElementById('user-name').value;
-            let userReview = document.getElementById('user-review').value;
-
-
-              restaurants.push({
-                name: newName,
-                position: data.latLng,
-                lat: data.latLng.lat(),
-                lng: data.latLng.lng(),
-                rating: ratingNumberNewRestaurant,
-                userName: userName,
-                userReview: userReview,
-                placeId: 0,
-              })
-
-
-              displaySurroundingPlaceList(sortRestByRating(restaurants));
-            
-            //hide form
-            document.getElementById("form-add-restaurant").style.display = "none";
-          })
-        } 
-}
-
-
-       // END when click new marker DisplayForm - set newName
-    
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-function createSurroundingPlaceMarkers(map, restaurantsArray) {
-
-  // ==============  Fran code  =========================================
-  for (let i = 0; i < restaurantsArray.length; i++) {
-
-    let marker = new google.maps.Marker({
-      map: map,
-      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      position: restaurantsArray[i].position,
-      name: restaurantsArray[i].name,
-      rating: restaurantsArray[i].rating,
-      placeId: restaurantsArray[i].placeId,
-      id: restaurantsArray[i].id
-    });
-
-    allMarkers.push(marker);
-    // DISPLAY INFO
-    clickOnMarkerInfo(marker, map)
-
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-clickOnMarkerInfo(marker, map)
-
-
-
-
-
-
-function clickOnNewMarkerInfo(newMarker, map, newRestaurantContent) {
-  newMarker.addListener('click', function() {
-    $("#title").html(newRestaurantContent.name);
-    $("#rating-small").html(buildRatingStarDisplayValue(newRestaurantContent.rating));
-    $("review").html(newRestaurantContent.userReview);
-    // Modal
-    $("#myModal").modal();
-    // ======== STREET VIEW ============
-    var panorama = new google.maps.StreetViewPanorama(
-      document.getElementById('street-view'), {
-        position: newMarker.position,
-
-      });
-  });
-}
-
-
-
-
-function clickOnMarkerInfo(marker, map) {
-
-  marker.addListener('click', function() {
-
-    $("#title").html(marker.name);
-    $("#rating-small").html(buildRatingStarDisplayValue(marker.rating));
-    $("#review").html(marker.placeId);
-    alert(marker.placeId)
-    getReviewFromGoogle(marker, restaurants, map)
-
-    // Modal
-    $("#myModal").modal();
-    //getReviewFromGoogle(marker);
-
-    // ======== STREET VIEW ============
-    var panorama = new google.maps.StreetViewPanorama(
-      document.getElementById('street-view'), {
-        position: marker.position,
-
-      });
-
-  })
-}
-
-
-function displayReviewList(displayReview) {
-  $("#review").empty();
-  let reviewDisplayList = $("#review");
-
-  for (let i = 0; i < displayReview.length; i++) {
-    reviewDisplayList.append("<li>" + displayReview[i].text + "</li>")
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#right-panel {
-  width: 30%;
-  height: 90%;
-  line-height: 30px;
-  padding-left: 10px;
-  font-family: Arial, Helvetica, sans-serif;
-  position: absolute;
-  right: 5px;
-  padding: 5px;
-  z-index: 5;
-  border: 1px solid #999;
-  background: #fff;
-}
-
-
-
-
-
-<div id="info-content-new-restaurant" >
-
-            <form id="form-add-restaurant" action="post">
-              <h3 class="add-res-heading">Add A Restaurant</h3>
-              <label for="restaurant-name">Please add Restaurant's name</label>
-              <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required/>
-              <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
-              <select id="ratingNewRestaurant" required>
-                    <option value="all">All stars</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-              <label for="your-name">Please add Your Name</label>
-              <input type="text" name="user-name" id="user-name" placeholder="Your Name" required>
-              <label for="your-review">What would you like to say about this restaurant</label>
-              <textarea name="user-review" id="user-review" placeholder="Your Review" required></textarea>
-              <input type="button" id="add-restaurant"  class="button add-restaurant"/>
-            </form>
-
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Restaurant Review</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="icon" href="logo-map.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="head-title">
+        <h2 class="title-name">Restaurant Review</h2>
+    </div>
+    <!--Navbar
+      ================================================== -->
+    <nav class="navbar visible-xs navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <p class="navbar-brand">Restaurants List</p>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <ul class="restaurantsListCollapse" id=""></ul>
+                </ul>
+            </div>
         </div>
+    </nav>
+    <!-- ===================================================================
+                            MAP
+=================================================================== -->
+    <div id="map"></div>
+    <!-- ===================================================================
+                          right panel
+=================================================================== -->
+    <div id="right-panel" class="right-panel">
+        <div class="right-panel-head">
+            <label>
+                <h2>Sort by </h2>
+            </label>
+            <select id="rating-control">
+                <option value="all">All stars</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <ul class="restaurantsList" id=""></ul>
+    </div>
+    <!-- ===================================================================
+                Info Content - When right click
+=================================================================== 
+    <div id="info-content-new-restaurant">
+        <form id="form-add-restaurant" action="post">
+            <h3 class="add-res-heading">Add A Restaurant</h3>
+            <label for="restaurant-name">Please add Restaurant's name</label>
+            <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required />
+            <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
+            <select id="ratingNewRestaurant" required>
+                <option value="all">All stars</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="your-name">Please add Your Name</label>
+            <input type="text" name="user-name" id="user-name" placeholder="Your Name" required>
+            <label for="your-review">What would you like to say about this restaurant</label>
+            <textarea name="user-review" id="user-review" placeholder="Your Review" required></textarea>
+            <button type="button" id="add-restaurant" class="btn button add-restaurant">ADD REVIEW</button>
+        </form>
+    </div>-->
+    <!-- ===================================================================
+             MODAL - When click on  markers
+=================================================================== -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="title-modal">
+                        <h4 class="modal-title" id="title"></h4>
+                    </div>
+                    <div class="rating-stars">
+                        <h4 id="rating-stars"></h4>
+                    </div>
+                </div>
+                <div id="street-view"></div>
+                <p id="review-text">Reviews:</p>
+                <div class="modal-body" id="review">
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-add-review">
+                        <button type="button" class="btn btn-default " data-dismiss="modal" id="btn-add-review">Add Review</button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===================================================================
+             MODAL - When RIGHT click on  markers
+=================================================================== -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalX" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+                    <form id="form-add-restaurant" action="post">
+
+            <label for="restaurant-name">Please add Restaurant's name</label>
+            <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required />
+            <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
+            <select id="ratingNewRestaurant" required>
+                <option value="all">All stars</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="your-name">Please add Your Name</label>
+            <input type="text" name="user-name" id="user-name" placeholder="Your Name" required>
+            <label for="your-review">What would you like to say about this restaurant</label>
+            <textarea name="user-review" id="user-review" placeholder="Your Review" required></textarea>
+      <div class="modal-footer">
+            <button type="button" id="add-restaurant" class="btn button add-restaurant" data-dismiss="modal">ADD REVIEW</button>
+      </div>
+        </form>
+        </div>
+    </div>
+
+<!--data-backdrop="static"-->
+
+    <div class="modal"  id="modalTest"tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+            <h3 class="add-res-heading">Add A Restaurant</h3>
+
+        
+      </div>
+      <div class="modal-body">
+
+
+    <div id="info-content-new-restaurant">
+        <form id="form-add-restaurant" action="post">
+
+            <label for="restaurant-name">Please add Restaurant's name</label>
+            <input type="text" id="res-name" name="res-name" placeholder="Restaurant Name" required />
+            <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
+            <select id="ratingNewRestaurant" required>
+                <option value="all">All stars</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="your-name">Please add Your Name</label>
+            <input type="text" name="user-name" id="user-name" placeholder="Your Name" required>
+            <label for="your-review">What would you like to say about this restaurant</label>
+            <textarea name="user-review" id="user-review" placeholder="Your Review" required></textarea>
+
+        </form>
+    </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+            <button type="button" id="add-restaurant" class="btn button add-restaurant" data-dismiss="modal">ADD REVIEW</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
 
-document.getElementById("add-new-review").style.display = "block";
 
 
 
+<div class="modal" id="sure" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="yes" class="btn btn-primary" data-dismiss="modal">YES</button>
+        <button type="button" id="no" class="btn btn-secondary" data-dismiss="modal">NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- ===================================================================
+                    ADD NEW REVIEW form
+=================================================================== -->
+    <div id="div-add-new-review">
+        <form id="add-new-review" action="post">
+            <h3 class="add-new-review-head">Add A Review</h3>
+            <label for="new-user-name-review">Please add Your Name</label>
+            <input type="text" id="new-user-name" name="new-user-n" placeholder="Your Name" required>
+            <label for="new-rating">What Rating do you give this Restaurant</label>
+            <select id="new-rating" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="new-review">What would you like to say about this restaurant</label>
+            <textarea name="new-user-review" id="new-user-review" placeholder="Your Review" required></textarea>
+            <button type="button" id="btn-add-new-review" class="btn draw-border">ADD REVIEW</button>
+            <!--<input type="button" id="btn-add-new-review" class="button add-new-review"/>-->
+        </form>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="js/app.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCegTNrd3DtW2Bk_Dl8MEayKarv0u6KcQ4&libraries=places&callback=initMap" async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    let placeIdOfMarkerClicked = marker.placeId;
-    addReview(placeIdOfMarkerClicked);
-
-
-document.getElementById("add-new-review").style.display = "block";
-
-placeIdOfMarkerClicked = marker.placeId;
-placeId: restaurants.length,
-
-
+</html>

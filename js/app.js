@@ -116,7 +116,7 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
         let restArray = restaurantsArray[i]
         let marker = new google.maps.Marker({
             map: map,
-            icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            icon: 'icon.png',
             position: restaurantsArray[i].position,
             name: restaurantsArray[i].name,
             rating: restaurantsArray[i].rating,
@@ -307,7 +307,9 @@ $('#btn-add-new-review').on('click', function() {
 function addRestaurant(map) {
 
     map.addListener('rightclick', function(e) {
-        $("#info-content-new-restaurant").show();
+        //myModalX
+        $("#myModalTest").modal();
+        //$("#info-content-new-restaurant").show();
         createNewDataStructureForNewRestaurants(e, map);
     });
 }
