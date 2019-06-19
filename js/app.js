@@ -116,7 +116,8 @@ function createSurroundingPlaceMarkers(map, restaurantsArray) {
         let restArray = restaurantsArray[i]
         let marker = new google.maps.Marker({
             map: map,
-            icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            icon: 'restaurant.png',
             position: restaurantsArray[i].position,
             name: restaurantsArray[i].name,
             rating: restaurantsArray[i].rating,
@@ -307,7 +308,9 @@ $('#btn-add-new-review').on('click', function() {
 function addRestaurant(map) {
 
     map.addListener('rightclick', function(e) {
-        $("#info-content-new-restaurant").show();
+        //$("#info-content-new-restaurant").show();
+        $("#modalTest").modal();
+
         createNewDataStructureForNewRestaurants(e, map);
     });
 }
@@ -321,22 +324,7 @@ function addRestaurant(map) {
 function createNewDataStructureForNewRestaurants(data, map) {
 
     //default name for new restaurant is "A"
-    restaurants.push({
 
-        name: "A",
-        position: data.latLng,
-        lat: data.latLng.lat(),
-        lng: data.latLng.lng(),
-        userCreated: true,
-        rating: 0,
-        newPlaceId: true,
-        placeId: '',
-        id: restaurants.length,
-        review: [{
-            text: '',
-            author_name: '',
-        }, ]
-    });
 
     newRestaurantContent(data, map);
 }
@@ -354,14 +342,33 @@ function createNewDataStructureForNewRestaurants(data, map) {
 function newRestaurantContent(data, map) {
     let restaurantIndex = 0;
     //loop through restaurants global
-    for (let i = 0; i < restaurants.length; i++) {
 
-        let newRestaurantContent = restaurants[i]
 
         //display form add restaurant
         //$("#form-add-restaurant").show();
 
         $('#add-restaurant').on('click', function() {
+
+    restaurants.push({
+
+        name: "A",
+        position: data.latLng,
+        lat: data.latLng.lat(),
+        lng: data.latLng.lng(),
+        userCreated: true,
+        rating: 0,
+        newPlaceId: true,
+        placeId: '',
+        id: restaurants.length,
+        review: [{
+            text: '',
+            author_name: '',
+        }, ]
+    });
+        for (let i = 0; i < restaurants.length; i++) {
+
+        let newRestaurantContent = restaurants[i]
+
             restaurantIndex = restaurantIndex + 1; // in this way every restaurant added has a different number
 
             let newName = $('#res-name').val();
@@ -386,13 +393,15 @@ function newRestaurantContent(data, map) {
                 displaySurroundingPlaceList(sortRestByRating(restaurants));
                 createNewPlaceMarker(map, data, newRestaurantContent);
             }
+          }
 
             //hide form add restaurant
-            $("#info-content-new-restaurant").hide();
+            //$("#info-content-new-restaurant").hide();
             //$(this).closest('form').find("input[type=text], textarea").val("");
+            console.log(restaurants)
         });
 
-    };
+    //};
 
 };
 
