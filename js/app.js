@@ -323,13 +323,15 @@ function addRestaurant(map) {
 //_________________________________________BEGIN add add restaurant when click btn called "#add-restaurant".
 
 
-$('#add-restaurant').on('click', function() {
+$('#add-restaurant').on('click', function(e) {
+  e.preventDefault();
+
     restaurantIndex = restaurantIndex + 1; // in this way every restaurant added has a different number
 
-    let newName = $('#res-name').val();
+    let newName = $('#resName').val();
     let ratingNewRestaurant = $('#ratingNewRestaurant').val();
     let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
-    let author_name = $('#user-name').val();
+    let author_name = $('#userName').val();
     let text = $('#user-review').val();
 
     restaurants.push({
@@ -350,6 +352,12 @@ $('#add-restaurant').on('click', function() {
 
     displaySurroundingPlaceList(sortRestByRating(restaurants));
     createNewPlaceMarker(map, rightClickPosition, restaurantIndex);
+
+
+
+
+
+
 
 });
 
