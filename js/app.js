@@ -277,6 +277,8 @@ $('#btn-add-new-review').on('click', function() {
     }
     //console.log(restaurants);
     $("#div-add-new-review").hide();
+
+
     $(this).closest('form').find("input[type=text], textarea").val("");
 });
 
@@ -332,8 +334,24 @@ $('#add-restaurant').on('click', function(e) {
     let ratingNewRestaurant = $('#ratingNewRestaurant').val();
     let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
     let author_name = $('#userName').val();
-    let text = $('#user-review').val();
+    let text = $('#userReview').val();
 
+
+
+
+    if (newName == "") {
+    alert("Restaurant Name Required");
+    return false;
+  } else if(ratingNewRestaurant=='all') {
+    alert("Starts Required");
+    return false;
+  }else if(author_name=="") {
+    alert("Your Name Required");
+    return false;
+  } else if(text=="") {
+    alert("Review Required");
+    return false;
+  } else {
     restaurants.push({
 
         name: newName,
@@ -352,6 +370,7 @@ $('#add-restaurant').on('click', function(e) {
 
     displaySurroundingPlaceList(sortRestByRating(restaurants));
     createNewPlaceMarker(map, rightClickPosition, restaurantIndex);
+  }
 
 
 
@@ -359,6 +378,9 @@ $('#add-restaurant').on('click', function(e) {
 
 
 
+
+$(this).closest('form').find("input[type=text], textarea").val("");
+$(this).closest('form').find("select").val("all");
 });
 
 
