@@ -84,7 +84,7 @@ function displaySurroundingPlaceList(restaurantsArray) {
 
 
     for (let i = 0; i < restaurantsArray.length; i++) {
-        restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + ' ' + restaurantsArray[i].rating + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
+        restaurantsList.append("<li ><class='restaurantsArray[i].placeId'>" + restaurantsArray[i].name + ' ' + ' ' + restaurantsArray[i].rating + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
         restaurantsListCollapse.append("<li>" + restaurantsArray[i].name + ' ' + ' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
     }
 }
@@ -221,7 +221,6 @@ function displayReviewListDOM() {
             for (let j = 0; j < restaurants[i].review.length; j++) {
 
                 let reviewToDisplay = restaurants[i].review[j];
-                console.log(restaurants[i])
 
                 $("#title").html(restaurants[i].name);
                 $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
@@ -251,16 +250,28 @@ function displayReviewListDOM() {
 
 ==================================================================================== */
 $('#btn-add-review').on('click', function() {
-    $("#div-add-new-review").show();
+    $("#myModalAddReview").modal();
 })
 
 
 $('#btn-add-new-review').on('click', function() {
 
-    let ratingReviewNumber = $('#new-rating').val();
-    //let ratingReviewNumber = parseInt(ratingReview);
-    let userNameReview = $('#new-user-name').val();
-    let newReview = $('#new-user-review').val();
+    let ratingReviewNumber = $('#newRating').val();
+    let userNameReview = $('#newUserName').val();
+    let newReview = $('#newUserReview').val();
+
+
+
+    if (userNameReview == "") {
+    alert("Your Name Required");
+    return false;
+  } else if(ratingReviewNumber=='all') {
+    alert("Starts Required");
+    return false;
+  }else if(newReview=="") {
+    alert("Review Required");
+    return false;
+  }else {
 
     for (let i = 0; i < restaurants.length; i++) {
         //console.log(restaurants[i].review)
@@ -275,11 +286,13 @@ $('#btn-add-new-review').on('click', function() {
             })
         }
     }
+  }
     //console.log(restaurants);
-    $("#div-add-new-review").hide();
+    //$("#div-add-new-review").hide();
 
 
     $(this).closest('form').find("input[type=text], textarea").val("");
+    $(this).closest('form').find("select").val("all");
 });
 
 
