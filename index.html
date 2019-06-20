@@ -30,6 +30,14 @@
                 <p class="navbar-brand">Restaurants List</p>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
+                <select id="rating-control-nav">
+                    <option value="all">All stars</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
                 <ul class="nav navbar-nav navbar-right">
                     <ul class="restaurantsListCollapse" id=""></ul>
                 </ul>
@@ -119,86 +127,55 @@
             </form>
         </div>
     </div>-->
-
-
     <div class="modal fade" id="myModalTest" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Restaurant</h4>
-      </div>
-      <div class="modal-body">
-        <form role="form form-add-restaurant" id="newModalForm">
-          <div class="form-group">
-
-            <label for="restaurant-name">Please add Restaurant's name</label>
-
-
-            <div class="col-md-9">
-
-              <input type="text" class="form-control" id="resName" name="resName" placeholder="Restaurant Name" required="required" />
-
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Restaurant</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form form-add-restaurant" id="newModalForm">
+                        <div class="form-group">
+                            <label for="restaurant-name">Please add Restaurant's name</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="resName" name="resName" placeholder="Restaurant Name" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
+                            <div class="col-md-9">
+                                <select id="ratingNewRestaurant" required="required">
+                                    <option value="all">Select Stars</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="your-name">Please add Your Name</label>
+                            <div class="col-md-9">
+                                <input type="text" name="userName" id="userName" placeholder="Your Name" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="your-review">What would you like to say about this restaurant</label>
+                            <div class="col-md-9">
+                                <textarea name="userReview" id="userReview" placeholder="Your Review" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" id="add-restaurant" data-dismiss="modal">Add</button>
+                            <button type="button" class="btn btn-default" id="btnCloseIt" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
-
-          <div class="form-group">
-
-            <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
-            <div class="col-md-9">
-
-
-              <select id="ratingNewRestaurant" required="required">
-                    <option value="all">Select Stars</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="your-name">Please add Your Name</label>
-
-
-            <div class="col-md-9">
-
-
-              <input type="text" name="userName" id="userName" placeholder="Your Name" required="required">
-
-            </div>
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="your-review">What would you like to say about this restaurant</label>
-
-
-            <div class="col-md-9">
-
-
-              <textarea name="userReview" id="userReview" placeholder="Your Review" required></textarea>
-
-            </div>
-          </div>
-
-
-
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-success" id="add-restaurant" data-dismiss="modal">Add</button>
-            <button type="button" class="btn btn-default" id="btnCloseIt" data-dismiss="modal">Close</button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-</div>
     <!-- ===================================================================
              MODAL - When click on  markers
 =================================================================== -->
@@ -250,93 +227,52 @@
             <label for="new-review">What would you like to say about this restaurant</label>
             <textarea name="new-user-review" id="new-user-review" placeholder="Your Review" required></textarea>
             <button type="button" id="btn-add-new-review" class="btn draw-border">ADD REVIEW</button>-->
-            <!--<input type="button" id="btn-add-new-review" class="button add-new-review"/>
+    <!--<input type="button" id="btn-add-new-review" class="button add-new-review"/>
         </form>
     </div>-->
-
-
-
     <div class="modal fade" id="myModalAddReview" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Review</h4>
-      </div>
-      <div class="modal-body">
-        <form role="form form-add-restaurant" id="newModalForm">
-          <div class="form-group">
-
-            <label for="new-user-name-review">Please add Your Name</label>
-
-
-            <div class="col-md-9">
-
-              <input type="text" id="newUserName" name="newUserN" placeholder="Your Name" required>
-
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Review</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form form-add-restaurant" id="newModalForm">
+                        <div class="form-group">
+                            <label for="new-user-name-review">Please add Your Name</label>
+                            <div class="col-md-9">
+                                <input type="text" id="newUserName" name="newUserN" placeholder="Your Name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newRating">What Rating do you give this Restaurant</label>
+                            <div class="col-md-9">
+                                <select id="newRating" required="required">
+                                    <option value="all">Select Stars</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="your-name">Please add Your Name</label>
+                            <div class="col-md-9">
+                                <textarea name="new-user-review" id="newUserReview" placeholder="Your Review" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" id="btn-add-new-review" data-dismiss="modal">Add</button>
+                            <button type="button" class="btn btn-default" id="btnCloseIt" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
-
-          <div class="form-group">
-
-            <label for="newRating">What Rating do you give this Restaurant</label>
-            <div class="col-md-9">
-
-
-              <select id="newRating" required="required">
-                    <option value="all">Select Stars</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="your-name">Please add Your Name</label>
-
-
-            <div class="col-md-9">
-
-
-              <textarea name="new-user-review" id="newUserReview" placeholder="Your Review" required></textarea>
-
-            </div>
-          </div>
-
-
-          
-
-
-
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-success" id="btn-add-new-review" data-dismiss="modal">Add</button>
-            <button type="button" class="btn btn-default" id="btnCloseIt" data-dismiss="modal">Close</button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

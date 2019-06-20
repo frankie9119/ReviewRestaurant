@@ -84,12 +84,38 @@ function displaySurroundingPlaceList(restaurantsArray) {
 
 
     for (let i = 0; i < restaurantsArray.length; i++) {
-        restaurantsList.append("<li ><class='restaurantsArray[i].placeId'>" + restaurantsArray[i].name + ' ' + ' ' + restaurantsArray[i].rating + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
+        restaurantsList.append("<li>" + restaurantsArray[i].name + ' ' + ' ' + restaurantsArray[i].rating + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
         restaurantsListCollapse.append("<li>" + restaurantsArray[i].name + ' ' + ' ' + buildRatingStarDisplayValue(restaurantsArray[i].rating) + "</li>");
+
+
+        $(".restaurantsList li").attr('id', function(i) {
+            return restaurantsArray[i].placeId;
+        });
     }
+    // locate element and add the Click Event Listener
+    $('.restaurantsList').on('click', function(e) {
+
+
+        if (e.target && e.target.nodeName == "LI") {
+            //console.log(e.target.id + " was clicked");
+            for (let i = 0; i < restaurants.length; i++) {
+
+                if (restaurants[i].placeId === e.target.id) {
+
+                    //this modal needs to be changed
+                    $("#myModal").modal();
+                    $("#title").html(restaurants[i].name);
+                    $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
+                    console.log(restaurants[i].review)
+
+                }
+            }
+
+        }
+
+    });
+
 }
-
-
 //__________________________________________END
 
 
@@ -263,30 +289,30 @@ $('#btn-add-new-review').on('click', function() {
 
 
     if (userNameReview == "") {
-    alert("Your Name Required");
-    return false;
-  } else if(ratingReviewNumber=='all') {
-    alert("Starts Required");
-    return false;
-  }else if(newReview=="") {
-    alert("Review Required");
-    return false;
-  }else {
+        alert("Your Name Required");
+        return false;
+    } else if (ratingReviewNumber == 'all') {
+        alert("Starts Required");
+        return false;
+    } else if (newReview == "") {
+        alert("Review Required");
+        return false;
+    } else {
 
-    for (let i = 0; i < restaurants.length; i++) {
-        //console.log(restaurants[i].review)
-        console.log(Array.isArray(restaurants[i].review))
+        for (let i = 0; i < restaurants.length; i++) {
+            //console.log(restaurants[i].review)
+            console.log(Array.isArray(restaurants[i].review))
 
-        if (restaurants[i].placeId === placeIdOfMarkerClicked) {
+            if (restaurants[i].placeId === placeIdOfMarkerClicked) {
 
-            restaurants[i].review.push({
-                author_name: userNameReview,
-                text: newReview,
-                rating: ratingReviewNumber,
-            })
+                restaurants[i].review.push({
+                    author_name: userNameReview,
+                    text: newReview,
+                    rating: ratingReviewNumber,
+                })
+            }
         }
     }
-  }
     //console.log(restaurants);
     //$("#div-add-new-review").hide();
 
@@ -339,7 +365,7 @@ function addRestaurant(map) {
 
 
 $('#add-restaurant').on('click', function(e) {
-  e.preventDefault();
+    e.preventDefault();
 
     restaurantIndex = restaurantIndex + 1; // in this way every restaurant added has a different number
 
@@ -353,37 +379,37 @@ $('#add-restaurant').on('click', function(e) {
 
 
     if (newName == "") {
-    alert("Restaurant Name Required");
-    return false;
-  } else if(ratingNewRestaurant=='all') {
-    alert("Starts Required");
-    return false;
-  }else if(author_name=="") {
-    alert("Your Name Required");
-    return false;
-  } else if(text=="") {
-    alert("Review Required");
-    return false;
-  } else {
-    restaurants.push({
+        alert("Restaurant Name Required");
+        return false;
+    } else if (ratingNewRestaurant == 'all') {
+        alert("Starts Required");
+        return false;
+    } else if (author_name == "") {
+        alert("Your Name Required");
+        return false;
+    } else if (text == "") {
+        alert("Review Required");
+        return false;
+    } else {
+        restaurants.push({
 
-        name: newName,
-        position: rightClickPosition,
-        userCreated: true,
-        rating: ratingNumberNewRestaurant,
-        newPlaceId: true,
-        placeId: restaurantIndex,
-        id: restaurants.length,
-        review: [{
-            author_name: author_name,
-            text: text,
+            name: newName,
+            position: rightClickPosition,
+            userCreated: true,
             rating: ratingNumberNewRestaurant,
-        }, ]
-    });
+            newPlaceId: true,
+            placeId: restaurantIndex,
+            id: restaurants.length,
+            review: [{
+                author_name: author_name,
+                text: text,
+                rating: ratingNumberNewRestaurant,
+            }, ]
+        });
 
-    displaySurroundingPlaceList(sortRestByRating(restaurants));
-    createNewPlaceMarker(map, rightClickPosition, restaurantIndex);
-  }
+        displaySurroundingPlaceList(sortRestByRating(restaurants));
+        createNewPlaceMarker(map, rightClickPosition, restaurantIndex);
+    }
 
 
 
@@ -392,8 +418,8 @@ $('#add-restaurant').on('click', function(e) {
 
 
 
-$(this).closest('form').find("input[type=text], textarea").val("");
-$(this).closest('form').find("select").val("all");
+    $(this).closest('form').find("input[type=text], textarea").val("");
+    $(this).closest('form').find("select").val("all");
 });
 
 
@@ -535,7 +561,23 @@ $('#rating-control').on('change', function(e) {
 //__________________________________________END
 
 
+$('#rating-control-nav').on('change', function(e) {
+    let ratingFromUser = this.value
 
+    if (e.target.value === "all") {
+        displaySurroundingPlaceList(sortRestByRating(restaurants));
+        setMapOnAll(null);
+        showMarkers();
+    } else {
+
+        let ratingNumberFromUser = parseInt(ratingFromUser);
+        let specificRating = getSpecificRating(restaurants, ratingNumberFromUser);
+
+        displaySurroundingPlaceList(specificRating);
+        setMapOnAll(null);
+        setMapOnSome(ratingNumberFromUser);
+    }
+});
 
 /* ==============================================================
            HERE I AM SETTING THE MARKERS ON MAP
