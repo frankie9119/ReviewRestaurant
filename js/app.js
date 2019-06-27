@@ -408,7 +408,7 @@ $('#add-restaurant').on('click', function(e) {
         });
 
         displaySurroundingPlaceList(sortRestByRating(restaurants));
-        createNewPlaceMarker(map, rightClickPosition, restaurantIndex);
+        createNewPlaceMarker(map, rightClickPosition, restaurantIndex, ratingNumberNewRestaurant);
     }
 
 
@@ -427,12 +427,13 @@ $('#add-restaurant').on('click', function(e) {
 
 //_________________________________________BEGIN create new restaurant marker
 
-function createNewPlaceMarker(map, rightClickPosition, restaurantIndex) {
+function createNewPlaceMarker(map, rightClickPosition, restaurantIndex, ratingNumberNewRestaurant) {
 
     var newMarker = new google.maps.Marker({
 
         position: rightClickPosition,
         map: map,
+        rating: ratingNumberNewRestaurant,
         icon: {
             path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
             scale: 5,
@@ -565,7 +566,7 @@ $('#rating-control').on('change', function(e) {
 });
 
 //__________________________________________END
-/*
+
 
 $('#rating-control-nav').on('change', function(e) {
     let ratingFromUser = this.value
@@ -584,7 +585,7 @@ $('#rating-control-nav').on('change', function(e) {
         setMapOnSome(ratingNumberFromUser);
     }
 });
-*/
+
 /* ==============================================================
            HERE I AM SETTING THE MARKERS ON MAP
 ==============================================================*/
@@ -601,9 +602,8 @@ function showMarkers() {
 function setMapOnSome(ratingNumberFromUser) {
     //setMapOnAll(null);
     for (var i = 0; i < allMarkers.length; i++) {
-
+        //console.log(allMarkers[i]);
         if (allMarkers[i].rating === ratingNumberFromUser) {
-            console.log(allMarkers[i]);
             allMarkers[i].setMap(map);
         }
     }
