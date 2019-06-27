@@ -519,7 +519,10 @@ function getSurroundingPlaces(map, userGeoLocation) {
                     reviewsFromGoogle: true,
                 }
 
+                //console.log(allRestaurant)
+
                 restaurants.push(allRestaurant)
+
             }
 
 
@@ -529,6 +532,8 @@ function getSurroundingPlaces(map, userGeoLocation) {
             displaySurroundingPlaceList(sortRestByRating(restaurants));
 
         });
+    //restaurants.push(personalRestaurants)
+    //console.log(restaurants)
 }
 
 //___________________________________________END 
@@ -542,6 +547,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
 $('#rating-control').on('change', function(e) {
     let ratingFromUser = this.value
+    //alert(ratingFromUser)
 
     if (e.target.value === "all") {
         displaySurroundingPlaceList(sortRestByRating(restaurants));
@@ -559,7 +565,7 @@ $('#rating-control').on('change', function(e) {
 });
 
 //__________________________________________END
-
+/*
 
 $('#rating-control-nav').on('change', function(e) {
     let ratingFromUser = this.value
@@ -578,7 +584,7 @@ $('#rating-control-nav').on('change', function(e) {
         setMapOnSome(ratingNumberFromUser);
     }
 });
-
+*/
 /* ==============================================================
            HERE I AM SETTING THE MARKERS ON MAP
 ==============================================================*/
@@ -595,7 +601,9 @@ function showMarkers() {
 function setMapOnSome(ratingNumberFromUser) {
     //setMapOnAll(null);
     for (var i = 0; i < allMarkers.length; i++) {
+
         if (allMarkers[i].rating === ratingNumberFromUser) {
+            console.log(allMarkers[i]);
             allMarkers[i].setMap(map);
         }
     }
