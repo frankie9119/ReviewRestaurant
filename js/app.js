@@ -95,7 +95,6 @@ function displaySurroundingPlaceList(restaurantsArray) {
     // locate element and add the Click Event Listener
     $('.restaurantsList').on('click', function(e) {
 
-
         if (e.target && e.target.nodeName == "LI") {
             //console.log(e.target.id + " was clicked");
             for (let i = 0; i < restaurants.length; i++) {
@@ -169,7 +168,14 @@ function clickOnMarkerInfo(marker, map) {
     marker.addListener('click', function() {
 
         placeIdOfMarkerClicked = marker.placeId;
-        getReviewFromGoogle(marker, restaurants, map)
+        if (placeIdOfMarkerClicked === 100) {
+
+            displayReviewListDOM()
+
+        } else {
+            getReviewFromGoogle(marker, restaurants, map)
+        }
+
 
         // Modal
         $("#myModal").modal();
@@ -218,10 +224,9 @@ function displayReviewList(displayReview) {
 
         for (let i = 0; i < restaurants.length; i++) {
             if (restaurants[i].reviewsFromGoogle === true) {
-                //if (marker.position === restaurants[i].position) {
+
                 if (restaurants[i].placeId === placeIdOfMarkerClicked) {
 
-                    // NOW I HAVE TO PUSH RATINGSTEST INTO RESTAURANTS[I] ONLY IF restaurants[i].reviewsFromGoogle === true
                     restaurants[i].review = displayReview
                     restaurants[i].reviewsFromGoogle = false;
                 }
@@ -241,7 +246,6 @@ function displayReviewListDOM() {
     let reviewDisplayList = $("#review");
     for (let i = 0; i < restaurants.length; i++) {
 
-        //if (marker.position === restaurants[i].position) {
         if (restaurants[i].placeId === placeIdOfMarkerClicked) {
 
             for (let j = 0; j < restaurants[i].review.length; j++) {
@@ -252,14 +256,6 @@ function displayReviewListDOM() {
                 $("#rating-stars").html(buildRatingStarDisplayValue(restaurants[i].rating));
 
                 reviewDisplayList.append("<li>" + '<b>Author:</b> ' + reviewToDisplay.author_name + '<br>' + '<b>Review:</b> ' + reviewToDisplay.text + '<br>' + '<b>Rating:</b> ' + buildRatingStarDisplayValue(reviewToDisplay.rating) + "</li>");
-                /*
-
-                              HERE I AM TRYING TO SUM ALL THE RESTAURANTS.REVIEW.RATING VALUE & DIVIDE THE LENGTH TO GET THE MEDIAN VAL
-
-                                restaurants[i].rating = reviewToDisplay.rating.reduce((a, b) => a + b, 0);
-                                displaySurroundingPlaceList(sortRestByRating(restaurants));
-
-                */
             }
         }
     }
@@ -287,7 +283,6 @@ $('#btn-add-new-review').on('click', function() {
     let newReview = $('#newUserReview').val();
 
 
-
     if (userNameReview == "") {
         alert("Your Name Required");
         return false;
@@ -300,8 +295,8 @@ $('#btn-add-new-review').on('click', function() {
     } else {
 
         for (let i = 0; i < restaurants.length; i++) {
-            //console.log(restaurants[i].review)
-            console.log(Array.isArray(restaurants[i].review))
+
+            //console.log(Array.isArray(restaurants[i].review))
 
             if (restaurants[i].placeId === placeIdOfMarkerClicked) {
 
@@ -313,10 +308,6 @@ $('#btn-add-new-review').on('click', function() {
             }
         }
     }
-    //console.log(restaurants);
-    //$("#div-add-new-review").hide();
-
-
     $(this).closest('form').find("input[type=text], textarea").val("");
     $(this).closest('form').find("select").val("all");
 });
@@ -349,9 +340,8 @@ $('#btn-add-new-review').on('click', function() {
 function addRestaurant(map) {
 
     map.addListener('rightclick', function(e) {
-        //myModalX
+
         $("#myModalTest").modal();
-        //$("#info-content-new-restaurant").show();
         rightClickPosition = e.latLng;
 
     });
@@ -374,9 +364,6 @@ $('#add-restaurant').on('click', function(e) {
     let ratingNumberNewRestaurant = parseInt(ratingNewRestaurant);
     let author_name = $('#userName').val();
     let text = $('#userReview').val();
-
-
-
 
     if (newName == "") {
         alert("Restaurant Name Required");
@@ -410,13 +397,6 @@ $('#add-restaurant').on('click', function(e) {
         displaySurroundingPlaceList(sortRestByRating(restaurants));
         createNewPlaceMarker(map, rightClickPosition, restaurantIndex, ratingNumberNewRestaurant);
     }
-
-
-
-
-
-
-
 
     $(this).closest('form').find("input[type=text], textarea").val("");
     $(this).closest('form').find("select").val("all");
@@ -454,7 +434,6 @@ function createNewPlaceMarker(map, rightClickPosition, restaurantIndex, ratingNu
 
 //___________________________________________BEGIN display New Restaurant Content
 
-// ================ Fran code ===================
 function clickOnNewMarkerInfo(newMarker, map, restaurantIndex) {
     newMarker.addListener('click', function() {
 
@@ -473,12 +452,7 @@ function clickOnNewMarkerInfo(newMarker, map, restaurantIndex) {
     });
 }
 
-
 //___________________________________________END
-
-
-
-
 
 
 
@@ -505,7 +479,7 @@ function getSurroundingPlaces(map, userGeoLocation) {
         function(results, status, pagination) {
             if (status !== 'OK') return;
 
-            console.log(results)
+            //console.log(results)
 
             for (let i = 0; i < results.length; i++) {
                 // storing all the results restaurants in an array. I am structuring the data
@@ -522,19 +496,16 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
                 //console.log(allRestaurant)
 
-                restaurants.push(allRestaurant)
+                restaurants.push(allRestaurant);
+
 
             }
 
+            restaurants.push(personalRestaurant);
 
-            // ==============  Fran code  =========================================
             createSurroundingPlaceMarkers(map, restaurants);
-
             displaySurroundingPlaceList(sortRestByRating(restaurants));
-
         });
-    //restaurants.push(personalRestaurants)
-    //console.log(restaurants)
 }
 
 //___________________________________________END 
@@ -548,7 +519,6 @@ function getSurroundingPlaces(map, userGeoLocation) {
 
 $('#rating-control').on('change', function(e) {
     let ratingFromUser = this.value
-    //alert(ratingFromUser)
 
     if (e.target.value === "all") {
         displaySurroundingPlaceList(sortRestByRating(restaurants));
@@ -649,7 +619,7 @@ function getUserGeoLocation(map, infoWindow) {
 //____________________________________________END
 
 //_____________________________________________BEGIN create blue marker MyPosition
-// ==============  Fran code  =========================================
+
 function markerMyPosition(pos, map) {
     return new google.maps.Marker({
         map: map,
@@ -689,11 +659,6 @@ function initMap() {
     let infoWindow = createPopUpInfoWindow();
     getUserGeoLocation(map, infoWindow);
     addRestaurant(map);
-
-
-
-
-
 
 
 }
