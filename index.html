@@ -1,32 +1,208 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Simple Map</title>
+<html lang="en">
+
+<head>
+    <title>Restaurant Review</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="icon" href="logo-map.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+</head>
 
-  </head>
-  <body>
-
-    <h1>My Google Map</h1>
-    <div id="map"></div>
-    <div id="restaurant">
-
-      <div class='restaurant_1'></div>
-      <div class='restaurant_2'></div>
+<body>
+    <div id="head-title">
+        <h2 class="title-name">Restaurant Review</h2>
+        
     </div>
+    <!--Navbar
+      ================================================== -->
+    <nav class="navbar visible-xs navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <p class="navbar-brand">Restaurants List</p>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <select id="rating-control-nav">
+                    <option value="all">All stars</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <ul class="nav navbar-nav navbar-right">
+                    <ul class="restaurantsListCollapse"></ul>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ===================================================================
+                            MAP
+=================================================================== -->
+    <div id="map"></div>
+    <!-- ===================================================================
+                          right panel
+=================================================================== -->
+    <div id="right-panel" class="right-panel">
+        <div class="right-panel-head">
+            <label>
+                Sort by
+            </label>
+            <select id="rating-control">
+                <option value="all">All stars</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <ul class="restaurantsList"></ul>
+    </div>
+    <div class="modal fade" id="myModalTest" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Restaurant</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form form-add-restaurant" id="newModalForm">
+                        <div class="form-group">
+                            <label for="restaurant-name">Please add Restaurant's name</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="resName" name="resName" placeholder="Restaurant Name" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ratingNewRestaurant">What Rating do you give this Restaurant</label>
+                            <div class="col-md-9">
+                                <select id="ratingNewRestaurant" required="required">
+                                    <option value="all">Select Stars</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="your-name">Please add Your Name</label>
+                            <div class="col-md-9">
+                                <input type="text" name="userName" id="userName" placeholder="Your Name" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="your-review">What would you like to say about this restaurant</label>
+                            <div class="col-md-9">
+                                <textarea name="userReview" id="userReview" placeholder="Your Review" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" id="add-restaurant" data-dismiss="modal">Add</button>
+                            <button type="button" class="btn btn-default" id="btnCloseIt" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===================================================================
+             MODAL - When click on  markers
+=================================================================== -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closex" data-dismiss="modal">&times;</button>
+                    <div class="title-modal">
+                        <h4 class="modal-title" id="title"></h4>
+                    </div>
+                    <div class="rating-stars">
+                        <h4 id="rating-stars"></h4>
+                    </div>
+                </div>
+                <div id="street-view"></div>
+                <p id="review-text">Reviews:</p>
+                <div class="modal-body" id="review">
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-add-review">
+                        <button type="button" class="btn btn-default " data-dismiss="modal" id="btn-add-review">Add Review</button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===================================================================
+                    ADD NEW REVIEW form
+=================================================================== -->
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/restaurant.js"></script>
-    <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYjoSbqIxNuU4CDBbTYGRWbgrpgQ-JhF8&callback=initMap"></script>
+    <div class="modal fade" id="myModalAddReview" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Review</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form form-add-restaurant" id="newModalForm">
+                        <div class="form-group">
+                            <label for="new-user-name-review">Please add Your Name</label>
+                            <div class="col-md-9">
+                                <input type="text" id="newUserName" name="newUserN" placeholder="Your Name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newRating">What Rating do you give this Restaurant</label>
+                            <div class="col-md-9">
+                                <select id="newRating" required="required">
+                                    <option value="all">Select Stars</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="your-name">Please add Your Name</label>
+                            <div class="col-md-9">
+                                <textarea name="new-user-review" id="newUserReview" placeholder="Your Review" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" id="btn-add-new-review" data-dismiss="modal">Add</button>
+                            <button type="button" class="btn btn-default" id="btnCloseIt" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="js/app.js"></script>
+<script src="js/restaurant.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCegTNrd3DtW2Bk_Dl8MEayKarv0u6KcQ4&libraries=places&callback=initMap" async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-  </body>
 </html>
-
-
-
-
